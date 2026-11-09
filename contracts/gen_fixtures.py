@@ -7,9 +7,9 @@ Fixtures are the shared target for every lane:
   * Lane C renders incident_*.json / incidents_list.json / report_db_pool.json before the API exists
   * Lane D grounds report sentences against incident.evidence_events
 
-Scores below are computed with the CLAUDE.md formula (weights, victim penalty,
-abstain rule) from hand-set onsets and peak z-scores, so the numbers are
-self-consistent. This is a fixture builder, not the engine.
+The event streams are hand-designed here; the incidents are produced by running
+the real engine (backend/app/engine) on them, so fixtures always match what the
+live demo shows. Re-run after any engine change.
 """
 from __future__ import annotations
 
@@ -23,8 +23,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 from contracts.schemas import (  # noqa: E402
-    ABSTAIN_MIN_MARGIN, ABSTAIN_MIN_SCORE, ENGINE_WEIGHTS, VICTIM_PENALTY,
-    Event, Incident, IncidentSummary, Report, Topology, TopologyState,
+    Event, IncidentSummary, Report, Topology,
 )
 
 OUT = ROOT / "contracts" / "fixtures"
@@ -153,111 +152,16 @@ def requests(s: Stream, t0: datetime, seconds: int, fail_from: dict[str, float] 
                   order_id=f"ord_{rng.randint(100000, 999999)}")
 
 
-# ---------------------------------------------------------------- scoring
-def score(anom: dict, changes: dict) -> list[dict]:
-    """anom[svc] = {"onset": dt, "onset_ev": id, "z": float, "peak_ev": id}
-    changes[svc] = change event id within 10 min before onset."""
-    names = list(anom)
-    zmax = max(a["z"] for a in anom.values())
-    out = []
-    for svc in names:
-        others = [o for o in names if o != svc]
-        dependents = [o for o in others if o in callers_closure(svc)]
-        up = len(dependents) / len(others) if others else 0.0
-        later = [d for d in dependents if anom[d]["onset"] > anom[svc]["onset"]]
-        prec = len(later) / len(dependents) if dependents else 0.0
-        chg = 1.0 if svc in changes else 0.0
-        sev = anom[svc]["z"] / zmax
-        comps = {"upstream": round(ENGINE_WEIGHTS["upstream"] * up, 3),
-                 "precedence": round(ENGINE_WEIGHTS["precedence"] * prec, 3),
-                 "change": round(ENGINE_WEIGHTS["change"] * chg, 3),
-                 "severity": round(ENGINE_WEIGHTS["severity"] * sev, 3)}
-        anomalous_deps = [d for d in DEPS.get(svc, []) if d in anom]
-        penalty = VICTIM_PENALTY if anomalous_deps else 1.0
-        ce = {"upstream": [anom[d]["onset_ev"] for d in dependents],
-              "precedence": [anom[svc]["onset_ev"]] + [anom[d]["onset_ev"] for d in later],
-              "change": [changes[svc]] if svc in changes else [],
-              "severity": [anom[svc]["peak_ev"]]}
-        evidence = list(dict.fromkeys(x for v in ce.values() for x in v))
-        out.append({"service": svc, "score": round(sum(comps.values()) * penalty, 3),
-                    "components": comps, "penalty": penalty,
-                    "victim_of": anomalous_deps[0] if anomalous_deps else None,
-                    "onset": iso(anom[svc]["onset"]), "signature": anom[svc]["sig"],
-                    "evidence": evidence, "component_evidence": ce})
-    out.sort(key=lambda c: -c["score"])
-    return out
+# ---------------------------------------------------------------- incidents come from the real engine
+sys.path.insert(0, str(ROOT / "backend"))
+from app.engine.run import analyze  # noqa: E402
 
 
-def timeline(anom: dict, what: dict) -> list[dict]:
-    rows = []
-    for svc, a in sorted(anom.items(), key=lambda kv: kv[1]["onset"]):
-        earlier = [d for d in DEPS.get(svc, []) if d in anom and anom[d]["onset"] < a["onset"]]
-        cause = max(earlier, key=lambda d: anom[d]["onset"]) if earlier else None
-        rows.append({"ts": iso(a["onset"]), "service": svc, "what": what[svc],
-                     "event_ids": [a["onset_ev"]] + ([a["peak_ev"]] if a["peak_ev"] != a["onset_ev"] else []),
-                     "caused_by": cause})
-    return rows
-
-
-def impact(events: list[dict], anom: dict, t_from: datetime) -> dict:
-    lo = iso(t_from)
-    failed = [e for e in events if e["kind"] == "request" and e["attrs"].get("status", 200) >= 500 and e["ts"] >= lo]
-    pay = [e for e in failed if e["service"] == "payments-svc"]
-    svcs = set(anom)
-    for s in list(svcs):
-        svcs |= callers_closure(s)
-    order = sorted(svcs, key=lambda s: anom[s]["onset"] if s in anom else datetime.max.replace(tzinfo=timezone.utc))
-    return {"services": order,
-            "users_affected": len({e["attrs"]["user_id"] for e in failed}),
-            "failed_payments": len(pay),
-            "failed_value_inr": float(sum(e["attrs"]["amount_inr"] for e in pay))}
-
-
-def collect_ids(inc: dict) -> list[str]:
-    ids = []
-    if inc["root_cause"]:
-        ids += inc["root_cause"]["evidence"]
-    for c in inc["candidates"]:
-        ids += c["evidence"]
-    for t in inc["timeline"]:
-        ids += t["event_ids"]
-    for r in inc["recommendations"]:
-        ids += r["evidence"]
-    return list(dict.fromkeys(ids))
-
-
-def build_incident(inc_id, title, events, anom, changes, what, recs_fn, t_from, disamb=None):
-    cands = score(anom, changes)
-    top1, top2 = cands[0], cands[1] if len(cands) > 1 else None
-    margin = top1["score"] - (top2["score"] if top2 else 0.0)
-    abstain = margin < ABSTAIN_MIN_MARGIN or top1["score"] < ABSTAIN_MIN_SCORE
-    reasons = []
-    if top2 and margin < ABSTAIN_MIN_MARGIN:
-        reasons.append(f"top two candidates differ by {margin:.3f} (< {ABSTAIN_MIN_MARGIN})")
-    if top1["score"] < ABSTAIN_MIN_SCORE:
-        reasons.append(f"top score {top1['score']:.3f} is below {ABSTAIN_MIN_SCORE}")
-    alerts = [e for e in events if e["kind"] == "alert"]
-    by_id = {e["id"]: e for e in events}
-    inc = {
-        "id": inc_id, "title": title,
-        "status": "ABSTAINED" if abstain else "OPEN",
-        "opened_at": iso(min(a["onset"] for a in anom.values())),
-        "updated_at": max(e["ts"] for e in events),
-        "services": [c for c in sorted(anom, key=lambda s: anom[s]["onset"])],
-        "alert_count": len(alerts),
-        "severity": "critical",
-        "root_cause": None if abstain else {"service": top1["service"], "signature": top1["signature"],
-                                             "confidence": top1["score"], "evidence": top1["evidence"]},
-        "candidates": cands,
-        "abstain_reason": "; ".join(reasons) if abstain else None,
-        "disambiguation": (disamb or []) if abstain else [],
-        "impact": impact(events, anom, t_from),
-        "timeline": timeline(anom, what),
-        "recommendations": recs_fn(),
-        "evidence_events": [],
-    }
-    inc["evidence_events"] = [by_id[i] for i in collect_ids(inc)]
-    return Incident.model_validate(inc).model_dump(mode="json", by_alias=True)
+def engine_incident(events: list[dict]) -> dict:
+    """Run the production engine on the scenario stream and return its single incident."""
+    incs = analyze([Event.model_validate(e) for e in events], Topology.model_validate(TOPOLOGY))
+    assert len(incs) == 1, f"expected one incident, engine returned {len(incs)}"
+    return incs[0].model_dump(mode="json", by_alias=True)
 
 
 # ================================================================ scenario 1: db pool exhaustion (HERO)
@@ -274,35 +178,29 @@ def scenario_db_pool():
         "api-gateway": {"error_rate": 0.22, "latency_p95_ms": 3120.0}})
     requests(s, W, 80, fail_from={"auth-svc": 40 + 1.25, "payments-svc": 40 + 2.45})
     at = lambda sec: T + timedelta(seconds=sec)  # noqa: E731
-    A = {}
     # postgres: pool saturated, connections refused
     p_on = s.add(at(0.12), "postgres", "metric", "critical", "db_pool_in_use_pct", 100.0, pool_max=100)
     p_log = s.add(at(0.48), "postgres", "log", "critical", "log",
                   message="FATAL: remaining connection slots are reserved for non-replication superuser connections")
     p_lat = s.add(at(0.90), "postgres", "metric", "critical", "latency_p95_ms", 2400.0)
-    A["postgres"] = {"onset": at(0.12), "onset_ev": p_on, "peak_ev": p_log, "z": 41.0, "sig": "connection_pool_exhausted"}
     # auth-svc
     a_on = s.add(at(1.21), "auth-svc", "log", "error", "log",
                  message="login failed: could not acquire DB connection within 2000ms (pool=auth-pg)", user_id="u_1187")
     a_err = s.add(at(1.40), "auth-svc", "metric", "error", "error_rate", 0.31)
     s.add(at(1.40), "auth-svc", "metric", "warn", "latency_p95_ms", 2110.0)
-    A["auth-svc"] = {"onset": at(1.21), "onset_ev": a_on, "peak_ev": a_err, "z": 27.5, "sig": "error_spike"}
     # ledger-svc
     l_on = s.add(at(1.53), "ledger-svc", "log", "error", "log",
                  message="ledger write failed: timeout acquiring connection from pool (postgres:5432)")
     l_err = s.add(at(1.70), "ledger-svc", "metric", "critical", "error_rate", 0.42)
     s.add(at(1.70), "ledger-svc", "metric", "warn", "latency_p95_ms", 2050.0)
-    A["ledger-svc"] = {"onset": at(1.53), "onset_ev": l_on, "peak_ev": l_err, "z": 30.2, "sig": "error_spike"}
     # payments-svc
     pm_on = s.add(at(2.38), "payments-svc", "log", "error", "log",
                   message="POST /v1/payments -> ledger-svc 503: upstream ledger unavailable", order_id="ord_558201")
     pm_err = s.add(at(2.41), "payments-svc", "metric", "critical", "error_rate", 0.38)
     s.add(at(2.41), "payments-svc", "metric", "warn", "latency_p95_ms", 2620.0)
-    A["payments-svc"] = {"onset": at(2.38), "onset_ev": pm_on, "peak_ev": pm_err, "z": 33.0, "sig": "error_spike"}
     # api-gateway
     g_on = s.add(at(3.30), "api-gateway", "metric", "critical", "latency_p95_ms", 3120.0)
     s.add(at(3.30), "api-gateway", "metric", "error", "error_rate", 0.22)
-    A["api-gateway"] = {"onset": at(3.30), "onset_ev": g_on, "peak_ev": g_on, "z": 20.5, "sig": "latency_spike"}
     # 14 alerts, deliberately NOT in causal order (gateway pages first, as in real life)
     for sec, svc, name, sev, val in [
         (3.6, "api-gateway", "GatewayLatencyP95High", "critical", 3120.0),
@@ -322,29 +220,7 @@ def scenario_db_pool():
     ]:
         s.add(at(sec), svc, "alert", sev, name, val, message=f"[FIRING] {name} on {svc}")
     events = s.sorted()
-    what = {"postgres": "connection pool at 100% (baseline ~41%), clients refused",
-            "auth-svc": "login error_rate 0.31 (baseline 0.003): cannot get DB connection",
-            "ledger-svc": "write error_rate 0.42 (baseline 0.002): pool timeout to postgres",
-            "payments-svc": "payment error_rate 0.38 (baseline 0.006): ledger-svc returns 503",
-            "api-gateway": "p95 latency 3120 ms (baseline ~120 ms)"}
-
-    def recs():
-        return [
-            {"action": "Free postgres connections: terminate idle-in-transaction sessions and raise max_connections headroom",
-             "why": "postgres pool hit 100% and is refusing new clients before any dependent service failed",
-             "evidence": [p_on, p_log],
-             "runbook": "psql -c \"SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE state = 'idle in transaction' AND state_change < now() - interval '30 seconds';\" then check pool usage drops below 80%. Raise max_connections or PgBouncer pool_size only if usage stays high."},
-            {"action": "Cap pool size per client in auth-svc and ledger-svc and fail fast with a 2 s acquire timeout",
-             "why": "auth-svc and ledger-svc both block on pool acquisition, which amplifies the outage into the gateway",
-             "evidence": [a_on, l_on],
-             "runbook": "Set DB_POOL_MAX=20 and DB_ACQUIRE_TIMEOUT_MS=2000 in auth-svc and ledger-svc config, rolling restart one replica at a time."},
-            {"action": "Do not roll back payments-svc or api-gateway: they are victims",
-             "why": "their errors start after postgres saturation and their log lines name the ledger or postgres dependency",
-             "evidence": [pm_on, g_on],
-             "runbook": "Hold any rollback of payments-svc and api-gateway. Re-check their error_rate after postgres pool usage recovers."},
-        ]
-
-    inc = build_incident("inc_1", "postgres: connection_pool_exhausted", events, A, {}, what, recs, T)
+    inc = engine_incident(events)
     return events, inc, {"p_on": p_on, "p_log": p_log, "p_lat": p_lat, "a_on": a_on, "l_on": l_on,
                          "pm_on": pm_on, "pm_err": pm_err, "g_on": g_on, "a_err": a_err, "l_err": l_err}, s.n
 
@@ -362,19 +238,14 @@ def scenario_ambiguous(start_id: int):
         "postgres": {"pg_lock_wait_ms": 870.0}})
     requests(s, W, 80, fail_from={"payments-svc": 20 + 31.95})
     at = lambda sec: D + timedelta(seconds=sec)  # noqa: E731
-    A = {}
-    dep = s.add(at(0.0), "ledger-svc", "change", "info", "deploy", message="ledger-svc v4.1.9 -> v4.2.0 (migration 0042_add_settlement_idx)",
+    s.add(at(0.0), "ledger-svc", "change", "info", "deploy", message="ledger-svc v4.1.9 -> v4.2.0 (migration 0042_add_settlement_idx)",
                 version="v4.2.0", previous_version="v4.1.9", actor="ci-bot")
-    l_on = s.add(at(31.0), "ledger-svc", "log", "error", "log",
+    s.add(at(31.0), "ledger-svc", "log", "error", "log",
                  message="ledger write failed: canceling statement due to lock timeout (relation ledger_entries)")
-    l_err = s.add(at(31.2), "ledger-svc", "metric", "critical", "error_rate", 0.47)
-    A["ledger-svc"] = {"onset": at(31.0), "onset_ev": l_on, "peak_ev": l_err, "z": 36.0, "sig": "error_spike_after_deploy"}
-    pm_on = s.add(at(31.9), "payments-svc", "metric", "error", "error_rate", 0.29)
-    A["payments-svc"] = {"onset": at(31.9), "onset_ev": pm_on, "peak_ev": pm_on, "z": 28.8, "sig": "error_spike"}
-    g_on = s.add(at(32.8), "api-gateway", "metric", "error", "latency_p95_ms", 1480.0)
-    A["api-gateway"] = {"onset": at(32.8), "onset_ev": g_on, "peak_ev": g_on, "z": 18.0, "sig": "latency_spike"}
-    p_on = s.add(at(34.2), "postgres", "metric", "warn", "pg_lock_wait_ms", 870.0)
-    A["postgres"] = {"onset": at(34.2), "onset_ev": p_on, "peak_ev": p_on, "z": 10.8, "sig": "latency_spike"}
+    s.add(at(31.2), "ledger-svc", "metric", "critical", "error_rate", 0.47)
+    s.add(at(31.9), "payments-svc", "metric", "error", "error_rate", 0.29)
+    s.add(at(32.8), "api-gateway", "metric", "error", "latency_p95_ms", 1480.0)
+    s.add(at(34.2), "postgres", "metric", "warn", "pg_lock_wait_ms", 870.0)
     for sec, svc, name, sev, val in [
         (33.5, "payments-svc", "PaymentFailureRateHigh", "critical", 0.29),
         (34.0, "api-gateway", "GatewayLatencyP95High", "error", 1480.0),
@@ -385,30 +256,7 @@ def scenario_ambiguous(start_id: int):
     ]:
         s.add(at(sec), svc, "alert", sev, name, val, message=f"[FIRING] {name} on {svc}")
     events = s.sorted()
-    what = {"ledger-svc": "write error_rate 0.47: lock timeout on ledger_entries, 31 s after v4.2.0 deploy",
-            "payments-svc": "payment error_rate 0.29 (baseline 0.006)",
-            "api-gateway": "p95 latency 1480 ms (baseline ~120 ms)",
-            "postgres": "lock wait 870 ms (baseline < 5 ms), sampled every 2 s"}
-
-    def recs():
-        return [
-            {"action": "Roll back ledger-svc canary to v4.1.9 and watch postgres lock waits",
-             "why": "cheap and reversible; if lock waits clear, the v4.2.0 migration is the cause",
-             "evidence": [dep, l_on],
-             "runbook": "kubectl rollout undo deploy/ledger-svc --to-revision=<v4.1.9>; watch pg_lock_wait_ms for 2 minutes."},
-            {"action": "Identify the lock holder in postgres before blaming either side",
-             "why": "postgres lock waits rose, but at 2 s sampling we cannot tell whether they precede ledger-svc errors",
-             "evidence": [p_on],
-             "runbook": "psql -c \"SELECT pid, application_name, wait_event_type, query FROM pg_stat_activity WHERE wait_event_type = 'Lock';\""},
-        ]
-
-    disamb = [
-        "postgres pg_stat_activity: which client holds the locks on ledger_entries (ledger-svc v4.2.0 migration or something else)",
-        "ledger-svc error_rate split by version (v4.1.9 vs v4.2.0 replicas)",
-        "postgres pg_lock_wait_ms at 1 s resolution, to see whether it rises before ledger-svc errors (2 s sampling hides the order)",
-    ]
-    inc = build_incident("inc_2", "ledger-svc deploy or postgres locks (undecided)", events, A, {"ledger-svc": dep},
-                         what, recs, D + timedelta(seconds=31), disamb)
+    inc = engine_incident(events)
     return events, inc
 
 
@@ -424,27 +272,11 @@ def summary(inc: dict) -> dict:
 
 
 def health_state(inc: dict, ts: str) -> dict:
-    sev = {e["service"]: e["severity"] for e in inc["evidence_events"]}
-    out = []
-    for svc in [s["id"] for s in TOPOLOGY["services"]]:
-        if svc in inc["services"]:
-            h = "critical" if sev.get(svc) == "critical" or svc == (inc["root_cause"] or {}).get("service") else "degraded"
-        else:
-            h = "healthy"
-        out.append({"service": svc, "health": h, "is_root_cause": svc == (inc["root_cause"] or {}).get("service")})
-    root = (inc["root_cause"] or {}).get("service")
-    hot = []
-    if root:
-        frontier = {root}
-        while frontier:
-            nxt = set()
-            for caller, deps in DEPS.items():
-                for d in deps:
-                    if d in frontier and caller in inc["services"] and [caller, d] not in hot:
-                        hot.append([caller, d])
-                        nxt.add(caller)
-            frontier = nxt
-    return TopologyState.model_validate({"ts": ts, "services": out, "hot_edges": hot}).model_dump(mode="json")
+    """topology_state exactly as the live store builds it (app.store.build_topology_state)."""
+    from app.store import build_topology_state
+    from contracts.schemas import Incident
+    st = build_topology_state([Incident.model_validate(inc)], Topology.model_validate(TOPOLOGY), ts)
+    return st.model_dump(mode="json")
 
 
 def main():
@@ -455,25 +287,24 @@ def main():
     for e in ev1 + ev2:
         Event.model_validate(e)
 
+    # Report sentences are built from the engine's incident so every cite is in its
+    # evidence set and every number is one the engine measured.
+    tl = {t["service"]: t for t in inc1["timeline"]}
+    imp = inc1["impact"]
+    sentences = [{"text": f"postgres was the first service to fail: {tl['postgres']['what']}.",
+                  "cites": inc1["root_cause"]["evidence"][-2:]}]
+    for svc in [t["service"] for t in inc1["timeline"]][1:]:
+        dep = tl[svc]["caused_by"]
+        tail = f", after {dep} degraded" if dep else ""
+        sentences.append({"text": f"{svc} followed{tail}: {tl[svc]['what']}.", "cites": tl[svc]["event_ids"]})
+    sentences.append({"text": f"{imp['users_affected']} users saw a failed login or payment and "
+                              f"{imp['failed_payments']} payments worth INR {int(imp['failed_value_inr'])} failed.",
+                      "cites": tl["payments-svc"]["event_ids"][:1] + tl["auth-svc"]["event_ids"][:1]})
     report = {
-        "incident_id": "inc_1",
-        "summary": "postgres ran out of connections at 14:02:05 IST and every other failing service was waiting on it. "
+        "incident_id": inc1["id"],
+        "summary": "postgres ran out of connections and every other failing service was waiting on it. "
                    "Login, ledger and payment failures are downstream effects, not separate problems.",
-        "sentences": [
-            {"text": "postgres connection pool reached 100% at 14:02:05 IST and began refusing new clients.",
-             "cites": [ids["p_on"], ids["p_log"]]},
-            {"text": "About 1.1 s later auth-svc logins started failing because auth-svc could not acquire a database connection.",
-             "cites": [ids["a_on"], ids["a_err"]]},
-            {"text": "ledger-svc writes then timed out waiting on the same pool, pushing its error rate to 0.42.",
-             "cites": [ids["l_on"], ids["l_err"]]},
-            {"text": "payments-svc failed because ledger-svc returned 503, so failed payments are a symptom of the database problem.",
-             "cites": [ids["pm_on"], ids["pm_err"]]},
-            {"text": "api-gateway p95 latency rose to 3120 ms as requests queued behind both failing paths.",
-             "cites": [ids["g_on"]]},
-            {"text": f"{inc1['impact']['users_affected']} users saw a failed login or payment and "
-                     f"{inc1['impact']['failed_payments']} payments worth INR {int(inc1['impact']['failed_value_inr'])} failed.",
-             "cites": [ids["pm_on"], ids["a_on"]]},
-        ],
+        "sentences": sentences,
         "dropped": 1,  # e.g. the LLM claimed "a nightly batch job caused the spike" with no citation
         "provider": "groq",
         "generated_at": inc1["updated_at"],
@@ -481,7 +312,7 @@ def main():
     Report.model_validate(report)
 
     def dump(name, obj):
-        (OUT / name).write_text(json.dumps(obj, indent=2) + "\n", encoding="utf-8")
+        (OUT / name).write_text(json.dumps(obj, indent=2) + "\n", encoding="utf-8", newline="\n")
 
     dump("topology.json", TOPOLOGY)
     dump("events_db_pool.json", ev1)
@@ -499,7 +330,7 @@ def main():
                        ("topology_state", health_state(inc1, inc1["updated_at"])),
                        ("incident_update", inc1)]:
         lines.append(f"event: {name}\ndata: {json.dumps(data, separators=(',', ':'))}\n\n")
-    (OUT / "sse_sample.txt").write_text("".join(lines), encoding="utf-8")
+    (OUT / "sse_sample.txt").write_text("".join(lines), encoding="utf-8", newline="\n")
 
     for inc in (inc1, inc2):
         print(inc["id"], inc["status"], [(c["service"], c["score"]) for c in inc["candidates"]],

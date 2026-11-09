@@ -1,6 +1,6 @@
 [
   {
-    "id": "inc_1",
+    "id": "inc_303a5911b5",
     "title": "postgres: connection_pool_exhausted",
     "status": "OPEN",
     "opened_at": "2026-11-09T08:32:05.120Z",
@@ -18,11 +18,11 @@
     "confidence": 0.8
   },
   {
-    "id": "inc_2",
-    "title": "ledger-svc deploy or postgres locks (undecided)",
+    "id": "inc_b0274831bb",
+    "title": "postgres or ledger-svc (undecided)",
     "status": "ABSTAINED",
     "opened_at": "2026-11-09T08:50:31.000Z",
-    "updated_at": "2026-11-09T08:51:00.605Z",
+    "updated_at": "2026-11-09T08:50:58.850Z",
     "services": [
       "ledger-svc",
       "payments-svc",
@@ -32,6 +32,6 @@
     "alert_count": 6,
     "severity": "critical",
     "root_service": null,
-    "confidence": 0.433
+    "confidence": 0.5
   }
 ]

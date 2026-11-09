@@ -11,6 +11,9 @@ from app.sim.generator import simulate
 from app.store import store
 from tests.conftest import load_fixture
 
+# Fixture incidents come from the real engine, so their id is an engine hash.
+HERO_ID = load_fixture("incident_db_pool.json")["id"]
+
 
 @pytest.fixture
 def client(monkeypatch):
@@ -60,9 +63,9 @@ def test_ingest_events_and_incidents(client):
 
     store.recompute(force=True)
     lst = client.get("/api/incidents").json()
-    assert [IncidentSummary.model_validate(x).id for x in lst] == ["inc_1"]
+    assert [IncidentSummary.model_validate(x).id for x in lst] == [HERO_ID]
     assert lst == load_fixture("incidents_list.json")[:1]
-    one = client.get("/api/incidents/inc_1")
+    one = client.get(f"/api/incidents/{HERO_ID}")
     assert one.status_code == 200 and one.json() == load_fixture("incident_db_pool.json")
     assert client.get("/api/incidents/nope").status_code == 404
 

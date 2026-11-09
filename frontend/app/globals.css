@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #05070b;
+  --foreground: #e8edf5;
 }
 
 @theme inline {
@@ -12,15 +12,193 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+html,
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+.panel {
+  background: linear-gradient(180deg, #0c111a 0%, #0a0e15 100%);
+  border: 1px solid #1c2534;
+  border-radius: 14px;
+}
+
+.panel-title {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8a96ab;
+}
+
+.thin-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #263247 transparent;
+}
+
+/* ---------- graph */
+.react-flow__attribution {
+  background: transparent !important;
+  opacity: 0.35;
+}
+.react-flow__attribution a {
+  color: #64748b !important;
+}
+.react-flow__edge.hot path.react-flow__edge-path {
+  /* failure travels from the callee back up to the caller */
+  animation-direction: reverse;
+  animation-duration: 0.6s;
+}
+
+@keyframes root-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 59, 59, 0.75), 0 0 28px 4px rgba(255, 59, 59, 0.45);
+  }
+  70% {
+    box-shadow: 0 0 0 22px rgba(255, 59, 59, 0), 0 0 28px 4px rgba(255, 59, 59, 0.45);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 59, 59, 0), 0 0 28px 4px rgba(255, 59, 59, 0.45);
+  }
+}
+.root-pulse {
+  animation: root-pulse 1.4s ease-out infinite;
+}
+
+@keyframes cand-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.55);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(251, 191, 36, 0);
+  }
+}
+.cand-pulse {
+  animation: cand-pulse 1.8s ease-in-out infinite;
+}
+
+/* ---------- alert storm */
+@keyframes alert-in {
+  0% {
+    opacity: 0;
+    transform: translateX(-24px) scale(0.96);
+    background-color: rgba(255, 59, 59, 0.55);
+  }
+  60% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    background-color: rgba(127, 18, 18, 0.35);
+  }
+}
+.alert-in {
+  animation: alert-in 0.45s ease-out both;
+}
+
+@keyframes alert-collapse {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(var(--collapse-y, -200px)) scale(0.6);
+  }
+}
+.alert-collapse {
+  animation: alert-collapse 0.55s cubic-bezier(0.6, 0, 0.8, 0.4) both;
+}
+
+@keyframes card-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.85);
+    box-shadow: 0 0 0 0 rgba(255, 80, 80, 0.9);
+  }
+  45% {
+    opacity: 1;
+    transform: scale(1.04);
+    box-shadow: 0 0 40px 6px rgba(255, 80, 80, 0.55);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(255, 80, 80, 0);
+  }
+}
+.card-pop {
+  animation: card-pop 0.7s ease-out both;
+}
+
+@keyframes storm-flash {
+  0%,
+  100% {
+    border-color: rgba(255, 59, 59, 0.35);
+  }
+  50% {
+    border-color: rgba(255, 59, 59, 0.95);
+  }
+}
+.storm-flash {
+  animation: storm-flash 0.9s ease-in-out infinite;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.fade-up {
+  animation: fade-up 0.4s ease-out both;
+}
+
+@keyframes drawer-in {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+.drawer-in {
+  animation: drawer-in 0.22s ease-out both;
+}
+
+@keyframes live-dot {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+.live-dot {
+  animation: live-dot 1.2s ease-in-out infinite;
+}
+
+.bar-fill {
+  transition: width 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.hatch {
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgba(148, 163, 184, 0.3) 0 4px,
+    transparent 4px 8px
+  );
 }

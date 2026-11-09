@@ -1,5 +1,5 @@
 {
-  "id": "inc_1",
+  "id": "inc_303a5911b5",
   "title": "postgres: connection_pool_exhausted",
   "status": "OPEN",
   "opened_at": "2026-11-09T08:32:05.120Z",
@@ -23,7 +23,7 @@
       "evt_000793",
       "evt_000796",
       "evt_000784",
-      "evt_000785"
+      "evt_000481"
     ]
   },
   "candidates": [
@@ -46,7 +46,7 @@
         "evt_000793",
         "evt_000796",
         "evt_000784",
-        "evt_000785"
+        "evt_000481"
       ],
       "component_evidence": {
         "upstream": [
@@ -64,18 +64,18 @@
         ],
         "change": [],
         "severity": [
-          "evt_000785"
+          "evt_000481"
         ]
       }
     },
     {
       "service": "ledger-svc",
-      "score": 0.287,
+      "score": 0.3,
       "components": {
         "upstream": 0.2,
         "precedence": 0.3,
         "change": 0.0,
-        "severity": 0.074
+        "severity": 0.1
       },
       "penalty": 0.5,
       "victim_of": "postgres",
@@ -85,7 +85,7 @@
         "evt_000793",
         "evt_000796",
         "evt_000790",
-        "evt_000791"
+        "evt_000792"
       ],
       "component_evidence": {
         "upstream": [
@@ -99,50 +99,18 @@
         ],
         "change": [],
         "severity": [
-          "evt_000791"
-        ]
-      }
-    },
-    {
-      "service": "payments-svc",
-      "score": 0.24,
-      "components": {
-        "upstream": 0.1,
-        "precedence": 0.3,
-        "change": 0.0,
-        "severity": 0.08
-      },
-      "penalty": 0.5,
-      "victim_of": "ledger-svc",
-      "onset": "2026-11-09T08:32:07.380Z",
-      "signature": "error_spike",
-      "evidence": [
-        "evt_000796",
-        "evt_000793",
-        "evt_000794"
-      ],
-      "component_evidence": {
-        "upstream": [
-          "evt_000796"
-        ],
-        "precedence": [
-          "evt_000793",
-          "evt_000796"
-        ],
-        "change": [],
-        "severity": [
-          "evt_000794"
+          "evt_000792"
         ]
       }
     },
     {
       "service": "auth-svc",
-      "score": 0.233,
+      "score": 0.25,
       "components": {
         "upstream": 0.1,
         "precedence": 0.3,
         "change": 0.0,
-        "severity": 0.067
+        "severity": 0.1
       },
       "penalty": 0.5,
       "victim_of": "postgres",
@@ -151,7 +119,7 @@
       "evidence": [
         "evt_000796",
         "evt_000787",
-        "evt_000788"
+        "evt_000789"
       ],
       "component_evidence": {
         "upstream": [
@@ -163,18 +131,50 @@
         ],
         "change": [],
         "severity": [
-          "evt_000788"
+          "evt_000789"
+        ]
+      }
+    },
+    {
+      "service": "payments-svc",
+      "score": 0.25,
+      "components": {
+        "upstream": 0.1,
+        "precedence": 0.3,
+        "change": 0.0,
+        "severity": 0.1
+      },
+      "penalty": 0.5,
+      "victim_of": "ledger-svc",
+      "onset": "2026-11-09T08:32:07.380Z",
+      "signature": "error_spike",
+      "evidence": [
+        "evt_000796",
+        "evt_000793",
+        "evt_000795"
+      ],
+      "component_evidence": {
+        "upstream": [
+          "evt_000796"
+        ],
+        "precedence": [
+          "evt_000793",
+          "evt_000796"
+        ],
+        "change": [],
+        "severity": [
+          "evt_000795"
         ]
       }
     },
     {
       "service": "api-gateway",
-      "score": 0.025,
+      "score": 0.05,
       "components": {
         "upstream": 0.0,
         "precedence": 0.0,
         "change": 0.0,
-        "severity": 0.05
+        "severity": 0.1
       },
       "penalty": 0.5,
       "victim_of": "auth-svc",
@@ -213,83 +213,117 @@
     {
       "ts": "2026-11-09T08:32:05.120Z",
       "service": "postgres",
-      "what": "connection pool at 100% (baseline ~41%), clients refused",
+      "what": "db_pool_in_use_pct 100% (baseline 40.7%)",
       "event_ids": [
         "evt_000784",
-        "evt_000785"
+        "evt_000481"
       ],
       "caused_by": null
     },
     {
       "ts": "2026-11-09T08:32:06.210Z",
       "service": "auth-svc",
-      "what": "login error_rate 0.31 (baseline 0.003): cannot get DB connection",
+      "what": "error_rate 0.334 (baseline 0.00304); first signal: error log: login failed: could not acquire DB connection within 2000ms (pool=auth-pg)",
       "event_ids": [
         "evt_000787",
-        "evt_000788"
+        "evt_000148",
+        "evt_000789"
       ],
       "caused_by": "postgres"
     },
     {
       "ts": "2026-11-09T08:32:06.530Z",
       "service": "ledger-svc",
-      "what": "write error_rate 0.42 (baseline 0.002): pool timeout to postgres",
+      "what": "error_rate 0.45 (baseline 0.00196); first signal: error log: ledger write failed: timeout acquiring connection from pool (postgres:5432)",
       "event_ids": [
         "evt_000790",
-        "evt_000791"
+        "evt_000308",
+        "evt_000792"
       ],
       "caused_by": "postgres"
     },
     {
       "ts": "2026-11-09T08:32:07.380Z",
       "service": "payments-svc",
-      "what": "payment error_rate 0.38 (baseline 0.006): ledger-svc returns 503",
+      "what": "error_rate 0.409 (baseline 0.00614); first signal: error log: POST /v1/payments -> ledger-svc 503: upstream ledger unavailable",
       "event_ids": [
         "evt_000793",
-        "evt_000794"
+        "evt_000226",
+        "evt_000795"
       ],
       "caused_by": "ledger-svc"
     },
     {
       "ts": "2026-11-09T08:32:08.300Z",
       "service": "api-gateway",
-      "what": "p95 latency 3120 ms (baseline ~120 ms)",
+      "what": "latency_p95_ms 3368 ms (baseline 123 ms)",
       "event_ids": [
-        "evt_000796"
+        "evt_000796",
+        "evt_000065"
       ],
       "caused_by": "payments-svc"
     }
   ],
   "recommendations": [
     {
-      "action": "Free postgres connections: terminate idle-in-transaction sessions and raise max_connections headroom",
-      "why": "postgres pool hit 100% and is refusing new clients before any dependent service failed",
+      "action": "Free postgres connections: terminate idle-in-transaction sessions and add max_connections headroom",
+      "why": "postgres hit its connection limit and refused new clients before its dependents failed",
       "evidence": [
-        "evt_000784",
-        "evt_000785"
+        "evt_000787",
+        "evt_000790",
+        "evt_000793",
+        "evt_000796"
       ],
-      "runbook": "psql -c \"SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE state = 'idle in transaction' AND state_change < now() - interval '30 seconds';\" then check pool usage drops below 80%. Raise max_connections or PgBouncer pool_size only if usage stays high."
+      "runbook": "psql -c \"SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE state = 'idle in transaction' AND state_change < now() - interval '30 seconds';\" then confirm db_pool_in_use_pct drops below 80%. Raise max_connections or the PgBouncer pool_size only if usage stays high."
     },
     {
-      "action": "Cap pool size per client in auth-svc and ledger-svc and fail fast with a 2 s acquire timeout",
-      "why": "auth-svc and ledger-svc both block on pool acquisition, which amplifies the outage into the gateway",
+      "action": "Cap per-client pool size in auth-svc and ledger-svc and fail fast with a 2 s acquire timeout",
+      "why": "the callers block on pool acquisition, which turns one saturated database into a platform outage",
       "evidence": [
         "evt_000787",
         "evt_000790"
       ],
-      "runbook": "Set DB_POOL_MAX=20 and DB_ACQUIRE_TIMEOUT_MS=2000 in auth-svc and ledger-svc config, rolling restart one replica at a time."
+      "runbook": "Set DB_POOL_MAX=20 and DB_ACQUIRE_TIMEOUT_MS=2000 in each caller's config, then do a rolling restart one replica at a time."
     },
     {
-      "action": "Do not roll back payments-svc or api-gateway: they are victims",
-      "why": "their errors start after postgres saturation and their log lines name the ledger or postgres dependency",
+      "action": "Do not roll back or restart ledger-svc, auth-svc, payments-svc, api-gateway: they are victims of postgres",
+      "why": "they depend on postgres directly or indirectly, and their failures follow from it",
       "evidence": [
+        "evt_000790",
+        "evt_000787",
         "evt_000793",
         "evt_000796"
       ],
-      "runbook": "Hold any rollback of payments-svc and api-gateway. Re-check their error_rate after postgres pool usage recovers."
+      "runbook": "Hold changes on ledger-svc, auth-svc, payments-svc, api-gateway. Re-check their error_rate after postgres recovers."
     }
   ],
   "evidence_events": [
+    {
+      "id": "evt_000784",
+      "ts": "2026-11-09T08:32:05.120Z",
+      "source": "sim",
+      "service": "postgres",
+      "kind": "metric",
+      "severity": "critical",
+      "name": "db_pool_in_use_pct",
+      "value": 100.0,
+      "message": null,
+      "attrs": {
+        "pool_max": 100
+      }
+    },
+    {
+      "id": "evt_000481",
+      "ts": "2026-11-09T08:32:05.850Z",
+      "source": "sim",
+      "service": "postgres",
+      "kind": "metric",
+      "severity": "error",
+      "name": "latency_p95_ms",
+      "value": 2316.6715,
+      "message": null,
+      "attrs": {}
+    },
     {
       "id": "evt_000787",
       "ts": "2026-11-09T08:32:06.210Z",
@@ -305,6 +339,18 @@
       }
     },
     {
+      "id": "evt_000789",
+      "ts": "2026-11-09T08:32:06.400Z",
+      "source": "sim",
+      "service": "auth-svc",
+      "kind": "metric",
+      "severity": "warn",
+      "name": "latency_p95_ms",
+      "value": 2110.0,
+      "message": null,
+      "attrs": {}
+    },
+    {
       "id": "evt_000790",
       "ts": "2026-11-09T08:32:06.530Z",
       "source": "sim",
@@ -314,6 +360,18 @@
       "name": "log",
       "value": null,
       "message": "ledger write failed: timeout acquiring connection from pool (postgres:5432)",
+      "attrs": {}
+    },
+    {
+      "id": "evt_000792",
+      "ts": "2026-11-09T08:32:06.700Z",
+      "source": "sim",
+      "service": "ledger-svc",
+      "kind": "metric",
+      "severity": "warn",
+      "name": "latency_p95_ms",
+      "value": 2050.0,
+      "message": null,
       "attrs": {}
     },
     {
@@ -331,6 +389,18 @@
       }
     },
     {
+      "id": "evt_000795",
+      "ts": "2026-11-09T08:32:07.410Z",
+      "source": "sim",
+      "service": "payments-svc",
+      "kind": "metric",
+      "severity": "warn",
+      "name": "latency_p95_ms",
+      "value": 2620.0,
+      "message": null,
+      "attrs": {}
+    },
+    {
       "id": "evt_000796",
       "ts": "2026-11-09T08:32:08.300Z",
       "source": "sim",
@@ -343,64 +413,50 @@
       "attrs": {}
     },
     {
-      "id": "evt_000784",
-      "ts": "2026-11-09T08:32:05.120Z",
+      "id": "evt_000065",
+      "ts": "2026-11-09T08:32:29.000Z",
       "source": "sim",
-      "service": "postgres",
+      "service": "api-gateway",
       "kind": "metric",
-      "severity": "critical",
-      "name": "db_pool_in_use_pct",
-      "value": 100.0,
-      "message": null,
-      "attrs": {
-        "pool_max": 100
-      }
-    },
-    {
-      "id": "evt_000785",
-      "ts": "2026-11-09T08:32:05.480Z",
-      "source": "sim",
-      "service": "postgres",
-      "kind": "log",
-      "severity": "critical",
-      "name": "log",
-      "value": null,
-      "message": "FATAL: remaining connection slots are reserved for non-replication superuser connections",
-      "attrs": {}
-    },
-    {
-      "id": "evt_000791",
-      "ts": "2026-11-09T08:32:06.700Z",
-      "source": "sim",
-      "service": "ledger-svc",
-      "kind": "metric",
-      "severity": "critical",
-      "name": "error_rate",
-      "value": 0.42,
+      "severity": "error",
+      "name": "latency_p95_ms",
+      "value": 3368.3708,
       "message": null,
       "attrs": {}
     },
     {
-      "id": "evt_000794",
-      "ts": "2026-11-09T08:32:07.410Z",
+      "id": "evt_000226",
+      "ts": "2026-11-09T08:32:29.340Z",
       "source": "sim",
       "service": "payments-svc",
       "kind": "metric",
-      "severity": "critical",
+      "severity": "error",
       "name": "error_rate",
-      "value": 0.38,
+      "value": 0.409,
       "message": null,
       "attrs": {}
     },
     {
-      "id": "evt_000788",
-      "ts": "2026-11-09T08:32:06.400Z",
+      "id": "evt_000148",
+      "ts": "2026-11-09T08:32:31.170Z",
       "source": "sim",
       "service": "auth-svc",
       "kind": "metric",
       "severity": "error",
       "name": "error_rate",
-      "value": 0.31,
+      "value": 0.3341,
+      "message": null,
+      "attrs": {}
+    },
+    {
+      "id": "evt_000308",
+      "ts": "2026-11-09T08:32:31.510Z",
+      "source": "sim",
+      "service": "ledger-svc",
+      "kind": "metric",
+      "severity": "error",
+      "name": "error_rate",
+      "value": 0.4502,
       "message": null,
       "attrs": {}
     }

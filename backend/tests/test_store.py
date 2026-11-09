@@ -9,6 +9,9 @@ from app.sim.topology import load_topology
 from app.store import Store, build_topology_state
 from tests.conftest import load_fixture
 
+# Fixture incidents come from the real engine, so their id is an engine hash.
+HERO_ID = load_fixture("incident_db_pool.json")["id"]
+
 
 def fixture_incident():
     return Incident.model_validate(load_fixture("incident_db_pool.json"))
@@ -53,10 +56,10 @@ def test_analyze_failure_keeps_previous_incidents():
 
     st = Store(analyze_fn=flaky)
     st.recompute(force=True)
-    assert list(st.incidents) == ["inc_1"]
+    assert list(st.incidents) == [HERO_ID]
     state["fail"] = True
     st.recompute(force=True)
-    assert list(st.incidents) == ["inc_1"] and "boom" in st.last_error
+    assert list(st.incidents) == [HERO_ID] and "boom" in st.last_error
 
 
 def test_default_analyze_failure_is_safe():
@@ -123,4 +126,4 @@ def test_recompute_async_runs_in_thread():
     st = Store(analyze_fn=lambda e, t: [fixture_incident()])
     st.add_events(simulate(5, seed=1))
     assert asyncio.run(st.recompute_async(force=True)) is True
-    assert "inc_1" in st.incidents
+    assert HERO_ID in st.incidents
