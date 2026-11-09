@@ -17,7 +17,7 @@ function Tile({ label, value, sub, accent }: { label: string; value: string; sub
 export function ImpactStrip({ incident }: { incident: Incident | null }) {
   const im = incident?.impact;
   return (
-    <div className="flex h-[92px] shrink-0 gap-2">
+    <div data-tour="impact" className="flex h-[92px] shrink-0 gap-2">
       <Tile
         label="Services impacted"
         value={im ? int(im.services.length) : "0"}

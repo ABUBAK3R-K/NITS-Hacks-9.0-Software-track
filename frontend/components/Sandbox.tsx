@@ -161,7 +161,7 @@ export function JudgeBar() {
   const [designOpen, setDesignOpen] = useState(false);
   const busy = sb.status === "running" || sb.status === "playing";
   return (
-    <div className="relative flex h-[50px] shrink-0 items-center gap-4 border-b border-rule bg-paper px-5">
+    <div data-tour="judge" className="relative flex h-[50px] shrink-0 items-center gap-4 border-b border-rule bg-paper px-5">
       <div className="flex items-center gap-2 text-[15px] text-ink-2">
         <ShieldIcon className="h-5 w-5 text-safe" />
         Our AI is not allowed to decide anything. It can only explain what the math proved.

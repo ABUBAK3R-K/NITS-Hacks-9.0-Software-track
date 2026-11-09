@@ -10,6 +10,7 @@ import { ServiceGraph } from "./ServiceGraph";
 import { Sparklines } from "./Sparklines";
 import { Timeline } from "./Timeline";
 import { TopBar } from "./TopBar";
+import { Tour } from "./Tour";
 
 // The dashboard is laid out on a 1920 px wide canvas and zoomed to the window width, so a
 // 1536 px laptop (1920 at 125% scaling) records the same picture as a 1080p monitor.
@@ -84,7 +85,7 @@ function Screen() {
           />
           <div className="flex min-h-0 flex-col gap-3">
             <ImpactStrip incident={graphIncident} />
-            <section className={`panel relative min-h-0 flex-1 overflow-hidden ${storm.phase === "flood" ? "storm-flash border-2" : ""}`}>
+            <section data-tour="graph" className={`panel relative min-h-0 flex-1 overflow-hidden ${storm.phase === "flood" ? "storm-flash border-2" : ""}`}>
               <div className="absolute left-4 top-3 z-10 flex items-center gap-3">
                 <span className="panel-title">Service graph</span>
                 {sandbox && (
@@ -132,6 +133,7 @@ function Screen() {
           <RootCausePanel incident={graphIncident} />
         </main>
       </div>
+      <Tour />
     </EvidenceProvider>
   );
 }

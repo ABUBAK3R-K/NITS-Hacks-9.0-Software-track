@@ -113,7 +113,9 @@ export function ReportView({ id }: { id: string }) {
           <Link href="/dashboard" className="text-sm font-semibold text-accent hover:text-accent">
             &larr; Back to dashboard
           </Link>
-          <span className="text-xl font-black tracking-[0.18em] text-ink">J.A.R.V.I.S.</span>
+          <Link href="/" title="Back to the case study landing page" className="text-xl font-black tracking-[0.18em] text-ink transition hover:text-accent">
+            J.A.R.V.I.S.
+          </Link>
         </div>
 
         <header className="mt-6 flex flex-wrap items-end justify-between gap-4 border-b border-rule pb-5">

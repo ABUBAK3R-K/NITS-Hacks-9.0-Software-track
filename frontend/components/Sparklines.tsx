@@ -49,7 +49,7 @@ function build(events: Event[], incident: Incident | null): Series[] {
 export function Sparklines({ events, incident }: { events: Event[]; incident: Incident | null }) {
   const series = useMemo(() => build(events, incident), [events, incident]);
   return (
-    <section className="panel flex min-h-0 flex-col gap-2 p-3">
+    <section data-tour="sparklines" className="panel flex min-h-0 flex-col gap-2 p-3">
       <span className="panel-title px-1">Symptoms</span>
       {series.map((s) => {
         const last = s.points[s.points.length - 1];

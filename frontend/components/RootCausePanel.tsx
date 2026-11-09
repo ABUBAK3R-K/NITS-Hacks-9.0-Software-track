@@ -291,7 +291,7 @@ function AbstainedView({ inc }: { inc: Incident }) {
 
 export function RootCausePanel({ incident }: { incident: Incident | null }) {
   return (
-    <section className="panel flex min-h-0 flex-col p-3">
+    <section data-tour="rootcause" className="panel flex min-h-0 flex-col p-3">
       <div className="mb-2 flex items-center justify-between px-1">
         <span className="panel-title">Root cause analysis</span>
         {incident && <span className="font-mono text-xs text-subtle">{incident.id}</span>}

@@ -9,7 +9,7 @@ export function Timeline({ incident }: { incident: Incident | null }) {
   const root = incident?.root_cause?.service;
   const t0 = entries[0]?.ts;
   return (
-    <section className="panel flex min-h-0 flex-col p-3">
+    <section data-tour="timeline" className="panel flex min-h-0 flex-col p-3">
       <div className="mb-1.5 flex items-center justify-between px-1">
         <span className="panel-title">Timeline of onsets</span>
         <span className="text-xs text-subtle">first anomaly, not first page</span>

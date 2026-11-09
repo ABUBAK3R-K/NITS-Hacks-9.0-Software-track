@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { FAULT_TYPES, type FaultType, type IngestResult } from "@/lib/contracts/types";
 import { useLiveData } from "@/lib/live";
@@ -57,13 +58,19 @@ export function TopBar() {
   const active = new Set(live.sim?.active_faults ?? []);
 
   return (
-    <header className="relative flex h-[68px] shrink-0 items-center gap-4 border-b border-rule bg-paper px-5">
+    <header data-tour="topbar" className="relative flex h-[68px] shrink-0 items-center gap-4 border-b border-rule bg-paper px-5">
       <div className="flex items-baseline gap-3 pr-2">
-        <span className="text-2xl font-black tracking-[0.18em] text-ink">J.A.R.V.I.S.</span>
+        <Link
+          href="/"
+          title="Back to the case study landing page"
+          className="text-2xl font-black tracking-[0.18em] text-ink transition hover:text-accent"
+        >
+          J.A.R.V.I.S.
+        </Link>
         <span className="whitespace-nowrap text-sm font-semibold text-ink-2">Many alerts. One cause. Proof attached.</span>
       </div>
 
-      <div className="flex items-center gap-2 rounded-lg border border-rule bg-sheet px-3 py-1.5">
+      <div data-tour="chaos" className="flex items-center gap-2 rounded-lg border border-rule bg-sheet px-3 py-1.5">
         <span className="panel-title mr-1 text-accent">Chaos Lab</span>
         <button
           type="button"
@@ -145,6 +152,12 @@ export function TopBar() {
       </div>
 
       <div className="ml-auto flex items-center gap-4">
+        <Link
+          href="/"
+          className="whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-semibold text-ink-2 ring-1 ring-rule-strong transition hover:bg-sheet hover:text-ink"
+        >
+          &larr; Case study
+        </Link>
         {live.fixtureMode && (
           <span className="rounded bg-raised px-2 py-0.5 text-xs font-semibold tracking-wider text-muted">
             FIXTURE MODE

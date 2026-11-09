@@ -113,7 +113,7 @@ export function IncidentList({
   const visible = flooding ? [] : incidents;
 
   return (
-    <section className="panel flex min-h-0 flex-col p-3">
+    <section data-tour="incidents" className="panel flex min-h-0 flex-col p-3">
       <div className="mb-2 flex items-center justify-between px-1">
         <span className="panel-title">Incidents</span>
         <span className="font-mono text-xs text-subtle">{incidents.length}</span>
