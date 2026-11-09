@@ -74,7 +74,12 @@ def test_upgrade_fixtures():
     assert rev.matched == (rev.our_top1 == rev.expected_root and not rev.abstained)
     NaiveAnswer.model_validate(load_fixture("naive_answer_db_pool.json"))
     ev = EvalResults.model_validate(load_fixture("eval_results.json"))
-    assert ev.n == 0 and not ev.methods  # honest placeholder until eval/run_eval.py runs
+    # the fixture is either the honest n=0 placeholder or exactly eval/results.json
+    real = FIXTURES.parent.parent / "eval" / "results.json"
+    if real.exists():
+        assert ev == EvalResults.model_validate_json(real.read_text(encoding="utf-8"))
+    else:
+        assert ev.n == 0 and not ev.methods
     for name in ("alertmanager_webhook.json", "grafana_webhook.json"):
         body = load_fixture(name)
         assert body["alerts"] and all("labels" in a and "startsAt" in a for a in body["alerts"])

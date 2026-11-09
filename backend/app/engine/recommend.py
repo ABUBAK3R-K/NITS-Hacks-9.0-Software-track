@@ -127,9 +127,10 @@ def fix_id_for(c: Scored) -> Optional[str]:
         return "rollback_deploy"
     if c.service == "psp-adapter":
         return "circuit_breaker_psp"
-    if c.signature == "dependency_down":
-        return "restart_service"
-    return None
+    # Any other root (down, latency or error spike on a non-PSP service): restart it.
+    # The simulator only heals when the fix matches the real fault (applied=false
+    # otherwise), so a wrong diagnosis can never fake a recovery.
+    return "restart_service"
 
 
 def _for_root(c: Scored, group: dict[str, Episode], topo: TopoIndex) -> list[Recommendation]:

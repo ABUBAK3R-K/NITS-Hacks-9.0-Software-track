@@ -72,7 +72,8 @@ def test_unknown_run_404(client):
 def test_eval_results_fallback_and_file(client, tmp_path, monkeypatch):
     monkeypatch.setattr(eval_results, "RESULTS", tmp_path / "missing.json")
     res = EvalResults.model_validate(client.get("/api/eval/results").json())
-    assert res.n == 0 and res.methods == []
+    # without eval/results.json the route serves the committed fixture, unchanged
+    assert res == EvalResults.model_validate(load_fixture("eval_results.json"))
     real = load_fixture("eval_results.json") | {"n": 100, "seeds": list(range(50, 100))}
     p = tmp_path / "results.json"
     p.write_text(json.dumps(real), encoding="utf-8")

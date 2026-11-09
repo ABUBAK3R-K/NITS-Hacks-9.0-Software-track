@@ -39,7 +39,7 @@ Speaker note: "The engine decides, the LLM phrases, and grounding checks the LLM
 ## 5. How the engine decides (scoring + abstain)
 - score = (upstream 0.40 + precedence 0.30 + change 0.20 + severity 0.10) x penalty
 - Victim penalty 0.5 when a service has a failing dependency of its own
-- Hero: postgres 0.40 + 0.30 + 0 + 0.10 = 0.80; ledger-svc, payments-svc, auth-svc halved to 0.29, 0.24, 0.23
+- Hero: postgres 0.40 + 0.30 + 0 + 0.10 = 0.80; ledger-svc, auth-svc, payments-svc halved to 0.30, 0.25, 0.25
 - Abstain if top1 - top2 < 0.15 or top1 < 0.45
 - Ambiguous case: postgres 0.500 vs ledger-svc 0.433 (margin 0.067 < 0.15), so the system declines and asks for 1 s resolution data, per-version error rates and the postgres lock holders
 
