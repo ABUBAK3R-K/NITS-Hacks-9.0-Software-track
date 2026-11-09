@@ -1,14 +1,11 @@
 "use client";
 // First-visit guided tour plus an always-available help button that explains the current screen.
 // Both drive the same step list, so the tour and the help panel never disagree about a section.
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useLiveData } from "@/lib/live";
 import { signatureLabel } from "@/lib/format";
 
 const SEEN_KEY = "jarvis_tour_seen_v1";
-const CARD_W = 380;
-const GAP = 16;
-const MARGIN = 16;
 
 interface Step {
   target: string;
@@ -80,7 +77,6 @@ interface Rect {
   height: number;
 }
 
-type Side = "top" | "bottom" | "left" | "right";
 
 function measure(target: string): Rect | null {
   const el = document.querySelector(`[data-tour="${target}"]`);
@@ -91,52 +87,6 @@ function measure(target: string): Rect | null {
   return { top: r.top - pad, left: r.left - pad, width: r.width + pad * 2, height: r.height + pad * 2 };
 }
 
-function place(rect: Rect, cardH: number): { top: number; left: number } {
-  const vw = window.innerWidth;
-  const vh = window.innerHeight;
-  const cardW = Math.min(CARD_W, vw - MARGIN * 2);
-  const narrow = rect.width < vw * 0.5;
-  const space = {
-    right: vw - (rect.left + rect.width),
-    left: rect.left,
-    bottom: vh - (rect.top + rect.height),
-    top: rect.top,
-  };
-  const needX = cardW + GAP + MARGIN;
-  const needY = cardH + GAP + MARGIN;
-  let side: Side;
-  if (narrow) {
-    if (space.right >= needX) side = "right";
-    else if (space.left >= needX) side = "left";
-    else if (space.bottom >= needY) side = "bottom";
-    else side = "top";
-  } else {
-    if (space.bottom >= needY) side = "bottom";
-    else if (space.top >= needY) side = "top";
-    else if (space.right >= needX) side = "right";
-    else side = "left";
-  }
-
-  let top = 0;
-  let left = 0;
-  if (side === "right") {
-    left = rect.left + rect.width + GAP;
-    top = rect.top;
-  } else if (side === "left") {
-    left = rect.left - GAP - cardW;
-    top = rect.top;
-  } else if (side === "bottom") {
-    top = rect.top + rect.height + GAP;
-    left = rect.left + rect.width / 2 - cardW / 2;
-  } else {
-    top = rect.top - GAP - cardH;
-    left = rect.left + rect.width / 2 - cardW / 2;
-  }
-
-  top = Math.max(MARGIN, Math.min(top, vh - cardH - MARGIN));
-  left = Math.max(MARGIN, Math.min(left, vw - cardW - MARGIN));
-  return { top, left };
-}
 
 function useWhatAmISeeing() {
   const live = useLiveData();
@@ -244,7 +194,6 @@ export function Tour() {
   const [index, setIndex] = useState(0);
   const [rect, setRect] = useState<Rect | null>(null);
   const [helpOpen, setHelpOpen] = useState(false);
-  const [cardH, setCardH] = useState(220);
   const cardRef = useRef<HTMLDivElement>(null);
 
   const step = STEPS[index];
@@ -256,9 +205,13 @@ export function Tour() {
     setHelpOpen(false);
   }, []);
 
+  const [startHint, setStartHint] = useState(false);
+  const [hintRect, setHintRect] = useState<DOMRect | null>(null);
+
   const finish = useCallback(() => {
     setActive(false);
     setRect(null);
+    setStartHint(true);
     try {
       localStorage.setItem(SEEN_KEY, "1");
     } catch {
@@ -313,12 +266,23 @@ export function Tour() {
     };
   }, [active, index, step.target]);
 
-  // measure the card so the placement math knows how much room it needs
+  // "Start here": after the tour, point at Judge's Chaos until it is clicked
   useEffect(() => {
-    if (active && cardRef.current) setCardH(cardRef.current.offsetHeight);
-  }, [active, index, rect]);
-
-  const pos = useMemo(() => (rect ? place(rect, cardH) : null), [rect, cardH]);
+    if (!startHint) return;
+    const el = document.querySelector<HTMLElement>("[data-start-here]");
+    if (!el) return;
+    const update = () => setHintRect(el.getBoundingClientRect());
+    update();
+    const iv = setInterval(update, 400);
+    window.addEventListener("resize", update);
+    const done = () => setStartHint(false);
+    el.addEventListener("click", done);
+    return () => {
+      clearInterval(iv);
+      window.removeEventListener("resize", update);
+      el.removeEventListener("click", done);
+    };
+  }, [startHint]);
 
   return (
     <>
@@ -341,8 +305,10 @@ export function Tour() {
             ref={cardRef}
             role="dialog"
             aria-label="Dashboard tour"
-            className="fixed z-[101] rounded-xl border border-accent/50 bg-sheet p-4 shadow-2xl transition-[top,left] duration-500 ease-out"
-            style={{ width: "min(380px, calc(100vw - 32px))", ...(pos ?? { top: MARGIN, left: MARGIN }) }}
+            className="fixed z-[101] rounded-xl border border-accent/50 bg-sheet p-4 shadow-2xl"
+            // Locked position, anchored at the bottom: Back / Next never move between steps,
+            // only the spotlight does.
+            style={{ width: "min(360px, calc(100vw - 32px))", left: 24, bottom: 24 }}
           >
             <div key={index} className="fade-up">
               <div className="flex items-center justify-between">
@@ -386,6 +352,18 @@ export function Tour() {
             </div>
           </div>
         </>
+      )}
+
+      {!active && startHint && hintRect && (
+        <div
+          className="pointer-events-none fixed z-[95] flex flex-col items-center"
+          style={{ top: hintRect.bottom + 8, left: hintRect.left + hintRect.width / 2, transform: "translateX(-50%)" }}
+        >
+          <span className="text-lg leading-none text-accent">&#9650;</span>
+          <span className="animate-pulse whitespace-nowrap rounded-full bg-accent px-3 py-1 text-xs font-bold text-paper shadow-lg">
+            Start here: inject a hidden fault
+          </span>
+        </div>
       )}
 
       {!active && (

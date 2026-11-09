@@ -162,22 +162,28 @@ export function JudgeBar() {
   const busy = sb.status === "running" || sb.status === "playing";
   return (
     <div data-tour="judge" className="relative flex h-[50px] shrink-0 items-center gap-4 border-b border-rule bg-paper px-5">
-      <div className="flex items-center gap-2 text-[15px] text-ink-2">
-        <ShieldIcon className="h-5 w-5 text-safe" />
-        Our AI is not allowed to decide anything. It can only explain what the math proved.
+      <div
+        className="flex min-w-0 items-center gap-2 text-[15px] text-ink-2"
+        title="Our AI is not allowed to decide anything. It can only explain what the math proved."
+      >
+        <ShieldIcon className="h-5 w-5 shrink-0 text-safe" />
+        <span className="truncate">Our AI is not allowed to decide anything. It can only explain what the math proved.</span>
       </div>
-      <div className="ml-auto flex items-center gap-2">
+      <div className="ml-auto flex shrink-0 items-center gap-2">
         {sb.active && (
-          <span className="flex items-center gap-2 rounded-lg bg-accent-soft px-3 py-1.5 text-sm text-accent ring-1 ring-accent/50">
+          <span
+            className="flex items-center gap-2 whitespace-nowrap rounded-lg bg-accent-soft px-3 py-1.5 text-sm text-accent ring-1 ring-accent/50"
+            title={`${sb.run ? sb.run.run_id + ": " : ""}an isolated sandbox run, separate from the live Chaos Lab`}
+          >
             <span className="font-black tracking-widest text-accent">SANDBOX RUN</span>
-            {sb.run && <span className="font-mono text-xs text-accent">{sb.run.run_id}</span>}
-            <span className="text-accent">isolated, not the live Chaos Lab</span>
+            <span className="text-accent">isolated</span>
           </span>
         )}
         <button
           type="button"
           disabled={busy}
           onClick={() => void live.runBlind()}
+          data-start-here
           className="whitespace-nowrap rounded-md bg-ink px-4 py-1.5 text-sm font-bold text-paper ring-1 ring-ink hover:bg-ink-2 disabled:opacity-50"
         >
           Judge&apos;s Chaos: inject a hidden fault

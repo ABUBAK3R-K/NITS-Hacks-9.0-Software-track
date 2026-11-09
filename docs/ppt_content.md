@@ -90,7 +90,7 @@ Speaker note: read the top-1 and false-blame columns from the pasted table, what
 Record only what actually works at 19:30. If naive mode happens to answer correctly on the recorded run, keep it and let its measured accuracy chip carry the point.
 
 ## 7. Tech stack
-- Backend: Python 3.11, FastAPI, pydantic v2, networkx, numpy, SSE (sse-starlette), pytest
+- Backend: Python 3.12, FastAPI, pydantic v2, networkx, numpy, SSE (sse-starlette), pytest
 - Frontend: Next.js (App Router), TypeScript, Tailwind, React Flow, Recharts, EventSource
 - LLM: Groq gpt-oss-120b (JSON mode), Gemini 2.5 Flash fallback, raw httpx (no SDKs)
 - Contracts: one pydantic schema file mirrored in TypeScript, seeded fixtures shared by all lanes

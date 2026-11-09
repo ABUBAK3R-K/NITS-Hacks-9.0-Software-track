@@ -1,0 +1,136 @@
+2026-11-09T09:10:00.961Z INFO postgres LOG: connection authorized: user=ledger database=payments
+2026-11-09T09:10:01.923Z INFO psp-adapter bank charge ok in 375ms ref=HDFC35488219
+2026-11-09T09:10:02.671Z INFO postgres LOG: connection authorized: user=ledger database=payments
+2026-11-09T09:10:03.775Z INFO psp-adapter bank charge ok in 323ms ref=HDFC22633036
+2026-11-09T09:10:04.732Z INFO auth-svc token refreshed user=u_1042
+2026-11-09T09:10:06.104Z INFO redis-session DB saved on disk
+2026-11-09T09:10:07.202Z INFO psp-adapter bank charge ok in 367ms ref=HDFC18477852
+2026-11-09T09:10:07.850Z INFO auth-svc token refreshed user=u_1030
+2026-11-09T09:10:08.711Z INFO postgres LOG: checkpoint complete: wrote 287 buffers (1.8%)
+2026-11-09T09:10:09.726Z INFO redis-session Background saving started by pid 4121
+2026-11-09T09:10:10.726Z INFO redis-session DB saved on disk
+2026-11-09T09:10:11.692Z INFO payments-svc payment captured order=ord_526538 amount_inr=2499 psp=hdfc
+2026-11-09T09:10:12.858Z INFO payments-svc payment intent created order=ord_637798
+2026-11-09T09:10:13.482Z INFO postgres LOG: checkpoint complete: wrote 287 buffers (1.8%)
+2026-11-09T09:10:14.402Z INFO psp-adapter bank charge ok in 337ms ref=HDFC61876968
+2026-11-09T09:10:15.056Z INFO api-gateway POST /v1/payments 201 160ms upstream=payments-svc
+2026-11-09T09:10:16.032Z INFO redis-session Background saving started by pid 4121
+2026-11-09T09:10:16.967Z INFO postgres LOG: connection authorized: user=auth database=payments
+2026-11-09T09:10:17.726Z INFO redis-session Background saving started by pid 4121
+2026-11-09T09:10:18.596Z INFO payments-svc payment captured order=ord_448741 amount_inr=199 psp=hdfc
+2026-11-09T09:10:19.303Z INFO redis-session DB saved on disk
+2026-11-09T09:10:19.912Z INFO ledger-svc ledger entry committed order=ord_935737 in 13ms
+2026-11-09T09:10:20.654Z INFO postgres LOG: checkpoint complete: wrote 287 buffers (1.8%)
+2026-11-09T09:10:21.612Z INFO auth-svc login ok user=u_1134 in 43ms
+2026-11-09T09:10:22.528Z INFO auth-svc login ok user=u_1000 in 38ms
+2026-11-09T09:10:23.297Z INFO ledger-svc ledger entry committed order=ord_995879 in 15ms
+2026-11-09T09:10:24.410Z INFO api-gateway POST /v1/login 200 47ms upstream=auth-svc
+2026-11-09T09:10:25.217Z INFO psp-adapter bank charge ok in 378ms ref=HDFC54151649
+2026-11-09T09:10:26.481Z INFO ledger-svc ledger entry committed order=ord_176963 in 7ms
+2026-11-09T09:10:27.153Z INFO postgres LOG: connection authorized: user=auth database=payments
+2026-11-09T09:10:27.948Z INFO postgres LOG: connection authorized: user=ledger database=payments
+2026-11-09T09:10:28.845Z INFO ledger-svc ledger entry committed order=ord_233400 in 15ms
+2026-11-09T09:10:29.832Z INFO postgres LOG: checkpoint complete: wrote 287 buffers (1.8%)
+2026-11-09T09:10:31.125Z INFO auth-svc login ok user=u_1157 in 39ms
+2026-11-09T09:10:32.305Z INFO auth-svc token refreshed user=u_1397
+2026-11-09T09:10:33.388Z INFO ledger-svc ledger entry committed order=ord_149704 in 7ms
+2026-11-09T09:10:34.075Z INFO postgres LOG: connection authorized: user=ledger database=payments
+2026-11-09T09:10:34.866Z INFO redis-session Background saving started by pid 4121
+2026-11-09T09:10:35.672Z INFO psp-adapter bank charge ok in 415ms ref=HDFC90056352
+2026-11-09T09:10:36.665Z INFO postgres LOG: checkpoint complete: wrote 287 buffers (1.8%)
+2026-11-09T09:10:38.008Z INFO api-gateway GET /v1/session 200 15ms
+2026-11-09T09:10:39.131Z INFO postgres LOG: connection authorized: user=auth database=payments
+2026-11-09T09:10:39.790Z INFO auth-svc login ok user=u_1208 in 53ms
+2026-11-09T09:10:40.605Z INFO ledger-svc ledger entry committed order=ord_361162 in 6ms
+2026-11-09T09:10:41.243Z INFO payments-svc payment captured order=ord_486699 amount_inr=2499 psp=hdfc
+2026-11-09T09:10:41.916Z INFO auth-svc login ok user=u_1461 in 40ms
+2026-11-09T09:10:42.988Z INFO api-gateway POST /v1/login 200 60ms upstream=auth-svc
+2026-11-09T09:10:44.359Z INFO api-gateway POST /v1/payments 201 236ms upstream=payments-svc
+2026-11-09T09:10:45.543Z INFO payments-svc payment intent created order=ord_178918
+2026-11-09T09:10:46.580Z INFO redis-session DB saved on disk
+2026-11-09T09:10:47.900Z INFO redis-session DB saved on disk
+2026-11-09T09:10:49.135Z INFO payments-svc payment intent created order=ord_818427
+2026-11-09T09:10:50.455Z INFO psp-adapter bank charge ok in 409ms ref=HDFC65989346
+2026-11-09T09:10:51.811Z INFO api-gateway GET /v1/session 200 17ms
+2026-11-09T09:10:52.717Z INFO postgres LOG: checkpoint complete: wrote 287 buffers (1.8%)
+2026-11-09T09:10:53.804Z INFO api-gateway POST /v1/login 200 45ms upstream=auth-svc
+2026-11-09T09:10:54.986Z INFO ledger-svc ledger entry committed order=ord_870743 in 15ms
+2026-11-09T09:10:55.952Z INFO ledger-svc ledger entry committed order=ord_979094 in 14ms
+2026-11-09T09:10:56.619Z INFO psp-adapter bank charge ok in 365ms ref=HDFC13998323
+2026-11-09T09:10:57.468Z INFO api-gateway GET /v1/session 200 11ms
+2026-11-09T09:10:58.158Z INFO psp-adapter bank charge ok in 378ms ref=HDFC98601361
+2026-11-09T09:10:59.494Z INFO payments-svc payment captured order=ord_111856 amount_inr=499 psp=hdfc
+2026-11-09T09:11:00.637Z INFO auth-svc token refreshed user=u_1350
+2026-11-09T09:11:01.000Z WARN postgres LOG: 92 of 100 connections in use, 31 idle in transaction
+2026-11-09T09:11:02.800Z WARN postgres LOG: 98 of 100 connections in use, 36 idle in transaction
+2026-11-09T09:11:03.600Z FATAL postgres FATAL: remaining connection slots are reserved for non-replication superuser connections
+2026-11-09T09:11:04.400Z ERROR auth-svc login failed: could not acquire DB connection within 2000ms (pool=auth-pg) user=u_1187
+2026-11-09T09:11:04.900Z ERROR ledger-svc ledger write failed: timeout acquiring connection from pool (postgres:5432)
+2026-11-09T09:11:05.600Z ERROR payments-svc POST /v1/payments -> ledger-svc 503: upstream ledger unavailable order=ord_558201
+2026-11-09T09:11:06.500Z ERROR api-gateway upstream timeout: 504 on POST /v1/payments after 3000ms (payments-svc)
+2026-11-09T09:11:07.000Z WARN api-gateway upstream slow: POST /v1/login p95 2.1s (auth-svc)
+2026-11-09T09:11:08.298Z ERROR payments-svc payment intent rolled back: ledger commit failed (ledger-svc 503) order=ord_764978
+2026-11-09T09:11:09.057Z ERROR auth-svc login failed: could not acquire DB connection within 2000ms (pool=auth-pg) user=u_1393
+2026-11-09T09:11:09.907Z ERROR auth-svc login failed: could not acquire DB connection within 2000ms (pool=auth-pg) user=u_1508
+2026-11-09T09:11:10.909Z ERROR postgres FATAL: sorry, too many clients already
+2026-11-09T09:11:11.680Z ERROR auth-svc HikariPool-1 - Connection is not available, request timed out after 2000ms
+2026-11-09T09:11:12.492Z CRITICAL api-gateway SLO burn rate 14.2x on checkout availability (budget 1h)
+2026-11-09T09:11:13.489Z ERROR api-gateway upstream timeout: 504 on POST /v1/payments after 3000ms (payments-svc)
+2026-11-09T09:11:14.201Z ERROR api-gateway upstream timeout: 504 on POST /v1/payments after 3000ms (payments-svc)
+2026-11-09T09:11:14.974Z ERROR ledger-svc ledger write failed: timeout acquiring connection from pool (postgres:5432)
+2026-11-09T09:11:15.502Z ERROR payments-svc POST /v1/payments -> ledger-svc 503: upstream ledger unavailable order=ord_786862
+2026-11-09T09:11:16.386Z WARN postgres LOG: 100 of 100 connections in use, 37 idle in transaction
+2026-11-09T09:11:17.381Z ERROR postgres FATAL: sorry, too many clients already
+2026-11-09T09:11:17.902Z ERROR ledger-svc ledger write failed: timeout acquiring connection from pool (postgres:5432)
+2026-11-09T09:11:18.877Z INFO redis-session Background saving started by pid 4121
+2026-11-09T09:11:19.937Z ERROR auth-svc HikariPool-1 - Connection is not available, request timed out after 2000ms
+2026-11-09T09:11:20.812Z INFO psp-adapter bank charge ok in 370ms ref=HDFC86344928
+2026-11-09T09:11:21.704Z ERROR ledger-svc sqlalchemy.exc.TimeoutError: QueuePool limit of size 20 overflow 10 reached
+2026-11-09T09:11:22.793Z FATAL postgres FATAL: remaining connection slots are reserved for non-replication superuser connections
+2026-11-09T09:11:23.882Z INFO psp-adapter bank charge ok in 333ms ref=HDFC12100247
+2026-11-09T09:11:24.591Z ERROR payments-svc payment intent rolled back: ledger commit failed (ledger-svc 503) order=ord_541887
+2026-11-09T09:11:25.552Z FATAL postgres FATAL: remaining connection slots are reserved for non-replication superuser connections
+2026-11-09T09:11:26.532Z ERROR ledger-svc ledger write failed: timeout acquiring connection from pool (postgres:5432)
+2026-11-09T09:11:27.632Z INFO psp-adapter bank charge ok in 412ms ref=HDFC76113142
+2026-11-09T09:11:28.479Z ERROR auth-svc HikariPool-1 - Connection is not available, request timed out after 2000ms
+2026-11-09T09:11:29.153Z ERROR auth-svc HikariPool-1 - Connection is not available, request timed out after 2000ms
+2026-11-09T09:11:29.882Z ERROR api-gateway upstream timeout: 504 on POST /v1/payments after 3000ms (payments-svc)
+2026-11-09T09:11:30.466Z ERROR ledger-svc sqlalchemy.exc.TimeoutError: QueuePool limit of size 20 overflow 10 reached
+2026-11-09T09:11:31.288Z CRITICAL api-gateway SLO burn rate 14.2x on checkout availability (budget 1h)
+2026-11-09T09:11:32.370Z ERROR payments-svc POST /v1/payments -> ledger-svc 503: upstream ledger unavailable order=ord_197750
+2026-11-09T09:11:33.284Z CRITICAL api-gateway SLO burn rate 14.2x on checkout availability (budget 1h)
+2026-11-09T09:11:34.338Z ERROR payments-svc payment intent rolled back: ledger commit failed (ledger-svc 503) order=ord_456181
+2026-11-09T09:11:35.098Z ERROR payments-svc payment intent rolled back: ledger commit failed (ledger-svc 503) order=ord_300751
+2026-11-09T09:11:35.850Z ERROR ledger-svc ledger write failed: timeout acquiring connection from pool (postgres:5432)
+2026-11-09T09:11:36.467Z ERROR ledger-svc sqlalchemy.exc.TimeoutError: QueuePool limit of size 20 overflow 10 reached
+2026-11-09T09:11:37.338Z ERROR api-gateway upstream timeout: 504 on POST /v1/payments after 3000ms (payments-svc)
+2026-11-09T09:11:37.989Z CRITICAL api-gateway SLO burn rate 14.2x on checkout availability (budget 1h)
+2026-11-09T09:11:38.869Z ERROR api-gateway upstream timeout: 504 on POST /v1/payments after 3000ms (payments-svc)
+2026-11-09T09:11:39.887Z ERROR auth-svc login failed: could not acquire DB connection within 2000ms (pool=auth-pg) user=u_1555
+2026-11-09T09:11:40.739Z ERROR ledger-svc ledger write failed: timeout acquiring connection from pool (postgres:5432)
+2026-11-09T09:11:41.428Z INFO redis-session DB saved on disk
+2026-11-09T09:11:42.460Z ERROR auth-svc login failed: could not acquire DB connection within 2000ms (pool=auth-pg) user=u_1090
+2026-11-09T09:11:43.193Z ERROR payments-svc POST /v1/payments -> ledger-svc 503: upstream ledger unavailable order=ord_522344
+2026-11-09T09:11:44.070Z FATAL postgres FATAL: remaining connection slots are reserved for non-replication superuser connections
+2026-11-09T09:11:44.785Z ERROR ledger-svc ledger write failed: timeout acquiring connection from pool (postgres:5432)
+2026-11-09T09:11:45.739Z ERROR auth-svc login failed: could not acquire DB connection within 2000ms (pool=auth-pg) user=u_1493
+2026-11-09T09:11:46.254Z CRITICAL api-gateway SLO burn rate 14.2x on checkout availability (budget 1h)
+2026-11-09T09:11:46.865Z ERROR auth-svc HikariPool-1 - Connection is not available, request timed out after 2000ms
+2026-11-09T09:11:47.402Z INFO psp-adapter bank charge ok in 309ms ref=HDFC22980727
+2026-11-09T09:11:48.098Z CRITICAL api-gateway SLO burn rate 14.2x on checkout availability (budget 1h)
+2026-11-09T09:11:48.959Z FATAL postgres FATAL: remaining connection slots are reserved for non-replication superuser connections
+2026-11-09T09:11:49.731Z ERROR payments-svc POST /v1/payments -> ledger-svc 503: upstream ledger unavailable order=ord_199406
+2026-11-09T09:11:50.538Z WARN postgres LOG: 100 of 100 connections in use, 37 idle in transaction
+2026-11-09T09:11:51.398Z ERROR ledger-svc sqlalchemy.exc.TimeoutError: QueuePool limit of size 20 overflow 10 reached
+2026-11-09T09:11:52.345Z ERROR payments-svc POST /v1/payments -> ledger-svc 503: upstream ledger unavailable order=ord_665050
+2026-11-09T09:11:53.262Z ERROR auth-svc HikariPool-1 - Connection is not available, request timed out after 2000ms
+2026-11-09T09:11:53.873Z ERROR ledger-svc sqlalchemy.exc.TimeoutError: QueuePool limit of size 20 overflow 10 reached
+2026-11-09T09:11:54.905Z INFO redis-session DB saved on disk
+2026-11-09T09:11:55.569Z INFO psp-adapter bank charge ok in 343ms ref=HDFC38997446
+2026-11-09T09:11:56.465Z ERROR api-gateway upstream timeout: 504 on POST /v1/payments after 3000ms (payments-svc)
+2026-11-09T09:11:57.565Z ERROR postgres FATAL: sorry, too many clients already
+2026-11-09T09:11:58.134Z ERROR auth-svc HikariPool-1 - Connection is not available, request timed out after 2000ms
+2026-11-09T09:11:58.937Z ERROR payments-svc POST /v1/payments -> ledger-svc 503: upstream ledger unavailable order=ord_371117
+2026-11-09T09:11:59.587Z INFO psp-adapter bank charge ok in 366ms ref=HDFC86232784
+2026-11-09T09:12:00.595Z ERROR payments-svc POST /v1/payments -> ledger-svc 503: upstream ledger unavailable order=ord_726562
+2026-11-09T09:12:01.496Z INFO psp-adapter bank charge ok in 419ms ref=HDFC31465652

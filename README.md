@@ -1,16 +1,83 @@
 # J.A.R.V.I.S.
 
-Justified Analysis, Reasoning & Visualization of Incident Systems. NITS Hacks 9.0, Software Track, PS1.
+**Many alerts. One cause. Proof attached.**
 
-**Many alerts, one cause, and every claim shows its evidence.**
+Justified Analysis, Reasoning & Visualization of Incident Systems
 
-## The problem
+> **NITS Hacks 9.0, Software Track, Problem Statement 1** [[R1]](docs/REFERENCES.md#problem-statistics) | Team StrawHats
 
-When a shared dependency fails in a payments platform, every service that touches it starts alerting. Postgres runs out of connections, and within three seconds the auth team is paged for failed logins, the payments team for failed transactions, and the platform team for gateway latency. Three teams start debugging three symptoms. The first alert to fire is often the gateway, which is the one service that is certainly not the cause.
+*Our AI is not allowed to decide anything. It can only explain what the math proved.*
 
-J.A.R.V.I.S. groups related alerts into one incident, ranks root-cause candidates with a deterministic, explainable score, shows the evidence behind every number, and writes a short report in plain language. The LLM never decides anything: it only narrates what the engine already proved, and any sentence it cannot back with an event id is removed. When two causes are equally likely, the system says so instead of guessing.
+---
 
-In the hero scenario (postgres pool exhaustion) 14 alerts collapse into 1 incident with root cause **postgres at confidence 0.80**, with **57 users affected and 38 failed payments worth INR 45,462**.
+## The Problem
+
+When one shared dependency fails, every service that touches it starts alerting. The database runs out of connections, and within seconds the auth team is paged for failed logins, the payments team for failed transactions, and the platform team for a slow gateway. Three teams debug three symptoms of one cause, and the first alert to fire is usually the gateway, the one service that is certainly not the cause.
+
+| What happened | Figure |
+|---|---|
+| UPI outage, 12 Apr 2025 | Transaction success fell to **about 50% for nearly two hours**; NPCI traced it to some banks overusing one API [[R2]](docs/REFERENCES.md#problem-statistics) [[R3]](docs/REFERENCES.md#problem-statistics) |
+| AWS us-east-1, 19 to 20 Oct 2025 | A DNS race condition in DynamoDB cascaded into dependent services from 11:48 PM to 2:20 PM PDT the next day [[R4]](docs/REFERENCES.md#problem-statistics) |
+| Our hero scenario (simulated) | **14 alerts across 5 services** from one postgres fault; the gateway pages first, postgres sixth [[E3]](docs/REFERENCES.md#hero-and-ambiguous-scenarios-engine-output) |
+
+## The Solution
+
+J.A.R.V.I.S. turns an alert storm into one incident with a named, provable root cause. It works in four steps:
+
+1. **Ingest:** events arrive from the events API, Alertmanager or Grafana webhooks, uploaded log files, or the built-in Chaos Lab simulator.
+2. **Group:** anomalous services that are connected in the dependency graph and go bad within 5 minutes of each other become one incident.
+3. **Decide:** a deterministic score ranks every candidate, and every number links to the raw events that produced it.
+4. **Explain:** an LLM writes the report, and a guardrail removes any sentence that does not cite evidence.
+
+### Core Innovation: the engine decides, the AI only explains
+
+Each candidate service is scored on four weighted clues [[E1]](docs/REFERENCES.md#engine-design-constants):
+
+| Clue | Weight | Question it answers |
+|---|---|---|
+| **Upstream** | 0.40 | How many of the other broken services depend on it? |
+| **Precedence** | 0.30 | Did it go bad before the services that depend on it? |
+| **Change** | 0.20 | Was it deployed or changed shortly before it broke? |
+| **Severity** | 0.10 | How strong is its anomaly? |
+
+**Decision rules:**
+
+| Result | When |
+|---|---|
+| **Victim** | The service's own dependency is also broken: its score is multiplied by 0.5, and the report names it as a victim ("do not roll back") |
+| **Root cause** | The top score is at least 0.45 and at least 0.15 ahead of the runner-up |
+| **Abstain** | Anything else: both candidates are shown, with the data that would settle it [[E4]](docs/REFERENCES.md#hero-and-ambiguous-scenarios-engine-output) |
+
+In the hero scenario postgres scores **0.80**, and its victims score 0.30, 0.25 and 0.25 [[E3]](docs/REFERENCES.md#hero-and-ambiguous-scenarios-engine-output).
+
+### Honesty by design
+
+| Risk | How it is handled |
+|---|---|
+| The LLM invents a cause | The LLM never decides. A sentence that cites no event, or an event outside the incident, is removed and counted ("Guardrail blocked N uncited sentences") |
+| "You wrote both halves" | **Judge's Chaos** injects a hidden random fault into an isolated sandbox; the engine answers before the spec is revealed |
+| A recent deploy gets blamed | Decoy deploys are part of the blind tests, and "Why not X?" explains each ruled-out service with the engine's own numbers |
+| Cherry-picked accuracy | 100 blind runs against 3 baselines, weights frozen before the eval, results committed as generated [[E5]](docs/REFERENCES.md#evaluation) |
+| A plain LLM would do just as well | Naive AI mode shows a plain LLM's answer next to ours, with its measured accuracy underneath [[E6]](docs/REFERENCES.md#evaluation) |
+| A typed number on screen | Every score, MTTD, MTTR and accuracy figure is computed; each one is traced in [docs/REFERENCES.md](docs/REFERENCES.md) |
+
+### Results (our simulator, 100 blind randomized outages)
+
+| Method | Top-1 | False blame |
+|---|---|---|
+| **J.A.R.V.I.S.** | **100%** | **0%** |
+| Blame the latest deploy | 25% | 75% |
+| Blame the noisiest service | 47% | 53% |
+| Plain LLM, same events (n=40) | 78% | 0% |
+
+The plain LLM was right every time it answered; its 9 missing answers were API rate limits [[E6]](docs/REFERENCES.md#evaluation). So the honest pitch is: **the same accuracy as the LLM where it answers, but every claim is auditable, and it abstains on purpose.** These results come from our own simulator, which spreads faults cleanly from cause to symptoms. RCAEval real-world data (735 labelled failures) is the final-round target [[R5]](docs/REFERENCES.md#benchmark-and-industry-practice). The full table and the weight sensitivity are in `eval/RESULTS.md` [[E5]](docs/REFERENCES.md#evaluation) [[E7]](docs/REFERENCES.md#evaluation).
+
+### What it looks like
+
+- **Live dashboard** (`/dashboard`): the service graph lights up the failure path, and the root cause card shows confidence, score components, evidence chips and why-not lines.
+- **Lifecycle:** DETECTED, SPREADING, CAUSE_IDENTIFIED, MITIGATING, RESOLVED. MTTD and MTTR are measured outside the engine [[E9]](docs/REFERENCES.md#tests-and-live-checks).
+- **Apply fix:** the simulator heals only when the fix matches the real fault, so a wrong diagnosis cannot fake a recovery.
+- **Case study** (`/`): the engineering write-up, rendered from the engine's own output.
 
 ## Architecture
 
@@ -43,7 +110,19 @@ client -> api-gateway -> auth-svc -> redis-session
                                       -> psp-adapter (external bank)
 ```
 
-## Run locally
+### Deliberate Architectural Decisions
+
+| Decision | Choice | Why not the alternative |
+|---|---|---|
+| **Who decides** | A deterministic weighted score on the dependency graph | An LLM verdict cannot be audited and can change between reruns |
+| **LLM** | Groq `openai/gpt-oss-120b` in JSON mode, then Gemini 2.5 Flash, then a template | With the 8 s budget the report never fails, and the template needs no network [[E2]](docs/REFERENCES.md#engine-design-constants) [[E10]](docs/REFERENCES.md#tests-and-live-checks) |
+| **Contracts** | One pydantic schema mirrored in TypeScript; fixtures generated by the real engine | Hand-written fixtures drifted from the engine twice (see FAILURES.md) |
+| **Storage** | An in-memory event window | No database to run for a demo; the engine is pure and replays any event list |
+| **Live updates** | Server-Sent Events | A one-way stream needs no socket server and works on free hosting |
+| **Blind tests** | An isolated, fast-forwarded sandbox per run | Several judges on one link never collide with each other or with the live Chaos Lab |
+| **Deploy** | Render (API) and Vercel (UI) | Free tiers; the backend pins the exact tested dependency versions |
+
+## Quick Start
 
 ```
 python -m venv .venv && .venv/Scripts/pip install -r backend/requirements.txt
@@ -56,57 +135,7 @@ cd frontend && npm install && npm run dev
 - Optional LLM keys: `GROQ_API_KEY`, `GEMINI_API_KEY`, and `GEMINI_MODEL` (default `gemini-2.5-flash`). Without keys the app still works fully, using the template narrator.
 - The frontend reaches the backend through `NEXT_PUBLIC_API_URL` (for local runs, `http://localhost:8000`).
 
-## How the engine decides
-
-The engine is pure and deterministic: the same events always give the same ranking. No LLM runs inside it.
-
-1. **Anomaly detection.** Per (service, signal): EWMA baseline plus z-score over a rolling window. Alerts and error-log bursts count as anomalies directly. Onset is the first anomalous timestamp.
-2. **Grouping.** Anomalous services within a 5 minute window that are connected in the dependency graph form one incident. Disconnected anomalies (for example redis-session failing alone) become separate incidents, so we do not over-group.
-3. **Scoring.** Every anomalous service in the incident is a candidate. Its score is the sum of four weighted components, times a victim penalty.
-
-| Component | Weight | Formula |
-|---|---|---|
-| upstream | 0.40 | anomalous services that transitively call it / (anomalous count - 1) |
-| precedence | 0.30 | share of its anomalous transitive callers whose onset is later than its own (0 if it has none) |
-| change | 0.20 | 1 if a change event (deploy, config) hit it within 10 min before its onset |
-| severity | 0.10 | its peak z / max peak z in the incident |
-
-**Victim penalty:** if a candidate has an anomalous dependency of its own, its score is multiplied by 0.5. It is probably a victim, not the cause.
-
-`score = (upstream + precedence + change + severity) * penalty`. Components are stored already weighted, and each one records the event ids that produced it, so the UI can show why every bar is as tall as it is.
-
-4. **Hero example.** postgres: every other failing service depends on it (upstream 0.40), it failed before all of them (precedence 0.30), no deploy (change 0), strongest anomaly (severity 0.10). Score **0.80**. ledger-svc, payments-svc and auth-svc each depend on something already failing, so they are halved to 0.30, 0.25 and 0.25. The gateway paged first and the postgres alert fired sixth: alert order is not causal order, so onsets come from metrics and logs.
-5. **Impact, timeline, recommendations.** Impact is the anomalous set plus every upstream caller to the edge; users are unique `user_id`s on failed requests; failed payments and their INR value come from payments request events. The timeline sorts onsets and marks each with the nearest failing dependency that started earlier. Recommendations come from a rule table keyed by (root tier, signature), and each carries evidence ids.
-
-## The abstain rule
-
-If `top1.score - top2.score < 0.15` **or** `top1.score < 0.45`, the incident is `ABSTAINED`. No root cause is named, the UI shows both candidates, and the incident lists what data would settle it.
-
-Example (`contracts/fixtures/incident_ambiguous.json`): ledger-svc deploys v4.2.0 with a migration, and 31 s later ledger-svc writes fail on lock timeouts. postgres lock waits cross the threshold last only because they are sampled every 2 s.
-
-- postgres: upstream 0.40 + precedence 0 (it crossed its threshold after its callers) + change 0 + severity 0.10 = **0.500**
-- ledger-svc: upstream 0.267 + precedence 0.30 + change 0.20 + severity 0.10 = 0.867, halved by the victim penalty (it depends on postgres, which is also anomalous) = **0.433**
-
-The margin is 0.067, below 0.15, so J.A.R.V.I.S. declines to pick. It asks for the lock holder in `pg_stat_activity`, the ledger-svc error rate split by version, and `pg_lock_wait_ms` at 1 s resolution. Its recommendations stay cheap and reversible (roll back the canary and watch lock waits). A guess here would send one team down the wrong path; abstaining tells the on-call exactly what to look at next.
-
-## Proving it is not rigged (judge-review upgrades)
-
-The fair objection to any simulator demo is "of course it works, you wrote both halves". These features exist to answer it on screen.
-
-- **Blind runs and Reveal ("Judge's Chaos").** One click injects a random fault into an isolated sandbox run: random target, a fault kind valid for that target, onset jitter of 0 to 20 s, and half the time a decoy deploy on a different service. The label stays hidden until the engine has answered. Then "Reveal" shows the injected spec and a match or no-match badge. Every run has its own sandbox, so several judges on the deployed link never collide.
-- **Design your own outage.** Pick the service, the fault and an optional decoy service with an offset, and watch whether the engine still finds the cause.
-- **"Why not X?" reasons.** For every candidate that lost, one plain sentence names the single factor that cost it the most against the winner (onset order, victim penalty, no change event, weaker anomaly), with the real numbers and evidence ids from the engine. No LLM is involved.
-- **Naive AI mode.** The incident page can show, side by side, what an LLM says with no engine at all. It gets a frozen neutral prompt ("Here are the events from a production system during an incident. What is the single root cause service? Answer with the service id and a short explanation."), temperature 0, the same model as the narrator, and the same events in a compact, size-bounded dump (`compact_events` in `backend/app/narrate/naive.py`: one line per event, no per-request events, no topology, no ranking, no engine output). The panel always shows the naive method's measured top-1 accuracy and n from the eval next to its single answer, so one lucky or unlucky run never stands alone.
-- **Eval harness.** `eval/run_eval.py` runs blind specs from fixed seeds through simulator and engine, headless, and scores J.A.R.V.I.S. against three baselines on the same runs: "latest deploy", "most alerts" and "LLM only" (the exact naive prompt and compact dump above). Metrics: top-1, top-3, abstain rate, and false-blame rate (confident and wrong). It also reports weight sensitivity at -50% and +50%. For the numbers, see eval/RESULTS.md (generated by `python eval/run_eval.py`).
-- **Webhooks.** `POST /api/events` accepts Alertmanager and Grafana alert webhooks as-is, so the engine can sit behind tools teams already run (examples below).
-
-### Honesty guardrails
-
-- Engine weights are frozen before the final eval. Any tuning uses seeds 0 to 49 only, and results are reported on seeds 50 to 99 only. This is logged in DECISIONS.md.
-- The naive LLM baseline's prompt was written before any result existed and is never weakened. Temperature 0, same model as the narrator, same events.
-- We report whatever the numbers are. If the naive LLM scores well, the pitch becomes "same accuracy, plus every claim is auditable and it abstains", and we say so.
-- The eval runs on our own simulator with randomized blind faults. RCAEval real-data numbers are a final-round item.
-- Every number on screen (accuracy, confidence, MTTD, MTTR) is computed, never typed.
+- Tests: **278 passing** [[E8]](docs/REFERENCES.md#tests-and-live-checks). Evaluation: `python eval/run_eval.py --seeds 0-99 --llm-n 40` (add `--no-llm` to skip the paced LLM baseline).
 
 ## Webhook ingest (Alertmanager and Grafana)
 
@@ -125,16 +154,6 @@ curl -X POST http://localhost:8000/api/events \
 ```
 
 To point a real Alertmanager at it, add a receiver with `webhook_configs: [{url: "https://<backend>/api/events"}]`. For Grafana, create a webhook contact point with the same URL.
-
-## The narrator and grounding
-
-`POST /api/incidents/{id}/report` builds a short report for the on-call engineer.
-
-- Providers in order: Groq `openai/gpt-oss-120b` (JSON mode, low reasoning effort, override with `GROQ_MODEL`), then Gemini Flash (JSON mime type), then a deterministic template. One total budget of 8 s covers both LLM attempts. A missing key skips that provider; any timeout, HTTP error, bad JSON or schema mismatch falls through to the next one. The endpoint never fails because of an LLM.
-- The model gets a compact JSON view of the incident (times already in IST) and must return `{summary, sentences:[{text, cites}]}`.
-- **Grounding** drops a sentence when it has no cites, when any cite is not in `incident.evidence_events`, or (for OPEN incidents) when it talks about the cause and names a service other than the engine's root cause. The response carries `dropped`, shown in the UI as "N unsupported sentences removed".
-- If nothing survives, the template is used. The template is built from engine output, so it is grounded by construction and reads well with no LLM at all. Em dashes are stripped from everything.
-- Reports are cached per (incident id, `updated_at`), so repeated clicks are instant.
 
 ## API
 
@@ -160,8 +179,12 @@ Shapes are defined once in `contracts/schemas.py` (pydantic) and mirrored in `co
 
 ## Deploy
 
-- **Backend on Render.** `render.yaml` at the repo root defines the free web service: `pip install -r backend/requirements.txt`, then `cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT`, health check `/health`, Python 3.11. Set `GROQ_API_KEY` and `GEMINI_API_KEY` in the Render dashboard (optional), and `CORS_ORIGINS` to the Vercel URL.
+- **Backend on Render.** `render.yaml` at the repo root defines the free web service: `pip install -r backend/requirements.txt`, then `cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT`, health check `/health`, Python 3.12.6 (pinned to the tested version). Set `GROQ_API_KEY` and `GEMINI_API_KEY` in the Render dashboard (optional), and `CORS_ORIGINS` to the Vercel URL.
 - **Frontend on Vercel.** Root directory `frontend`, env `NEXT_PUBLIC_API_URL` set to the Render URL. The contracts copy in `frontend/lib/contracts/` is committed, so the build does not need files outside `frontend/`.
+
+## Progress
+
+**11 of 14 planned items built (79%)** [[E11]](docs/REFERENCES.md#project-progress). Built: simulator and ingest, deterministic engine, live dashboard, grounded narrator, and upgrades U1 to U7. Next, for the final round: the RCAEval real-world benchmark, OpenTelemetry ingest, and learning from past incidents.
 
 ## Repo layout
 
@@ -179,6 +202,7 @@ backend/app/
 backend/tests/        contract, engine scenario, narrator, naive mode and webhook tests
 eval/                 run_eval.py, results.json, RESULTS.md (generated)
 frontend/             Next.js dashboard and incident report view
+docs/REFERENCES.md    source or generating command for every number we claim
 docs/ppt_content.md   slide content draft
 DECISIONS.md          every non-obvious choice, with time and reason
 FAILURES.md           bugs and dead ends, with what we learned

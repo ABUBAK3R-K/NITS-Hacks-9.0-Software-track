@@ -17,8 +17,8 @@ Recorded locally. Everything on screen is the real engine on simulated data, whi
 
 | Time | Screen | Do | Say |
 |---|---|---|---|
-| 0:00-0:10 | Dashboard, all green | nothing | "A payments platform: users can't log in, APIs are slow, payments fail. Three alerts, three teams paged. But it's one hidden cause." |
-| 0:10-0:20 | Header line "Our AI is not allowed to decide anything..." | hover it | "J.A.R.V.I.S. decides the root cause with deterministic math on the dependency graph. The LLM only narrates what the math proved, and it abstains when two causes are too close." |
+| 0:00-0:07 | Stock footage, 3 shots of about 2.3 s each (free licence: Pexels/Pixabay): failed payment on a phone, phone alert at night, server room. Text overlays: "Login failures", "Slow APIs", "Failed payments" | edit in | "Payments failing. Three teams paged. Three alarms, one hidden cause." |
+| 0:07-0:18 | Hard cut to the dashboard; header line "Our AI is not allowed to decide anything..." | hover it | "J.A.R.V.I.S. finds it. It decides the root cause with deterministic math on the dependency graph; the LLM only narrates what the math proved, and it abstains when two causes are too close." |
 | 0:20-0:38 | Chaos Lab | click **DB pool exhaustion** | "Let's break the database. Alerts flood in, and notice the gateway pages first. Alert order is not causal order." (the flood collapses into "N alerts, 1 cause") |
 | 0:38-0:52 | Root cause card + graph | click one **evidence chip**, show the raw event, close it | "One incident, root cause postgres, connection pool exhausted. Every claim links to the raw event that proves it." |
 | 0:52-1:00 | "Why not the others?" | point at the ledger-svc line | "And it says why it did not blame the others: they broke after postgres, and their own dependency was already broken." |

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { FAULT_TYPES, type FaultType, type IngestResult } from "@/lib/contracts/types";
 import { useLiveData } from "@/lib/live";
 import { FAULT_LABELS, istTime } from "@/lib/format";
+import { Logo } from "@/components/doc/Logo";
 
 const FAULT_HINT: Record<FaultType, string> = {
   db_pool_exhaustion: "postgres runs out of connections",
@@ -55,17 +56,41 @@ export function TopBar() {
     if (fileRef.current) fileRef.current.value = "";
   };
 
+  // One click demo of the upload path: our recorded outage log, re-timed so it forms a fresh incident now.
+  const trySample = async () => {
+    try {
+      // start clean so the sample forms its own incident instead of merging with live faults
+      await live.reset();
+      const text = await (await fetch("/samples/payment_outage.log")).text();
+      const lines = text.split("\n").filter((l) => l.trim());
+      const first = Date.parse(lines[0].split(" ")[0]);
+      const shift = Date.now() - 60_000 - first;
+      const moved = lines
+        .map((l) => {
+          const sp = l.indexOf(" ");
+          const t = Date.parse(l.slice(0, sp));
+          return Number.isNaN(t) ? l : new Date(t + shift).toISOString() + l.slice(sp);
+        })
+        .join("\n");
+      onFile(new File([moved], "payment_outage.log", { type: "text/plain" }));
+    } catch {
+      setUpload({ name: "payment_outage.log", err: "Could not load the sample log." });
+    }
+  };
+
   const active = new Set(live.sim?.active_faults ?? []);
 
   return (
     <header data-tour="topbar" className="relative flex h-[68px] shrink-0 items-center gap-4 border-b border-rule bg-paper px-5">
-      <div className="flex items-baseline gap-3 pr-2">
+      <div className="flex items-center gap-3 pr-2">
         <Link
           href="/"
-          title="Back to the case study landing page"
-          className="text-2xl font-black tracking-[0.18em] text-ink transition hover:text-accent"
+          title="J.A.R.V.I.S.: back to the case study landing page"
+          aria-label="J.A.R.V.I.S. home"
+          className="flex items-center text-ink transition hover:opacity-80"
+          style={{ ["--accent" as string]: "#52a8ff" }}
         >
-          J.A.R.V.I.S.
+          <Logo size={32} />
         </Link>
         <span className="whitespace-nowrap text-sm font-semibold text-ink-2">Many alerts. One cause. Proof attached.</span>
       </div>
@@ -107,13 +132,25 @@ export function TopBar() {
       </div>
 
       <div className="relative">
-        <button
-          type="button"
-          onClick={() => fileRef.current?.click()}
-          className="whitespace-nowrap rounded-md bg-paper px-3 py-1.5 text-sm font-semibold text-ink ring-1 ring-rule-strong hover:bg-sheet"
-        >
-          Upload logs
-        </button>
+        <div className="flex items-center">
+          <button
+            type="button"
+            onClick={() => void trySample()}
+            title="Resets the live Chaos Lab, then feeds a recorded payments outage (plain log lines) into the engine, timestamps shifted to now"
+            className="whitespace-nowrap rounded-l-md bg-paper px-3 py-1.5 text-sm font-semibold text-ink ring-1 ring-rule-strong hover:bg-sheet"
+          >
+            Try sample logs
+          </button>
+          <button
+            type="button"
+            onClick={() => fileRef.current?.click()}
+            title="Upload your own .jsonl, .csv or plain log file"
+            aria-label="Upload your own log file"
+            className="rounded-r-md bg-paper px-2.5 py-1.5 text-sm font-semibold text-muted ring-1 ring-rule-strong hover:bg-sheet hover:text-ink"
+          >
+            &#8593;
+          </button>
+        </div>
         <input
           ref={fileRef}
           type="file"
