@@ -163,6 +163,7 @@ export function ServiceGraph({
       nodeTypes={nodeTypes}
       fitView
       fitViewOptions={{ padding: 0.14 }}
+      minZoom={0.2}
       nodesDraggable={false}
       nodesConnectable={false}
       elementsSelectable={false}

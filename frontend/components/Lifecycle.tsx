@@ -61,7 +61,7 @@ export function LifecycleStrip({ inc }: { inc: Incident }) {
         <span className="panel-title">Lifecycle</span>
         <MetricChips inc={inc} />
       </div>
-      <ol className="flex items-stretch gap-1">
+      <ol className="flex flex-wrap items-stretch gap-1 md:flex-nowrap">
         {STEPS.map((s) => {
           const cur = s === inc.lifecycle;
           const ts = at.get(s);
@@ -69,7 +69,7 @@ export function LifecycleStrip({ inc }: { inc: Incident }) {
           return (
             <li
               key={s}
-              className={`flex-1 rounded-md px-1.5 py-1 text-center ring-1 transition-colors duration-500 ${
+              className={`min-w-[30%] flex-1 rounded-md px-1.5 py-1 text-center ring-1 md:min-w-0 transition-colors duration-500 ${
                 reached ? STEP_COLOR[s] : "bg-transparent text-subtle ring-rule"
               } ${cur ? "live-dot-soft font-black" : ""}`}
             >

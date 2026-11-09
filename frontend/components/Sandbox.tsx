@@ -71,7 +71,7 @@ function DesignForm({ onClose }: { onClose: () => void }) {
 
   const field = "w-full rounded-md bg-sheet px-2 py-1.5 text-sm text-ink ring-1 ring-rule-strong focus:outline-none focus:ring-accent";
   return (
-    <div className="fade-up absolute right-0 top-11 z-40 w-[400px] rounded-lg border border-rule-strong bg-sheet p-4 text-sm">
+    <div className="fade-up fixed inset-x-3 top-24 z-40 max-h-[80vh] overflow-y-auto rounded-lg border border-rule-strong bg-sheet p-4 text-sm md:absolute md:inset-x-auto md:right-0 md:top-11 md:w-[400px] md:max-h-none md:overflow-visible">
       <div className="flex items-center justify-between">
         <span className="panel-title text-accent">Design your own outage</span>
         <button type="button" onClick={onClose} className="text-subtle hover:text-ink">
@@ -161,15 +161,15 @@ export function JudgeBar() {
   const [designOpen, setDesignOpen] = useState(false);
   const busy = sb.status === "running" || sb.status === "playing";
   return (
-    <div data-tour="judge" className="relative flex h-[50px] shrink-0 items-center gap-4 border-b border-rule bg-paper px-5">
+    <div data-tour="judge" className="relative flex shrink-0 items-center gap-4 border-b border-rule bg-paper px-3 py-2 md:h-[50px] md:px-5 md:py-0">
       <div
-        className="flex min-w-0 items-center gap-2 text-[15px] text-ink-2"
+        className="hidden min-w-0 items-center gap-2 text-[15px] text-ink-2 md:flex"
         title="Our AI is not allowed to decide anything. It can only explain what the math proved."
       >
         <ShieldIcon className="h-5 w-5 shrink-0 text-safe" />
         <span className="truncate">Our AI is not allowed to decide anything. It can only explain what the math proved.</span>
       </div>
-      <div className="ml-auto flex shrink-0 items-center gap-2">
+      <div className="flex min-w-0 flex-wrap items-center gap-2 md:ml-auto md:shrink-0">
         {sb.active && (
           <span
             className="flex items-center gap-2 whitespace-nowrap rounded-lg bg-accent-soft px-3 py-1.5 text-sm text-accent ring-1 ring-accent/50"
@@ -282,7 +282,7 @@ export function RevealCard() {
     );
   const spec = sb.reveal?.spec ?? run?.spec ?? null;
   return (
-    <div className="fade-up absolute right-4 top-14 z-20 w-[380px] rounded-lg border border-accent/50 bg-sheet p-4">
+    <div className="fade-up absolute right-4 top-14 z-20 w-[min(380px,calc(100%-32px))] rounded-lg border border-accent/50 bg-sheet p-4">
       <div className="flex items-center justify-between">
         <span className="panel-title text-accent">{run?.mode === "designed" ? "Designed outage" : "Judge's Chaos"}</span>
         {run ? (

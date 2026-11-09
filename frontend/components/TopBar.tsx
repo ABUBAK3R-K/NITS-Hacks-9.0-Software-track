@@ -78,10 +78,11 @@ export function TopBar() {
     }
   };
 
+  const [chaosOpen, setChaosOpen] = useState(false);
   const active = new Set(live.sim?.active_faults ?? []);
 
   return (
-    <header data-tour="topbar" className="relative flex h-[68px] shrink-0 items-center gap-4 border-b border-rule bg-paper px-5">
+    <header data-tour="topbar" className="relative flex shrink-0 flex-wrap items-center gap-2 border-b border-rule bg-paper px-3 py-2 md:h-[68px] md:flex-nowrap md:gap-4 md:px-5 md:py-0">
       <div className="flex items-center gap-3 pr-2">
         <Link
           href="/"
@@ -92,10 +93,19 @@ export function TopBar() {
         >
           <Logo size={32} />
         </Link>
-        <span className="whitespace-nowrap text-sm font-semibold text-ink-2">Many alerts. One cause. Proof attached.</span>
+        <span className="hidden whitespace-nowrap text-sm font-semibold text-ink-2 md:inline">Many alerts. One cause. Proof attached.</span>
       </div>
 
-      <div data-tour="chaos" className="flex items-center gap-2 rounded-lg border border-rule bg-sheet px-3 py-1.5">
+      <button
+        type="button"
+        onClick={() => setChaosOpen((o) => !o)}
+        aria-expanded={chaosOpen}
+        className="whitespace-nowrap rounded-md bg-paper px-3 py-1.5 text-sm font-semibold text-ink ring-1 ring-rule-strong hover:bg-sheet md:hidden"
+      >
+        Chaos Lab {chaosOpen ? "\u25B4" : "\u25BE"}
+      </button>
+
+      <div data-tour="chaos" className={`order-last w-full flex-wrap items-center gap-2 rounded-lg border border-rule bg-sheet px-3 py-1.5 md:order-none md:flex md:w-auto md:flex-nowrap ${chaosOpen ? "flex" : "hidden"}`}>
         <span className="panel-title mr-1 text-accent">Chaos Lab</span>
         <button
           type="button"

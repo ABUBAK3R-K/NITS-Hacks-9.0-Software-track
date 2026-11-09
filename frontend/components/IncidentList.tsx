@@ -7,8 +7,12 @@ import { istTime, pct } from "@/lib/format";
 import { LifecycleBadge } from "./Lifecycle";
 import { Empty, SeverityPill, StatusBadge } from "./ui";
 
-export function headline(i: Pick<IncidentSummary, "alert_count" | "status">, possible = 2): string {
-  const a = `${i.alert_count} alert${i.alert_count === 1 ? "" : "s"}`;
+export function headline(i: Pick<IncidentSummary, "alert_count" | "status" | "services">, possible = 2): string {
+  // Log-only incidents (uploaded logs, no alert events) have nothing to count as alerts,
+  // so the headline counts the failing services the engine grouped instead.
+  const n = i.alert_count > 0 ? i.alert_count : i.services.length;
+  const noun = i.alert_count > 0 ? "alert" : "failing service";
+  const a = `${n} ${noun}${n === 1 ? "" : "s"}`;
   if (i.status === "ABSTAINED") return `${a}, ${possible} possible causes`;
   return `${a}, 1 cause`;
 }
@@ -172,7 +176,7 @@ export function IncidentList({
                 <div className="mt-1 truncate text-xs text-subtle">
                   {i.services.length} services: {i.services.join(", ")}
                 </div>
-                {details[i.id]?.noise && (
+                {details[i.id]?.noise && details[i.id].noise!.alerts > 0 && (
                   <div className="mt-2">
                     <NoiseChip noise={details[i.id].noise!} />
                   </div>
