@@ -1,20 +1,40 @@
-"""FastAPI app: CORS, health, routers.
+"""FastAPI app: CORS, health, routers, background sim loop.
 
-Lanes add their routers here at integration time:
-  Lane A: sim + ingest + stream routers
-  Lane B: engine is called from store.py, incidents router
-  Lane D: report router
+Lane A: ingest, sim, incidents, stream routers + the live sim loop (lifespan).
+Lane B: engine is called from store.py (app.engine.run.analyze).
+Lane D: report router, included if present.
 """
+import asyncio
+import contextlib
+import logging
 import os
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.api import incidents, ingest, sim, stream
 from app.schemas import HealthResponse
+from app.store import run_loop, store
 
 VERSION = "0.1.0"
+logging.basicConfig(level=os.getenv("LOG_LEVEL", "INFO"))
 
-app = FastAPI(title="J.A.R.V.I.S.", version=VERSION)
+
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    if os.getenv("SIM_AUTOSTART", "0") == "1":
+        store.start()
+    task = asyncio.create_task(run_loop(store))
+    try:
+        yield
+    finally:
+        task.cancel()
+        with contextlib.suppress(asyncio.CancelledError):
+            await task
+
+
+app = FastAPI(title="J.A.R.V.I.S.", version=VERSION, lifespan=lifespan)
 
 _origins = os.getenv("CORS_ORIGINS", "*").split(",")
 app.add_middleware(
@@ -24,6 +44,17 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(ingest.router)
+app.include_router(sim.router)
+app.include_router(incidents.router)
+app.include_router(stream.router)
+
+try:
+    from app.narrate.router import router as report_router
+    app.include_router(report_router)
+except ImportError:
+    pass
 
 
 @app.get("/health", response_model=HealthResponse)
