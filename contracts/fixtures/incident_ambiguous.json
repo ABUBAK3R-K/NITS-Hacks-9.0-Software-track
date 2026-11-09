@@ -1,0 +1,302 @@
+{
+  "id": "inc_2",
+  "title": "ledger-svc deploy or postgres locks (undecided)",
+  "status": "ABSTAINED",
+  "opened_at": "2026-11-09T08:50:31.000Z",
+  "updated_at": "2026-11-09T08:51:00.605Z",
+  "services": [
+    "ledger-svc",
+    "payments-svc",
+    "api-gateway",
+    "postgres"
+  ],
+  "alert_count": 6,
+  "severity": "critical",
+  "root_cause": null,
+  "candidates": [
+    {
+      "service": "ledger-svc",
+      "score": 0.433,
+      "components": {
+        "upstream": 0.267,
+        "precedence": 0.3,
+        "change": 0.2,
+        "severity": 0.1
+      },
+      "penalty": 0.5,
+      "victim_of": "postgres",
+      "onset": "2026-11-09T08:50:31.000Z",
+      "signature": "error_spike_after_deploy",
+      "evidence": [
+        "evt_001622",
+        "evt_001623",
+        "evt_001620",
+        "evt_001619",
+        "evt_001621"
+      ],
+      "component_evidence": {
+        "upstream": [
+          "evt_001622",
+          "evt_001623"
+        ],
+        "precedence": [
+          "evt_001620",
+          "evt_001622",
+          "evt_001623"
+        ],
+        "change": [
+          "evt_001619"
+        ],
+        "severity": [
+          "evt_001621"
+        ]
+      }
+    },
+    {
+      "service": "postgres",
+      "score": 0.43,
+      "components": {
+        "upstream": 0.4,
+        "precedence": 0.0,
+        "change": 0.0,
+        "severity": 0.03
+      },
+      "penalty": 1.0,
+      "victim_of": null,
+      "onset": "2026-11-09T08:50:34.200Z",
+      "signature": "latency_spike",
+      "evidence": [
+        "evt_001620",
+        "evt_001622",
+        "evt_001623",
+        "evt_001624"
+      ],
+      "component_evidence": {
+        "upstream": [
+          "evt_001620",
+          "evt_001622",
+          "evt_001623"
+        ],
+        "precedence": [
+          "evt_001624"
+        ],
+        "change": [],
+        "severity": [
+          "evt_001624"
+        ]
+      }
+    },
+    {
+      "service": "payments-svc",
+      "score": 0.257,
+      "components": {
+        "upstream": 0.133,
+        "precedence": 0.3,
+        "change": 0.0,
+        "severity": 0.08
+      },
+      "penalty": 0.5,
+      "victim_of": "ledger-svc",
+      "onset": "2026-11-09T08:50:31.900Z",
+      "signature": "error_spike",
+      "evidence": [
+        "evt_001623",
+        "evt_001622"
+      ],
+      "component_evidence": {
+        "upstream": [
+          "evt_001623"
+        ],
+        "precedence": [
+          "evt_001622",
+          "evt_001623"
+        ],
+        "change": [],
+        "severity": [
+          "evt_001622"
+        ]
+      }
+    },
+    {
+      "service": "api-gateway",
+      "score": 0.025,
+      "components": {
+        "upstream": 0.0,
+        "precedence": 0.0,
+        "change": 0.0,
+        "severity": 0.05
+      },
+      "penalty": 0.5,
+      "victim_of": "payments-svc",
+      "onset": "2026-11-09T08:50:32.800Z",
+      "signature": "latency_spike",
+      "evidence": [
+        "evt_001623"
+      ],
+      "component_evidence": {
+        "upstream": [],
+        "precedence": [
+          "evt_001623"
+        ],
+        "change": [],
+        "severity": [
+          "evt_001623"
+        ]
+      }
+    }
+  ],
+  "abstain_reason": "top two candidates differ by 0.003 (< 0.15); top score 0.433 is below 0.45",
+  "disambiguation": [
+    "postgres pg_stat_activity: which client holds the locks on ledger_entries (ledger-svc v4.2.0 migration or something else)",
+    "ledger-svc error_rate split by version (v4.1.9 vs v4.2.0 replicas)",
+    "postgres pg_lock_wait_ms at 1 s resolution, to see whether it rises before ledger-svc errors (2 s sampling hides the order)"
+  ],
+  "impact": {
+    "services": [
+      "ledger-svc",
+      "payments-svc",
+      "api-gateway",
+      "postgres",
+      "auth-svc"
+    ],
+    "users_affected": 18,
+    "failed_payments": 18,
+    "failed_value_inr": 17682.0
+  },
+  "timeline": [
+    {
+      "ts": "2026-11-09T08:50:31.000Z",
+      "service": "ledger-svc",
+      "what": "write error_rate 0.47: lock timeout on ledger_entries, 31 s after v4.2.0 deploy",
+      "event_ids": [
+        "evt_001620",
+        "evt_001621"
+      ],
+      "caused_by": null
+    },
+    {
+      "ts": "2026-11-09T08:50:31.900Z",
+      "service": "payments-svc",
+      "what": "payment error_rate 0.29 (baseline 0.006)",
+      "event_ids": [
+        "evt_001622"
+      ],
+      "caused_by": "ledger-svc"
+    },
+    {
+      "ts": "2026-11-09T08:50:32.800Z",
+      "service": "api-gateway",
+      "what": "p95 latency 1480 ms (baseline ~120 ms)",
+      "event_ids": [
+        "evt_001623"
+      ],
+      "caused_by": "payments-svc"
+    },
+    {
+      "ts": "2026-11-09T08:50:34.200Z",
+      "service": "postgres",
+      "what": "lock wait 870 ms (baseline < 5 ms), sampled every 2 s",
+      "event_ids": [
+        "evt_001624"
+      ],
+      "caused_by": null
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Roll back ledger-svc canary to v4.1.9 and watch postgres lock waits",
+      "why": "cheap and reversible; if lock waits clear, the v4.2.0 migration is the cause",
+      "evidence": [
+        "evt_001619",
+        "evt_001620"
+      ],
+      "runbook": "kubectl rollout undo deploy/ledger-svc --to-revision=<v4.1.9>; watch pg_lock_wait_ms for 2 minutes."
+    },
+    {
+      "action": "Identify the lock holder in postgres before blaming either side",
+      "why": "postgres lock waits rose, but at 2 s sampling we cannot tell whether they precede ledger-svc errors",
+      "evidence": [
+        "evt_001624"
+      ],
+      "runbook": "psql -c \"SELECT pid, application_name, wait_event_type, query FROM pg_stat_activity WHERE wait_event_type = 'Lock';\""
+    }
+  ],
+  "evidence_events": [
+    {
+      "id": "evt_001622",
+      "ts": "2026-11-09T08:50:31.900Z",
+      "source": "sim",
+      "service": "payments-svc",
+      "kind": "metric",
+      "severity": "error",
+      "name": "error_rate",
+      "value": 0.29,
+      "message": null,
+      "attrs": {}
+    },
+    {
+      "id": "evt_001623",
+      "ts": "2026-11-09T08:50:32.800Z",
+      "source": "sim",
+      "service": "api-gateway",
+      "kind": "metric",
+      "severity": "error",
+      "name": "latency_p95_ms",
+      "value": 1480.0,
+      "message": null,
+      "attrs": {}
+    },
+    {
+      "id": "evt_001620",
+      "ts": "2026-11-09T08:50:31.000Z",
+      "source": "sim",
+      "service": "ledger-svc",
+      "kind": "log",
+      "severity": "error",
+      "name": "log",
+      "value": null,
+      "message": "ledger write failed: canceling statement due to lock timeout (relation ledger_entries)",
+      "attrs": {}
+    },
+    {
+      "id": "evt_001619",
+      "ts": "2026-11-09T08:50:00.000Z",
+      "source": "sim",
+      "service": "ledger-svc",
+      "kind": "change",
+      "severity": "info",
+      "name": "deploy",
+      "value": null,
+      "message": "ledger-svc v4.1.9 -> v4.2.0 (migration 0042_add_settlement_idx)",
+      "attrs": {
+        "version": "v4.2.0",
+        "previous_version": "v4.1.9",
+        "actor": "ci-bot"
+      }
+    },
+    {
+      "id": "evt_001621",
+      "ts": "2026-11-09T08:50:31.200Z",
+      "source": "sim",
+      "service": "ledger-svc",
+      "kind": "metric",
+      "severity": "critical",
+      "name": "error_rate",
+      "value": 0.47,
+      "message": null,
+      "attrs": {}
+    },
+    {
+      "id": "evt_001624",
+      "ts": "2026-11-09T08:50:34.200Z",
+      "source": "sim",
+      "service": "postgres",
+      "kind": "metric",
+      "severity": "warn",
+      "name": "pg_lock_wait_ms",
+      "value": 870.0,
+      "message": null,
+      "attrs": {}
+    }
+  ]
+}

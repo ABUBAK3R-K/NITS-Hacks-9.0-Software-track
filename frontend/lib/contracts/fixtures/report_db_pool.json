@@ -1,0 +1,50 @@
+{
+  "incident_id": "inc_1",
+  "summary": "postgres ran out of connections at 14:02:05 IST and every other failing service was waiting on it. Login, ledger and payment failures are downstream effects, not separate problems.",
+  "sentences": [
+    {
+      "text": "postgres connection pool reached 100% at 14:02:05 IST and began refusing new clients.",
+      "cites": [
+        "evt_000784",
+        "evt_000785"
+      ]
+    },
+    {
+      "text": "About 1.1 s later auth-svc logins started failing because auth-svc could not acquire a database connection.",
+      "cites": [
+        "evt_000787",
+        "evt_000788"
+      ]
+    },
+    {
+      "text": "ledger-svc writes then timed out waiting on the same pool, pushing its error rate to 0.42.",
+      "cites": [
+        "evt_000790",
+        "evt_000791"
+      ]
+    },
+    {
+      "text": "payments-svc failed because ledger-svc returned 503, so failed payments are a symptom of the database problem.",
+      "cites": [
+        "evt_000793",
+        "evt_000794"
+      ]
+    },
+    {
+      "text": "api-gateway p95 latency rose to 3120 ms as requests queued behind both failing paths.",
+      "cites": [
+        "evt_000796"
+      ]
+    },
+    {
+      "text": "57 users saw a failed login or payment and 38 payments worth INR 45462 failed.",
+      "cites": [
+        "evt_000793",
+        "evt_000787"
+      ]
+    }
+  ],
+  "dropped": 1,
+  "provider": "groq",
+  "generated_at": "2026-11-09T08:32:45.112Z"
+}

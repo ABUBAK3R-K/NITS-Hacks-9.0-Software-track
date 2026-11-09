@@ -1,0 +1,69 @@
+{
+  "services": [
+    {
+      "id": "api-gateway",
+      "label": "API Gateway",
+      "tier": "edge"
+    },
+    {
+      "id": "auth-svc",
+      "label": "Auth Service",
+      "tier": "app"
+    },
+    {
+      "id": "payments-svc",
+      "label": "Payments Service",
+      "tier": "app"
+    },
+    {
+      "id": "ledger-svc",
+      "label": "Ledger Service",
+      "tier": "app"
+    },
+    {
+      "id": "redis-session",
+      "label": "Redis (sessions)",
+      "tier": "data"
+    },
+    {
+      "id": "postgres",
+      "label": "PostgreSQL",
+      "tier": "data"
+    },
+    {
+      "id": "psp-adapter",
+      "label": "PSP Adapter (bank)",
+      "tier": "external"
+    }
+  ],
+  "edges": [
+    {
+      "from": "api-gateway",
+      "to": "auth-svc"
+    },
+    {
+      "from": "api-gateway",
+      "to": "payments-svc"
+    },
+    {
+      "from": "auth-svc",
+      "to": "redis-session"
+    },
+    {
+      "from": "auth-svc",
+      "to": "postgres"
+    },
+    {
+      "from": "payments-svc",
+      "to": "ledger-svc"
+    },
+    {
+      "from": "payments-svc",
+      "to": "psp-adapter"
+    },
+    {
+      "from": "ledger-svc",
+      "to": "postgres"
+    }
+  ]
+}
