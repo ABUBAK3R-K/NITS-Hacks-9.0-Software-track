@@ -24,7 +24,7 @@ Many alerts, one cause, and every claim shows its evidence. A deterministic engi
 ## Stack
 - `backend/`: Python 3.11, FastAPI, pydantic v2, networkx, numpy. SSE for live stream (`sse-starlette`). pytest.
 - `frontend/`: Next.js (App Router) + TypeScript + Tailwind + React Flow (`@xyflow/react`) + Recharts. EventSource for SSE.
-- LLM: Groq (`llama-3.3-70b-versatile`, JSON mode) primary, Gemini Flash fallback, template fallback. Keys via env: `GROQ_API_KEY`, `GEMINI_API_KEY`.
+- LLM: Groq (`openai/gpt-oss-120b`, JSON mode, override with `GROQ_MODEL`; llama-3.3-70b-versatile is no longer served) primary, Gemini Flash fallback, template fallback. Keys via env: `GROQ_API_KEY`, `GEMINI_API_KEY`.
 - Deploy: backend on Render (free web service), frontend on Vercel. `NEXT_PUBLIC_API_URL` points at Render.
 
 ## Repo layout
