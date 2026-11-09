@@ -320,6 +320,25 @@ def main():
     dump("incident_db_pool.json", inc1)
     dump("incident_ambiguous.json", inc2)
     dump("incidents_list.json", [summary(inc1), summary(inc2)])
+
+    # ---- U1 runs: the hero stream is exactly what a FaultSpec(postgres, pool_exhaustion) produces
+    from contracts.schemas import FaultSpec, Run, RunReveal
+    hero_spec = {"target": "postgres", "kind": "pool_exhaustion", "onset_jitter_s": 0.0, "decoy": None, "seed": 0}
+    FaultSpec.model_validate(hero_spec)
+    run = {"run_id": "run_fixture_hero", "mode": "blind", "created_at": inc1["opened_at"],
+           "spec_hidden": True, "spec": None, "incidents": [inc1]}
+    dump("run_blind.json", Run.model_validate(run).model_dump(mode="json", by_alias=True))
+    top1 = inc1["root_cause"]["service"] if inc1["root_cause"] else inc1["candidates"][0]["service"]
+    abstained = inc1["status"] == "ABSTAINED"
+    reveal = {"run_id": "run_fixture_hero", "spec": hero_spec, "expected_root": hero_spec["target"],
+              "our_top1": top1, "abstained": abstained, "matched": (top1 == hero_spec["target"]) and not abstained}
+    dump("run_reveal.json", RunReveal.model_validate(reveal).model_dump(mode="json"))
+
+    # ---- U3: no eval has run yet. An honest empty result; the UI must show "eval pending".
+    from contracts.schemas import EvalResults
+    dump("eval_results.json", EvalResults.model_validate(
+        {"n": 0, "seeds": [], "split": "eval not run yet", "methods": [], "sensitivity": [],
+         "generated_at": "", "command": "python eval/run_eval.py"}).model_dump(mode="json"))
     dump("report_db_pool.json", report)
 
     # SSE sample: exactly the wire format of GET /api/stream

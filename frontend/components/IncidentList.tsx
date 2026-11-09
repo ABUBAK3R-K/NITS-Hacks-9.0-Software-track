@@ -1,9 +1,10 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import type { Event, IncidentSummary } from "@/lib/contracts/types";
+import type { Event, Incident, IncidentSummary, Noise } from "@/lib/contracts/types";
 import type { Storm } from "@/lib/live";
 import { istTime, pct } from "@/lib/format";
+import { LifecycleBadge } from "./Lifecycle";
 import { Empty, SeverityPill, StatusBadge } from "./ui";
 
 export function headline(i: Pick<IncidentSummary, "alert_count" | "status">, possible = 2): string {
@@ -15,26 +16,38 @@ export function headline(i: Pick<IncidentSummary, "alert_count" | "status">, pos
 function AlertRow({ e, i, collapsing, total }: { e: Event; i: number; collapsing: boolean; total: number }) {
   return (
     <div
-      className={`${collapsing ? "alert-collapse" : "alert-in"} flex items-center gap-2 rounded-md border border-red-500/40 px-2.5 py-1.5`}
+      className={`${collapsing ? "alert-collapse" : "alert-in"} flex items-center gap-2 rounded-md border border-danger/40 px-2.5 py-1.5`}
       style={
         collapsing
           ? ({ animationDelay: `${(total - i) * 28}ms`, "--collapse-y": `${-(i * 38 + 40)}px` } as React.CSSProperties)
           : undefined
       }
     >
-      <span className="h-2 w-2 shrink-0 rounded-full bg-red-500" />
+      <span className="h-2 w-2 shrink-0 rounded-full bg-danger" />
       <div className="min-w-0 flex-1">
-        <div className="truncate text-sm font-semibold text-red-100">{e.name}</div>
-        <div className="truncate font-mono text-[11px] text-red-300/80">
+        <div className="truncate text-sm font-semibold text-danger">{e.name}</div>
+        <div className="truncate font-mono text-[11px] text-danger">
           {e.service} · {istTime(e.ts)}
         </div>
       </div>
-      <span className="font-mono text-xs text-red-200">{e.value ?? ""}</span>
+      <span className="font-mono text-xs text-danger">{e.value ?? ""}</span>
     </div>
   );
 }
 
-function StormFeed({ storm, collapsing }: { storm: Storm; collapsing: boolean }) {
+/** U1/U5 noise reduction, straight from the engine's Incident.noise. */
+export function NoiseChip({ noise }: { noise: Noise }) {
+  return (
+    <span
+      className="inline-flex items-center gap-1 rounded-md bg-accent-soft px-2 py-0.5 font-mono text-xs font-semibold text-accent ring-1 ring-accent/40"
+      title="alerts / incidents, computed by the engine"
+    >
+      {noise.alerts} alert{noise.alerts === 1 ? "" : "s"} → {noise.incidents} incident{noise.incidents === 1 ? "" : "s"} ({noise.ratio.toFixed(1)}x)
+    </span>
+  );
+}
+
+function StormFeed({ storm, collapsing, noun }: { storm: Storm; collapsing: boolean; noun: string }) {
   const services = new Set(storm.alerts.map((a) => a.service));
   const listRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -42,33 +55,39 @@ function StormFeed({ storm, collapsing }: { storm: Storm; collapsing: boolean })
   }, [storm.alerts.length]);
   const rows = [...storm.alerts].reverse();
   return (
-    <div className={`storm-flash mb-3 rounded-xl border-2 bg-red-950/30 p-3 ${collapsing ? "opacity-90" : ""}`}>
+    <div className={`storm-flash mb-3 rounded-lg border-2 bg-danger-soft p-3 ${collapsing ? "opacity-90" : ""}`}>
       <div className="flex items-baseline justify-between">
-        <span className="text-sm font-black tracking-widest text-red-300">ALERT STORM</span>
-        <span className="font-mono text-xs text-red-300/80">{services.size} teams paged</span>
+        <span className="text-sm font-black tracking-widest text-danger">{noun === "alerts" ? "ALERT STORM" : "SIGNAL STORM"}</span>
+        <span className="font-mono text-xs text-danger">{services.size} teams paged</span>
       </div>
-      <div className="mt-0.5 text-3xl font-black tabular-nums text-white">
-        {storm.alerts.length} <span className="text-lg font-bold text-red-200">alerts firing</span>
+      <div className="mt-0.5 text-3xl font-black tabular-nums text-ink">
+        {storm.alerts.length} <span className="text-lg font-bold text-danger">{noun} firing</span>
       </div>
       <div ref={listRef} className="mt-2 max-h-[560px] space-y-1.5 overflow-hidden">
         {rows.map((e, i) => (
           <AlertRow key={e.id} e={e} i={i} total={rows.length} collapsing={collapsing} />
         ))}
       </div>
-      {!collapsing && <div className="mt-2 text-xs text-red-200/70">correlating against the dependency graph...</div>}
+      {!collapsing && <div className="mt-2 text-xs text-danger">correlating against the dependency graph...</div>}
     </div>
   );
 }
 
 export function IncidentList({
   incidents,
+  details,
   storm,
+  stormNoun = "alerts",
+  sandbox = false,
   selectedId,
   onSelect,
   possibleCauses,
 }: {
   incidents: IncidentSummary[];
+  details: Record<string, Incident>;
   storm: Storm;
+  stormNoun?: string;
+  sandbox?: boolean;
   selectedId: string | null;
   onSelect: (id: string) => void;
   possibleCauses: (id: string) => number;
@@ -97,15 +116,17 @@ export function IncidentList({
     <section className="panel flex min-h-0 flex-col p-3">
       <div className="mb-2 flex items-center justify-between px-1">
         <span className="panel-title">Incidents</span>
-        <span className="font-mono text-xs text-slate-500">{incidents.length}</span>
+        <span className="font-mono text-xs text-subtle">{incidents.length}</span>
       </div>
       <div className="thin-scroll min-h-0 flex-1 overflow-y-auto pr-1">
-        {flooding && <StormFeed storm={storm} collapsing={collapsing} />}
+        {flooding && <StormFeed storm={storm} collapsing={collapsing} noun={stormNoun} />}
         {!flooding && incidents.length === 0 && (
           <Empty>
             <div>
-              <div className="text-lg font-semibold text-slate-300">All quiet</div>
-              <div className="mt-1 text-sm">Inject a fault from the Chaos Lab to start an incident.</div>
+              <div className="text-lg font-semibold text-ink-2">{sandbox ? "Sandbox run" : "All quiet"}</div>
+              <div className="mt-1 text-sm">
+                {sandbox ? "Waiting for the engine's answer for this run." : "Inject a fault from the Chaos Lab to start an incident."}
+              </div>
             </div>
           </Empty>
         )}
@@ -120,42 +141,48 @@ export function IncidentList({
                 tabIndex={0}
                 onClick={() => onSelect(i.id)}
                 onKeyDown={(e) => e.key === "Enter" && onSelect(i.id)}
-                className={`${i.id === popId && !collapsing ? "card-pop" : ""} cursor-pointer rounded-xl border-2 p-3 transition ${
+                className={`${i.id === popId && !collapsing ? "card-pop" : ""} cursor-pointer rounded-lg border-2 p-3 transition ${
                   sel
                     ? abst
-                      ? "border-amber-400/80 bg-amber-400/[0.07]"
-                      : "border-red-500/80 bg-red-500/[0.07]"
-                    : "border-slate-800 bg-slate-900/40 hover:border-slate-600"
+                      ? "border-warn/80 bg-warn-soft"
+                      : "border-danger/80 bg-danger-soft"
+                    : "border-rule bg-sheet hover:border-rule-strong"
                 }`}
               >
                 <div className="flex items-center gap-2">
                   <SeverityPill severity={i.severity} />
                   <StatusBadge status={i.status} />
-                  <span className="ml-auto font-mono text-xs text-slate-500">{istTime(i.opened_at)}</span>
+                  {details[i.id] && <LifecycleBadge state={details[i.id].lifecycle} />}
+                  <span className="ml-auto font-mono text-xs text-subtle">{istTime(i.opened_at)}</span>
                 </div>
-                <div className="mt-2 text-[22px] font-black leading-tight text-white">
+                <div className="mt-2 text-[22px] font-black leading-tight text-ink">
                   {headline(i, possibleCauses(i.id))}
                 </div>
-                <div className="mt-1 text-sm text-slate-300">
+                <div className="mt-1 text-sm text-ink-2">
                   {abst ? (
-                    <span className="text-amber-200">no confident root cause, abstained</span>
+                    <span className="text-warn">no confident root cause, abstained</span>
                   ) : (
                     <>
-                      root cause <span className="font-bold text-red-300">{i.root_service}</span>
-                      <span className="text-slate-500"> at </span>
+                      root cause <span className="font-bold text-danger">{i.root_service}</span>
+                      <span className="text-subtle"> at </span>
                       <span className="font-mono">{pct(i.confidence)}</span>
                     </>
                   )}
                 </div>
-                <div className="mt-1 truncate text-xs text-slate-500">
+                <div className="mt-1 truncate text-xs text-subtle">
                   {i.services.length} services: {i.services.join(", ")}
                 </div>
+                {details[i.id]?.noise && (
+                  <div className="mt-2">
+                    <NoiseChip noise={details[i.id].noise!} />
+                  </div>
+                )}
                 <div className="mt-2 flex items-center justify-between">
-                  <span className="font-mono text-[11px] text-slate-600">{i.id}</span>
+                  <span className="font-mono text-[11px] text-subtle">{i.id}</span>
                   <Link
                     href={`/incident/${i.id}`}
                     onClick={(e) => e.stopPropagation()}
-                    className="rounded-md px-2 py-0.5 text-xs font-semibold text-cyan-300 ring-1 ring-cyan-500/40 hover:bg-cyan-500/15"
+                    className="rounded-md px-2 py-0.5 text-xs font-semibold text-accent ring-1 ring-accent/40 hover:bg-accent-soft"
                   >
                     Report
                   </Link>

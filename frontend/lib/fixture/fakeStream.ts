@@ -20,7 +20,7 @@ type Emit = <K extends SseEventName>(name: K, payload: SsePayloads[K]) => void;
 const SPEED = 2; // replay speed for the fault window
 const MAX_GAP_MS = 2500; // quiet gaps longer than this are compressed
 
-interface Scene {
+export interface Scene {
   events: Event[];
   incident: Incident;
   health: Record<string, Health>;
@@ -49,6 +49,20 @@ const SCENES: Partial<Record<FaultType, Scene>> = {
     },
   },
 };
+
+/** Scene for a sandbox run's incident. The recorded hero run replays its real alert stream;
+ *  any other run replays only the incident's own evidence events (all we have of it). */
+export function sceneForIncident(incident: Incident): Scene {
+  const hero = SCENES.db_pool_exhaustion!;
+  if (incident.id === hero.incident.id) return { ...hero, incident };
+  const health: Record<string, Health> = {};
+  for (const s of incident.services) health[s] = "degraded";
+  const top = incident.root_cause?.service ?? (incident.status === "ABSTAINED" ? null : incident.candidates[0]?.service);
+  if (top) health[top] = "critical";
+  if (incident.status === "ABSTAINED") for (const c of incident.candidates.slice(0, 2)) health[c.service] = "critical";
+  const events = [...incident.evidence_events].sort((a, b) => a.ts.localeCompare(b.ts));
+  return { events, incident, health };
+}
 
 let seq = 0;
 function noise(i: number): number {
@@ -151,11 +165,20 @@ export class FakeStream {
     this.timers = [];
   }
 
+  /** Replay one scene (used by the sandbox player for Judge's Chaos runs). */
+  play(scene: Scene) {
+    this.clearTimers();
+    this.emit("topology_state", this.healthy());
+    this.replay(scene);
+  }
+
   private replay(scene: Scene) {
     const { incident, events } = scene;
     const firstOnset = new Date(incident.timeline[0]?.ts ?? events[0].ts).getTime();
     const prerollEnd = firstOnset - 2000;
-    const alerts = events.filter((e) => e.kind === "alert");
+    // a sandbox run without raw alerts storms on its non-info evidence events instead
+    const realAlerts = events.filter((e) => e.kind === "alert");
+    const alerts = realAlerts.length ? realAlerts : events.filter((e) => e.severity !== "info");
     const lastAlert = alerts.length ? new Date(alerts[alerts.length - 1].ts).getTime() : firstOnset;
 
     // shift recorded timestamps so the replay reads as "now" in IST
@@ -207,6 +230,7 @@ export class FakeStream {
           opened_at: restamp({ ts: incident.opened_at } as Event).ts,
           updated_at: now,
           timeline: incident.timeline.map((x) => ({ ...x, ts: restamp({ ts: x.ts } as Event).ts })),
+          lifecycle_history: (incident.lifecycle_history ?? []).map((h) => ({ ...h, ts: restamp({ ts: h.ts } as Event).ts })),
           candidates: incident.candidates.map((c) => ({ ...c, onset: c.onset ? restamp({ ts: c.onset } as Event).ts : null })),
           evidence_events: incident.evidence_events.map(restamp),
         });

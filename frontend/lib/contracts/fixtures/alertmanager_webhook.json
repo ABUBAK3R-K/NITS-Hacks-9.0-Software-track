@@ -1,0 +1,65 @@
+{
+  "version": "4",
+  "groupKey": "{}:{alertname=\"PgConnectionsSaturated\"}",
+  "truncatedAlerts": 0,
+  "status": "firing",
+  "receiver": "jarvis-webhook",
+  "groupLabels": {
+    "alertname": "PgConnectionsSaturated"
+  },
+  "commonLabels": {
+    "alertname": "PgConnectionsSaturated",
+    "severity": "critical"
+  },
+  "commonAnnotations": {},
+  "externalURL": "http://alertmanager.payments.internal:9093",
+  "alerts": [
+    {
+      "status": "firing",
+      "labels": {
+        "alertname": "PgConnectionsSaturated",
+        "service": "postgres",
+        "severity": "critical",
+        "instance": "pg-primary:9187"
+      },
+      "annotations": {
+        "summary": "postgres connection pool at 100% (100/100)",
+        "description": "pg_stat_activity count reached max_connections"
+      },
+      "startsAt": "2026-11-09T08:32:11.300Z",
+      "endsAt": "0001-01-01T00:00:00Z",
+      "generatorURL": "http://prometheus.payments.internal:9090/graph?g0.expr=pg_pool_in_use_pct%3E95",
+      "fingerprint": "a1f3c9e2b7d40011"
+    },
+    {
+      "status": "firing",
+      "labels": {
+        "alertname": "LoginFailureRateHigh",
+        "job": "auth-svc",
+        "severity": "critical"
+      },
+      "annotations": {
+        "summary": "auth-svc login failure rate 31%"
+      },
+      "startsAt": "2026-11-09T08:32:09.100Z",
+      "endsAt": "0001-01-01T00:00:00Z",
+      "generatorURL": "http://prometheus.payments.internal:9090/graph?g0.expr=login_fail_ratio%3E0.05",
+      "fingerprint": "b2e4d0f3c8e51122"
+    },
+    {
+      "status": "resolved",
+      "labels": {
+        "alertname": "GatewayLatencyP95High",
+        "service": "api-gateway",
+        "severity": "warning"
+      },
+      "annotations": {
+        "summary": "api-gateway p95 latency back under 500 ms"
+      },
+      "startsAt": "2026-11-09T08:32:08.600Z",
+      "endsAt": "2026-11-09T08:36:40.000Z",
+      "generatorURL": "http://prometheus.payments.internal:9090/graph?g0.expr=gw_p95_ms%3E500",
+      "fingerprint": "c3f5e1a4d9f62233"
+    }
+  ]
+}

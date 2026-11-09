@@ -46,7 +46,9 @@
         "severity": [
           "evt_001624"
         ]
-      }
+      },
+      "ruled_out_reason": null,
+      "ruled_out_evidence": []
     },
     {
       "service": "ledger-svc",
@@ -84,7 +86,9 @@
         "severity": [
           "evt_001111"
         ]
-      }
+      },
+      "ruled_out_reason": null,
+      "ruled_out_evidence": []
     },
     {
       "service": "payments-svc",
@@ -116,7 +120,13 @@
         "severity": [
           "evt_001575"
         ]
-      }
+      },
+      "ruled_out_reason": "payments-svc: ruled out. Only 1 of the 3 other affected services depends on it, vs 3 for postgres, so it explains fewer of the failures. Score 0.25 vs postgres 0.50.",
+      "ruled_out_evidence": [
+        "evt_001622",
+        "evt_001623",
+        "evt_001620"
+      ]
     },
     {
       "service": "api-gateway",
@@ -143,7 +153,13 @@
         "severity": [
           "evt_001623"
         ]
-      }
+      },
+      "ruled_out_reason": "api-gateway: ruled out. None of the 3 other affected services depend on it, vs 3 for postgres, so it explains fewer of the failures. Score 0.05 vs postgres 0.50.",
+      "ruled_out_evidence": [
+        "evt_001623",
+        "evt_001620",
+        "evt_001622"
+      ]
     }
   ],
   "abstain_reason": "top two candidates postgres (0.500) and ledger-svc (0.433) differ by 0.067 (< 0.15)",
@@ -225,7 +241,8 @@
         "evt_001619",
         "evt_001620"
       ],
-      "runbook": "kubectl rollout undo deploy/ledger-svc on one replica (back to v4.1.9); compare error_rate of old vs new replicas for 2 minutes before rolling back the rest."
+      "runbook": "kubectl rollout undo deploy/ledger-svc on one replica (back to v4.1.9); compare error_rate of old vs new replicas for 2 minutes before rolling back the rest.",
+      "fix_id": null
     },
     {
       "action": "Identify who holds locks and connections on postgres before blaming either side",
@@ -233,7 +250,8 @@
       "evidence": [
         "evt_001624"
       ],
-      "runbook": "psql -c \"SELECT pid, application_name, wait_event_type, state, query FROM pg_stat_activity WHERE wait_event_type IS NOT NULL;\""
+      "runbook": "psql -c \"SELECT pid, application_name, wait_event_type, state, query FROM pg_stat_activity WHERE wait_event_type IS NOT NULL;\"",
+      "fix_id": null
     },
     {
       "action": "Hold irreversible fixes until the root cause is decided (postgres or ledger-svc)",
@@ -242,7 +260,8 @@
         "evt_001624",
         "evt_001620"
       ],
-      "runbook": "Collect the data listed under 'what would disambiguate', then re-run the analysis."
+      "runbook": "Collect the data listed under 'what would disambiguate', then re-run the analysis.",
+      "fix_id": null
     }
   ],
   "evidence_events": [
@@ -376,5 +395,27 @@
       "message": null,
       "attrs": {}
     }
-  ]
+  ],
+  "lifecycle": "DETECTED",
+  "lifecycle_history": [
+    {
+      "state": "DETECTED",
+      "ts": "2026-11-09T08:50:31.900Z"
+    },
+    {
+      "state": "SPREADING",
+      "ts": "2026-11-09T08:50:31.900Z"
+    },
+    {
+      "state": "DETECTED",
+      "ts": "2026-11-09T08:50:44.200Z"
+    }
+  ],
+  "mttd_s": null,
+  "mttr_s": null,
+  "noise": {
+    "alerts": 6,
+    "incidents": 1,
+    "ratio": 6.0
+  }
 }

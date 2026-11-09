@@ -1,0 +1,329 @@
+/* J.A.R.V.I.S. case study: the case-study-ui design system (Next.js docs / Geist look), scoped.
+   Every rule here is under the .cs wrapper (or html.cs-vt during a theme switch), so the dark dashboard's
+   global styles are untouched even after a client-side navigation keeps this stylesheet loaded.
+   Theme: data-theme on the .cs wrapper (set before paint by the inline script in layout.tsx). */
+
+.cs {
+  --paper: #ffffff;
+  --sheet: #fafafa;
+  --ink: #171717;
+  --ink-2: #3d3d3d;
+  --muted: #666666;
+  --subtle: #8f8f8f;
+  --rule: #ebebeb;
+  --rule-strong: #e0e0e0;
+  --accent: #0070f3;
+  --accent-soft: #f0f7ff;
+  --human: #c25100;
+  --human-soft: #fff6eb;
+  --safe: #297a3a;
+  --safe-soft: #ebfaef;
+  --warn: #a35200;
+  --warn-soft: #fff9eb;
+  --code-bg: #f2f2f2;
+  color-scheme: light;
+  --sans: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --measure: 72ch;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 72px;
+  --radius: 8px;
+}
+@media (prefers-color-scheme: dark) {
+  .cs:not([data-theme='light']) {
+    --paper: #0a0a0a;
+    --sheet: #111111;
+    --ink: #ededed;
+    --ink-2: #c7c7c7;
+    --muted: #a1a1a1;
+    --subtle: #707070;
+    --rule: #1f1f1f;
+    --rule-strong: #2e2e2e;
+    --accent: #52a8ff;
+    --accent-soft: #0b1a2e;
+    --human: #ff990a;
+    --human-soft: #2a1a05;
+    --safe: #62c073;
+    --safe-soft: #0f2416;
+    --warn: #f5a623;
+    --warn-soft: #261b07;
+    --code-bg: #1a1a1a;
+    color-scheme: dark;
+  }
+}
+.cs[data-theme='dark'] {
+  --paper: #0a0a0a;
+  --sheet: #111111;
+  --ink: #ededed;
+  --ink-2: #c7c7c7;
+  --muted: #a1a1a1;
+  --subtle: #707070;
+  --rule: #1f1f1f;
+  --rule-strong: #2e2e2e;
+  --accent: #52a8ff;
+  --accent-soft: #0b1a2e;
+  --human: #ff990a;
+  --human-soft: #2a1a05;
+  --safe: #62c073;
+  --safe-soft: #0f2416;
+  --warn: #f5a623;
+  --warn-soft: #261b07;
+  --code-bg: #1a1a1a;
+  color-scheme: dark;
+}
+
+/* The wrapper is the page: it paints its own background over the dashboard's dark body. */
+.cs {
+  flex: 1 0 auto;
+  width: 100%;
+  min-height: 100vh;
+  background: var(--paper);
+  color: var(--ink);
+  font: 16px/1.75 var(--sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-kerning: normal;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+.cs * { scrollbar-width: thin; scrollbar-color: var(--rule-strong) transparent; }
+.cs a { color: var(--accent); text-underline-offset: 3px; text-decoration-thickness: 1px; text-decoration-line: underline; }
+.cs a:hover { text-decoration-thickness: 2px; }
+.cs code { font: 0.88em/1.4 var(--mono); background: var(--code-bg); padding: 1px 5px; border-radius: 4px; overflow-wrap: anywhere; }
+.cs :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+.cs strong { font-weight: 600; color: var(--ink); }
+
+/* ---------- top bar ---------- */
+.cs .topbar {
+  position: sticky; top: 0; z-index: 10; height: 64px;
+  background: color-mix(in srgb, var(--paper) 82%, transparent);
+  backdrop-filter: saturate(1.4) blur(10px);
+  -webkit-backdrop-filter: saturate(1.4) blur(10px);
+  border-bottom: 1px solid var(--rule);
+}
+.cs .topbar-inner { max-width: 1240px; height: 100%; margin: 0 auto; padding: 0 var(--space-5); display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); }
+.cs .brand { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; font: 600 15px/1 var(--sans); letter-spacing: -0.01em; white-space: nowrap; }
+.cs .brand:hover { text-decoration: none; }
+.cs .brand-sep { color: var(--rule-strong); font-weight: 300; font-size: 20px; }
+.cs .brand-crumb { color: var(--muted); font-weight: 500; }
+.cs .topnav { display: flex; align-items: center; gap: 4px; }
+.cs .nav-link {
+  display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 10px; border-radius: 6px;
+  font: 500 14px/1 var(--sans); color: var(--muted); text-decoration: none; transition: color 0.15s, background 0.15s;
+}
+.cs .nav-link:hover { color: var(--ink); background: var(--sheet); text-decoration: none; }
+.cs .nav-divider { width: 1px; height: 20px; background: var(--rule-strong); margin: 0 6px; }
+.cs .icon-btn {
+  display: inline-grid; place-items: center; width: 32px; height: 32px; border-radius: 6px; border: 0;
+  background: transparent; color: var(--muted); cursor: pointer; transition: color 0.15s, background 0.15s; text-decoration: none;
+}
+.cs .icon-btn:hover { color: var(--ink); background: var(--sheet); }
+@media (max-width: 720px) {
+  .cs .nav-label, .cs .brand-sep, .cs .brand-crumb { display: none; }
+  .cs .topbar-inner { padding: 0 var(--space-4); }
+}
+
+/* ---------- buttons ---------- */
+.cs .btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  height: 36px; padding: 0 14px; border: 1px solid var(--rule-strong); border-radius: 6px;
+  background: var(--paper); color: var(--ink); font: 500 14px/1 var(--sans); text-decoration: none; cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.cs .btn:hover { background: var(--sheet); text-decoration: none; }
+.cs .btn.primary { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+.cs .btn.primary:hover { background: color-mix(in srgb, var(--ink) 86%, var(--paper)); }
+.cs .actions { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: var(--space-5) 0 0; }
+
+/* ---------- document layout ---------- */
+.cs .doc {
+  max-width: 1240px; margin: 0 auto;
+  padding: var(--space-7) var(--space-5) var(--space-8);
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-7);
+}
+@media (max-width: 720px) { .cs .doc { padding: var(--space-6) var(--space-4) var(--space-7); gap: 0; } }
+@media (min-width: 1024px) { .cs .doc { grid-template-columns: 220px minmax(0, 1fr); gap: var(--space-8); } }
+.cs .doc-main { min-width: 0; max-width: 760px; counter-reset: section figure table; }
+.cs .toc { display: none; }
+@media (min-width: 1024px) {
+  .cs .toc { display: flex; flex-direction: column; justify-content: center; position: sticky; top: 64px; height: calc(100vh - 64px); align-self: start; font-size: 14px; }
+}
+.cs .toc-title { text-transform: uppercase; letter-spacing: 0.08em; font-size: 11px; color: var(--muted); margin: 0 0 var(--space-3); }
+.cs .toc ol, .cs .toc-mobile ol { list-style: none; margin: 0; padding: 0; position: relative; }
+.cs .toc ol { border-left: 1px solid var(--rule-strong); }
+.cs .toc-bar {
+  position: absolute; left: -1px; top: 0; width: 2px; border-radius: 2px; background: var(--accent);
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), height 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) { .cs .toc-bar { transition: none; } }
+.cs .toc li a, .cs .toc-mobile li a {
+  display: grid; grid-template-columns: 22px 1fr; align-items: baseline;
+  padding: 6px 0 6px 16px; color: var(--subtle); text-decoration: none; line-height: 1.4;
+  transition: color 0.2s;
+}
+.cs .toc-num { font: 500 12px/1.4 var(--mono); color: var(--subtle); opacity: 0.8; }
+.cs .toc li a:hover, .cs .toc-mobile li a:hover { color: var(--ink-2); }
+.cs .toc li a[aria-current='location'], .cs .toc-mobile li a[aria-current='location'] { color: var(--ink); font-weight: 500; }
+.cs .toc li a[aria-current='location'] .toc-num, .cs .toc-mobile li a[aria-current='location'] .toc-num { color: var(--accent); opacity: 1; }
+.cs .toc-mobile {
+  font-size: 15px; margin: 0 0 var(--space-6);
+  background: var(--sheet); border: 1px solid var(--rule); border-radius: var(--radius); padding: var(--space-3) var(--space-4);
+}
+.cs .toc-mobile summary { cursor: pointer; font-weight: 600; min-height: 32px; display: flex; align-items: center; }
+.cs .toc-mobile ol { margin-top: var(--space-3); }
+.cs .toc-mobile li a { padding-left: 0; }
+@media (min-width: 1024px) { .cs .toc-mobile { display: none; } }
+@media (prefers-reduced-motion: no-preference) { html:has(.cs) { scroll-behavior: smooth; } }
+
+/* title block */
+.cs .kicker { font: 500 13px/1 var(--sans); color: var(--accent); margin: 0 0 var(--space-4); }
+.cs .doc-title { font: 700 clamp(30px, 4vw, 42px)/1.15 var(--sans); letter-spacing: -0.035em; margin: 0 0 var(--space-4); text-wrap: balance; color: var(--ink); }
+.cs .doc-subtitle { font-size: 18px; line-height: 1.6; color: var(--muted); margin: 0 0 var(--space-6); max-width: var(--measure); text-wrap: pretty; }
+
+/* numbered sections */
+.cs .section { margin: 0 0 var(--space-8); scroll-margin-top: 88px; }
+.cs .section > h2 {
+  counter-increment: section;
+  font: 600 clamp(22px, 2.4vw, 26px)/1.3 var(--sans); letter-spacing: -0.025em; color: var(--ink);
+  margin: 0 0 var(--space-3); padding-top: var(--space-5); border-top: 1px solid var(--rule);
+  text-wrap: balance;
+}
+.cs .section > h2::before { content: counter(section) '. '; color: var(--muted); font-weight: 500; }
+.cs .section h3 { font: 600 18px/1.4 var(--sans); letter-spacing: -0.015em; margin: var(--space-6) 0 var(--space-3); color: var(--ink); }
+.cs .section p, .cs .section ul, .cs .section ol { max-width: var(--measure); margin: 0 0 var(--space-4); text-wrap: pretty; color: var(--ink-2); }
+.cs .section ul { list-style: disc; padding-left: 1.3em; }
+.cs .section ol { list-style: decimal; padding-left: 1.3em; }
+.cs .section li { margin: 0 0 var(--space-2); }
+.cs .section li::marker { color: var(--muted); }
+.cs .section-intro { margin: 0 0 var(--space-5); font: 14.5px/1.6 var(--sans); color: var(--muted); max-width: var(--measure); }
+.cs .section .section-intro { color: var(--muted); margin-bottom: var(--space-5); }
+
+/* figures and tables */
+.cs figure { display: block; margin: var(--space-6) 0; }
+.cs figure.fig { counter-increment: figure; }
+.cs figure.tbl { counter-increment: table; }
+.cs figcaption { font: 14px/1.5 var(--sans); color: var(--muted); margin-top: var(--space-3); max-width: var(--measure); }
+.cs figure.fig figcaption::before { content: 'Figure ' counter(figure) '. '; font-weight: 600; color: var(--ink-2); }
+.cs figure.tbl figcaption::before { content: 'Table ' counter(table) '. '; font-weight: 600; color: var(--ink-2); }
+.cs .table-wrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: var(--radius); background: var(--sheet); }
+.cs table { width: 100%; border-collapse: collapse; font: 14.5px/1.45 var(--sans); }
+.cs th, .cs td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+.cs th { font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); font-weight: 600; background: color-mix(in srgb, var(--paper) 60%, var(--sheet)); white-space: nowrap; }
+.cs th .th-sub { display: block; text-transform: none; letter-spacing: 0; font-weight: 500; color: var(--subtle); font-family: var(--mono); }
+.cs tr:last-child td { border-bottom: 0; }
+.cs td.num, .cs th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.cs .cell-sub { display: block; font: 12px/1.4 var(--sans); color: var(--muted); }
+.cs td.nowrap { white-space: nowrap; }
+.cs td.svc { font-family: var(--mono); font-size: 13.5px; white-space: nowrap; }
+.cs tr.is-root td { background: var(--safe-soft); }
+.cs tr.is-top td { background: var(--warn-soft); }
+
+/* stats */
+.cs .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--space-3); margin: var(--space-5) 0; }
+.cs .stat { background: var(--sheet); border: 1px solid var(--rule); border-radius: var(--radius); padding: var(--space-4); }
+.cs .stat-value { font: 600 28px/1.1 var(--sans); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; color: var(--ink); }
+.cs .stat-label { font-size: 13px; color: var(--muted); margin-top: var(--space-1); line-height: 1.35; }
+
+/* callouts */
+.cs .callout { display: grid; grid-template-columns: 16px 1fr; gap: var(--space-2) var(--space-3); align-items: start; border: 1px solid var(--rule-strong); background: var(--sheet); border-radius: var(--radius); padding: var(--space-3) var(--space-4); margin: var(--space-4) 0; font: 14px/1.6 var(--sans); color: var(--ink-2); max-width: var(--measure); }
+.cs .callout svg { margin-top: 4px; color: var(--muted); }
+.cs .section .callout p { margin: 0; color: var(--ink-2); }
+.cs .callout-warning { background: var(--warn-soft); border-color: color-mix(in srgb, var(--warn) 30%, transparent); }
+.cs .callout-warning svg { color: var(--warn); }
+.cs .callout-info svg { color: var(--accent); }
+
+/* badges */
+.cs .badge { display: inline-flex; align-items: center; gap: 4px; font: 500 12px/20px var(--sans); padding: 0 8px; border-radius: 999px; white-space: nowrap; background: var(--sheet); color: var(--muted); border: 1px solid var(--rule-strong); }
+.cs .badge-amber { background: var(--warn-soft); color: var(--warn); border-color: color-mix(in srgb, var(--warn) 25%, transparent); }
+.cs .badge-blue { background: var(--accent-soft); color: var(--accent); border-color: color-mix(in srgb, var(--accent) 25%, transparent); }
+.cs .badge-green { background: var(--safe-soft); color: var(--safe); border-color: color-mix(in srgb, var(--safe) 25%, transparent); }
+.cs .badge-red { background: color-mix(in srgb, var(--human) 10%, var(--paper)); color: var(--human); border-color: color-mix(in srgb, var(--human) 25%, transparent); }
+
+/* chips (facts from the source system, e.g. event ids) */
+.cs .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: var(--space-2) 0 0; }
+.cs .chip {
+  display: inline-flex; align-items: center; gap: 5px; height: 24px; padding: 0 8px; border-radius: 6px;
+  border: 1px solid var(--rule-strong); background: var(--sheet); color: var(--ink-2);
+  font: 12.5px/1 var(--sans); white-space: nowrap; text-decoration: none; cursor: help;
+}
+.cs .chip svg { flex: none; color: var(--subtle); }
+.cs .chip-ref { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+
+/* rows (one bordered list with hairline separators) */
+.cs .rows { list-style: none; padding: 0; margin: var(--space-4) 0; border: 1px solid var(--rule-strong); border-radius: var(--radius); background: var(--paper); overflow: hidden; max-width: none; }
+.cs .section .rows { list-style: none; padding: 0; max-width: none; }
+.cs .row { padding: var(--space-4) var(--space-5); border-top: 1px solid var(--rule-strong); margin: 0; }
+.cs .row:first-child { border-top: 0; }
+@media (max-width: 720px) { .cs .row { padding: var(--space-3) var(--space-4); } }
+.cs .row-head { display: grid; grid-template-columns: 16px minmax(0, 1fr) auto; gap: var(--space-2) var(--space-3); align-items: start; }
+.cs .row-kind { color: var(--subtle); margin-top: 4px; }
+.cs .row-head h3 { font: 500 15px/1.45 var(--sans); color: var(--ink); margin: 0; letter-spacing: -0.005em; text-wrap: pretty; }
+.cs .section .row-text { margin: var(--space-2) 0 0 28px; font: 14px/1.65 var(--sans); color: var(--ink-2); max-width: var(--measure); }
+.cs .row .chips { margin-left: 28px; }
+@media (max-width: 480px) {
+  .cs .row-head { grid-template-columns: 16px minmax(0, 1fr); }
+  .cs .row-head .badge { grid-column: 2; justify-self: start; }
+  .cs .section .row-text, .cs .row .chips { margin-left: 0; }
+}
+
+/* architecture figure: plain boxes and arrows */
+.cs .flow-fig { background: var(--sheet); border: 1px solid var(--rule); border-radius: var(--radius); padding: var(--space-5); display: grid; gap: var(--space-5); }
+.cs .flow-lane-title { font: 500 12px/1 var(--sans); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin: 0 0 var(--space-3); }
+.cs .flow { list-style: none; margin: 0; padding: 0; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 20px; }
+.cs .flow-step { position: relative; display: flex; }
+.cs .flow-box { flex: 1; border: 1px solid var(--rule-strong); background: var(--paper); border-radius: 6px; padding: 8px 10px; min-width: 0; }
+.cs .flow-box.is-key { border-color: color-mix(in srgb, var(--accent) 45%, transparent); background: var(--accent-soft); }
+.cs .flow-name { display: block; font: 600 13.5px/1.3 var(--sans); color: var(--ink); }
+.cs .flow-note { display: block; font: 12px/1.4 var(--sans); color: var(--muted); margin-top: 2px; }
+.cs .flow-arrow { position: absolute; right: -18px; top: 50%; margin-top: -8px; color: var(--subtle); }
+@media (max-width: 720px) {
+  .cs .flow-fig { padding: var(--space-4); }
+  .cs .flow { grid-auto-flow: row; gap: 20px; }
+  .cs .flow-arrow { right: auto; left: 50%; top: auto; bottom: -18px; margin: 0 0 0 -8px; transform: rotate(90deg); }
+}
+
+/* report sentences */
+.cs .report { border: 1px solid var(--rule-strong); border-radius: var(--radius); background: var(--sheet); }
+.cs .report-head { display: flex; flex-wrap: wrap; gap: var(--space-2); justify-content: space-between; align-items: center; padding: 8px var(--space-4); border-bottom: 1px solid var(--rule-strong); font: 500 12.5px var(--sans); color: var(--muted); }
+.cs .section .report ol { list-style: none; margin: 0; padding: var(--space-3) var(--space-4); max-width: none; }
+.cs .section .report li { margin: 0 0 var(--space-3); font-size: 14.5px; line-height: 1.6; color: var(--ink); }
+.cs .section .report li:last-child { margin-bottom: 0; }
+
+/* newcomer guide */
+.cs .guide { margin: 0 0 var(--space-7); padding: var(--space-4) var(--space-5); border: 1px solid var(--rule-strong); border-radius: var(--radius); background: var(--sheet); font: 14.5px/1.6 var(--sans); color: var(--muted); max-width: var(--measure); }
+.cs .guide > summary { cursor: pointer; font-weight: 600; color: var(--ink); list-style: none; }
+.cs .guide > summary::-webkit-details-marker { display: none; }
+.cs .guide > summary::after { content: ' · hide'; font-weight: 400; color: var(--subtle); }
+.cs .guide:not([open]) > summary::after { content: ' · show'; }
+.cs .guide-lede { margin: var(--space-3) 0 var(--space-2); }
+.cs .guide-steps { margin: 0 0 var(--space-3); padding-left: 1.3em; list-style: decimal; }
+.cs .guide-steps li { margin: 0 0 6px; }
+.cs .guide-foot { margin: 0; font-size: 13.5px; }
+
+.cs .muted { color: var(--muted); }
+.cs .mono { font-family: var(--mono); font-size: 0.92em; }
+.cs .pending { border: 1px dashed var(--rule-strong); border-radius: var(--radius); padding: var(--space-4) var(--space-5); color: var(--muted); font-size: 14.5px; }
+
+.cs footer.doc-foot { border-top: 1px solid var(--rule); margin-top: var(--space-7); padding-top: var(--space-5); font: 13px/1.6 var(--sans); color: var(--muted); }
+.cs footer.doc-foot p { margin: 0 0 var(--space-2); }
+
+/* ---------- theme switching ---------- */
+/* View Transitions: only while the toggle runs (html.cs-vt), so no other route's transitions change. */
+html.cs-vt::view-transition-old(root), html.cs-vt::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+html.cs-vt::view-transition-old(root) { z-index: 1; }
+html.cs-vt::view-transition-new(root) { z-index: 2; }
+/* Fallback crossfade, applied to the wrapper only for the moment of the switch. */
+.cs.theme-fade, .cs.theme-fade *, .cs.theme-fade *::before, .cs.theme-fade *::after {
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, fill 0.25s ease, stroke 0.25s ease !important;
+}
+.cs .theme-toggle { position: relative; }
+.cs .theme-toggle .ti { position: absolute; inset: 0; margin: auto; opacity: 0; transform: rotate(-90deg) scale(0.6); transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
+.cs .theme-toggle .ti.on { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .cs .theme-toggle .ti { transition: none; } }

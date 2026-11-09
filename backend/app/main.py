@@ -13,8 +13,9 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api import incidents, ingest, sim, stream
+from app.api import eval_results, incidents, ingest, runs, sim, stream
 from app.narrate.router import make_router as make_report_router
+from app.narrate.naive import make_naive_router
 from app.schemas import HealthResponse
 from app.store import run_loop, store
 
@@ -50,10 +51,14 @@ app.include_router(ingest.router)
 app.include_router(sim.router)
 app.include_router(incidents.router)
 app.include_router(stream.router)
+app.include_router(runs.router)
+app.include_router(eval_results.router)
 
-# Report endpoint: the narrator gets incidents from the live store. Wired explicitly
-# (no try/except) so a broken import fails loudly at startup instead of 404ing.
-app.include_router(make_report_router(lambda incident_id: store.incidents.get(incident_id)))
+# Report endpoint: the narrator gets incidents from the live store or any sandbox run.
+# Wired explicitly (no try/except) so a broken import fails loudly at startup.
+app.include_router(make_report_router(store.get_incident))
+# Naive AI mode (U4): same events the engine saw, frozen neutral prompt.
+app.include_router(make_naive_router(store.get_incident, store.events_for_incident))
 
 
 @app.get("/health", response_model=HealthResponse)

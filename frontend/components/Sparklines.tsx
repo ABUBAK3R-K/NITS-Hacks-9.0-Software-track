@@ -19,7 +19,7 @@ const SPECS = [
     name: "latency_p95_ms",
     title: "gateway p95 latency",
     unit: "ms",
-    color: "#38bdf8",
+    color: "#52a8ff",
     fmt: (v: number) => `${Math.round(v)}`,
   },
   {
@@ -27,7 +27,7 @@ const SPECS = [
     name: "error_rate",
     title: "payments error rate",
     unit: "%",
-    color: "#ff4d4d",
+    color: "#ff6166",
     fmt: (v: number) => `${(v * 100).toFixed(1)}`,
   },
 ];
@@ -56,10 +56,10 @@ export function Sparklines({ events, incident }: { events: Event[]; incident: In
         return (
           <div key={s.key} className="flex min-h-0 flex-1 flex-col">
             <div className="flex items-baseline justify-between px-1">
-              <span className="text-xs text-slate-400">{s.title}</span>
+              <span className="text-xs text-muted">{s.title}</span>
               <span className="font-mono text-lg font-bold tabular-nums" style={{ color: s.color }}>
                 {last ? s.fmt(last.v) : "--"}
-                <span className="ml-0.5 text-xs text-slate-500">{s.unit}</span>
+                <span className="ml-0.5 text-xs text-subtle">{s.unit}</span>
               </span>
             </div>
             <div className="min-h-0 flex-1">
@@ -68,14 +68,14 @@ export function Sparklines({ events, incident }: { events: Event[]; incident: In
                   <AreaChart data={s.points} margin={{ top: 4, right: 2, bottom: 0, left: 2 }}>
                     <defs>
                       <linearGradient id={`g-${s.key.replace(/[^a-z]/gi, "")}`} x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor={s.color} stopOpacity={0.45} />
-                        <stop offset="100%" stopColor={s.color} stopOpacity={0} />
+                        <stop offset="0%" stopColor={s.color} stopOpacity={0.12} />
+                        <stop offset="100%" stopColor={s.color} stopOpacity={0.12} />
                       </linearGradient>
                     </defs>
                     <YAxis hide domain={[0, "auto"]} />
                     <Tooltip
-                      cursor={{ stroke: "#475569" }}
-                      contentStyle={{ background: "#0b1018", border: "1px solid #334155", borderRadius: 8, fontSize: 12 }}
+                      cursor={{ stroke: "#707070" }}
+                      contentStyle={{ background: "#111111", border: "1px solid #2e2e2e", borderRadius: 8, fontSize: 12 }}
                       labelFormatter={(_, p) => (p?.[0]?.payload ? `${istTime(p[0].payload.ts)} IST` : "")}
                       formatter={(v) => [`${s.fmt(Number(v))} ${s.unit}`, s.title]}
                     />
@@ -91,7 +91,7 @@ export function Sparklines({ events, incident }: { events: Event[]; incident: In
                   </AreaChart>
                 </ResponsiveContainer>
               ) : (
-                <div className="flex h-full items-center justify-center text-xs text-slate-600">waiting for samples</div>
+                <div className="flex h-full items-center justify-center text-xs text-subtle">waiting for samples</div>
               )}
             </div>
           </div>

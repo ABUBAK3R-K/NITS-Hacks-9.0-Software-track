@@ -5,6 +5,8 @@ import type { Incident, Report } from "@/lib/contracts/types";
 import { api } from "@/lib/api";
 import { inr, int, istDateTime, istTimeMs, pct, signatureLabel } from "@/lib/format";
 import { EvidenceChips, EvidenceProvider } from "./Evidence";
+import { NaiveCompare } from "./NaiveCompare";
+import { ShieldIcon } from "./Sandbox";
 import { ProviderBadge, StatusBadge } from "./ui";
 
 function toMarkdown(inc: Incident | null, r: Report): string {
@@ -22,7 +24,7 @@ function toMarkdown(inc: Incident | null, r: Report): string {
     );
   }
   lines.push(`- Narrated by: ${r.provider}, generated ${istDateTime(r.generated_at)}`);
-  lines.push(`- Grounding: ${r.dropped} unsupported sentence${r.dropped === 1 ? "" : "s"} removed`);
+  lines.push(`- Guardrail blocked ${r.dropped} uncited sentence${r.dropped === 1 ? "" : "s"}`);
   lines.push("");
   lines.push("## Summary");
   lines.push("");
@@ -81,6 +83,7 @@ export function ReportView({ id }: { id: string }) {
   const [report, setReport] = useState<Report | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [nonce, setNonce] = useState(0);
+  const [naiveMode, setNaiveMode] = useState(false);
 
   useEffect(() => {
     let alive = true;
@@ -107,23 +110,23 @@ export function ReportView({ id }: { id: string }) {
     <EvidenceProvider events={incident?.evidence_events ?? []}>
       <div className="mx-auto w-full max-w-[1280px] px-8 py-8">
         <div className="flex items-center justify-between">
-          <Link href="/" className="text-sm font-semibold text-cyan-300 hover:text-cyan-100">
+          <Link href="/dashboard" className="text-sm font-semibold text-accent hover:text-accent">
             &larr; Back to dashboard
           </Link>
-          <span className="text-xl font-black tracking-[0.18em] text-cyan-300">J.A.R.V.I.S.</span>
+          <span className="text-xl font-black tracking-[0.18em] text-ink">J.A.R.V.I.S.</span>
         </div>
 
-        <header className="mt-6 flex flex-wrap items-end justify-between gap-4 border-b border-slate-800 pb-5">
+        <header className="mt-6 flex flex-wrap items-end justify-between gap-4 border-b border-rule pb-5">
           <div>
             <div className="panel-title">Incident report · {id}</div>
-            <h1 className="mt-1 text-4xl font-black text-white">{incident?.title ?? id}</h1>
+            <h1 className="mt-1 text-4xl font-black text-ink">{incident?.title ?? id}</h1>
             {incident && (
-              <div className="mt-2 flex flex-wrap items-center gap-3 text-slate-300">
+              <div className="mt-2 flex flex-wrap items-center gap-3 text-ink-2">
                 <StatusBadge status={incident.status} big />
                 <span>opened {istDateTime(incident.opened_at)}</span>
                 {incident.root_cause && (
                   <span>
-                    root cause <b className="text-red-300">{incident.root_cause.service}</b> at{" "}
+                    root cause <b className="text-danger">{incident.root_cause.service}</b> at{" "}
                     <b className="font-mono">{pct(incident.root_cause.confidence)}</b>
                   </span>
                 )}
@@ -131,11 +134,26 @@ export function ReportView({ id }: { id: string }) {
             )}
           </div>
           <div className="flex items-center gap-3">
+            <button
+              type="button"
+              role="switch"
+              aria-checked={naiveMode}
+              disabled={!incident}
+              onClick={() => setNaiveMode((m) => !m)}
+              className={`flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm font-bold ring-1 disabled:opacity-40 ${
+                naiveMode ? "bg-accent-soft text-accent ring-accent/50" : "text-ink ring-rule-strong hover:bg-sheet"
+              }`}
+            >
+              <span className={`relative h-4 w-7 rounded-full ${naiveMode ? "bg-accent" : "bg-rule-strong"}`}>
+                <span className={`absolute top-0.5 h-3 w-3 rounded-full bg-ink transition-all ${naiveMode ? "left-3.5" : "left-0.5"}`} />
+              </span>
+              Naive AI mode
+            </button>
             {report && <ProviderBadge provider={report.provider} />}
             <button
               type="button"
               onClick={regenerate}
-              className="rounded-lg px-3 py-1.5 text-sm font-semibold text-slate-200 ring-1 ring-slate-600 hover:bg-slate-800"
+              className="rounded-md px-3 py-1.5 text-sm font-semibold text-ink ring-1 ring-rule-strong hover:bg-raised"
             >
               Regenerate
             </button>
@@ -143,48 +161,45 @@ export function ReportView({ id }: { id: string }) {
               type="button"
               disabled={!report}
               onClick={() => report && download(`jarvis-${id}-report.md`, toMarkdown(incident, report))}
-              className="rounded-lg bg-cyan-500 px-4 py-1.5 text-sm font-bold text-black hover:bg-cyan-300 disabled:opacity-40"
+              className="rounded-md bg-ink px-4 py-1.5 text-sm font-bold text-paper hover:bg-ink-2 disabled:opacity-40"
             >
               Export Markdown
             </button>
           </div>
         </header>
 
-        {error && <div className="mt-6 rounded-lg border border-red-500/40 bg-red-950/40 p-4 text-red-200">{error}</div>}
+        {error && <div className="mt-6 rounded-lg border border-danger/40 bg-danger-soft p-4 text-danger">{error}</div>}
 
-        {!report && !error && (
-          <div className="mt-10 flex items-center gap-3 text-lg text-slate-400">
-            <span className="live-dot h-3 w-3 rounded-full bg-cyan-400" />
+        {naiveMode && incident && <NaiveCompare incident={incident} />}
+
+        {!naiveMode && !report && !error && (
+          <div className="mt-10 flex items-center gap-3 text-lg text-muted">
+            <span className="live-dot h-3 w-3 rounded-full bg-accent" />
             Narrating from evidence, every sentence must cite an event...
           </div>
         )}
 
-        {report && (
+        {!naiveMode && report && (
           <div className="fade-up mt-6 grid grid-cols-[minmax(0,1fr)_340px] gap-8">
             <article>
-              <p className="text-2xl font-semibold leading-relaxed text-white">{report.summary}</p>
+              <p className="text-2xl font-semibold leading-relaxed text-ink">{report.summary}</p>
 
               <div className="mt-5 flex items-center gap-3">
-                <span
-                  className={`rounded-md px-3 py-1 text-sm font-bold ring-1 ${
-                    report.dropped
-                      ? "bg-amber-400/15 text-amber-200 ring-amber-400/50"
-                      : "bg-emerald-500/15 text-emerald-200 ring-emerald-500/50"
-                  }`}
-                >
-                  {report.dropped} unsupported sentence{report.dropped === 1 ? "" : "s"} removed
+                <span className="inline-flex items-center gap-1.5 rounded-md bg-safe-soft px-3 py-1 text-sm font-bold text-safe ring-1 ring-safe/50">
+                  <ShieldIcon />
+                  Guardrail blocked {report.dropped} uncited sentence{report.dropped === 1 ? "" : "s"}
                 </span>
-                <span className="text-sm text-slate-500">
+                <span className="text-sm text-subtle">
                   every sentence below cites events from this incident; uncited claims are dropped
                 </span>
               </div>
 
               <ol className="mt-6 space-y-4">
                 {report.sentences.map((s, i) => (
-                  <li key={i} className="flex gap-4 rounded-xl bg-slate-900/50 p-4 ring-1 ring-slate-800">
-                    <span className="font-mono text-lg font-bold text-cyan-300">{i + 1}</span>
+                  <li key={i} className="flex gap-4 rounded-lg bg-sheet p-4 ring-1 ring-rule">
+                    <span className="font-mono text-lg font-bold text-accent">{i + 1}</span>
                     <div>
-                      <p className="text-lg leading-relaxed text-slate-100">{s.text}</p>
+                      <p className="text-lg leading-relaxed text-ink">{s.text}</p>
                       <div className="mt-2">
                         <EvidenceChips ids={s.cites} max={10} />
                       </div>
@@ -192,7 +207,7 @@ export function ReportView({ id }: { id: string }) {
                   </li>
                 ))}
               </ol>
-              <div className="mt-4 text-sm text-slate-500">generated {istDateTime(report.generated_at)}</div>
+              <div className="mt-4 text-sm text-subtle">generated {istDateTime(report.generated_at)}</div>
             </article>
 
             <aside className="space-y-4">
@@ -201,16 +216,16 @@ export function ReportView({ id }: { id: string }) {
                   <div className="panel-title mb-2">Impact</div>
                   <dl className="grid grid-cols-2 gap-3">
                     <div>
-                      <dt className="text-xs text-slate-400">Users affected</dt>
-                      <dd className="text-2xl font-black text-white">{int(incident.impact.users_affected)}</dd>
+                      <dt className="text-xs text-muted">Users affected</dt>
+                      <dd className="text-2xl font-black text-ink">{int(incident.impact.users_affected)}</dd>
                     </div>
                     <div>
-                      <dt className="text-xs text-slate-400">Failed payments</dt>
-                      <dd className="text-2xl font-black text-red-300">{int(incident.impact.failed_payments)}</dd>
+                      <dt className="text-xs text-muted">Failed payments</dt>
+                      <dd className="text-2xl font-black text-danger">{int(incident.impact.failed_payments)}</dd>
                     </div>
                     <div className="col-span-2">
-                      <dt className="text-xs text-slate-400">INR at risk</dt>
-                      <dd className="text-2xl font-black text-red-400">{inr(incident.impact.failed_value_inr)}</dd>
+                      <dt className="text-xs text-muted">INR at risk</dt>
+                      <dd className="text-2xl font-black text-danger">{inr(incident.impact.failed_value_inr)}</dd>
                     </div>
                   </dl>
                 </div>
@@ -224,7 +239,7 @@ export function ReportView({ id }: { id: string }) {
                       .map((e) => (
                         <li key={e.id} className="flex items-center gap-2 text-sm">
                           <EvidenceChips ids={[e.id]} />
-                          <span className="truncate text-slate-400">
+                          <span className="truncate text-muted">
                             {e.service} {e.name === "log" ? "log" : e.name}
                           </span>
                         </li>

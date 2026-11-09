@@ -18,8 +18,10 @@ from __future__ import annotations
 import random
 from datetime import datetime, timedelta, timezone
 
-from app.schemas import Event, FaultType
-from app.sim.faults import ActiveFault, build_fault, draft, failure, fault_drafts, metric_override
+from app.schemas import Event, FaultSpec, FaultType
+from app.sim.faults import (
+    ActiveFault, apply_fix, build_fault, build_spec_fault, draft, failure, fault_drafts, metric_override,
+)
 from app.sim.topology import service_ids
 
 SCRAPE_S = 2.0
@@ -73,11 +75,24 @@ class Simulator:
 
     @property
     def active_faults(self) -> list[FaultType]:
-        return [f.type for f in self.faults]
+        return [f.type for f in self.faults if f.fixed_at is None]
+
+    def apply_fix(self, f: ActiveFault, fix_id: str, at: datetime | None = None) -> None:
+        """Remediate an active fault at `at` (default: now in sim time)."""
+        apply_fix(f, fix_id, max(at or self.t, self.t), self.rng)
 
     def inject(self, ftype: FaultType, at: datetime | None = None) -> None:
         at = max(at or self.t, self.t)
         self.faults.append(build_fault(ftype, at, self.rng))
+
+    def inject_spec(self, spec: FaultSpec, at: datetime | None = None, label: str = "custom",
+                    past_ok: bool = False) -> ActiveFault:
+        """Inject a FaultSpec primitive. past_ok lets the decoy deploy precede `at`
+        (offline runs, where nothing has been generated yet)."""
+        at = max(at or self.t, self.t)
+        f = build_spec_fault(spec, at, self.rng, label=label, past_ok=past_ok, not_before=self.t)
+        self.faults.append(f)
+        return f
 
     def clear_faults(self) -> None:
         self.faults.clear()
@@ -132,11 +147,16 @@ class Simulator:
             sev = "info"
             bad = metric_override(self.faults, svc, name, t)
             if bad:
+                base_v = v
                 v, sev = bad[0] * rng.uniform(0.92, 1.08), bad[1]
                 if name == "db_pool_in_use_pct":
                     v = 100.0
                 if name == "error_rate":
                     v = min(v, 1.0)
+                frac = bad[2]
+                if frac > 0:  # remediation: ease linearly back to this scrape's baseline value
+                    v = v + (base_v - v) * frac
+                    sev = "warn" if frac < 0.5 else "info"
             attrs = {"pool_max": 100} if name == "db_pool_in_use_pct" else {}
             out.append((t, draft(svc, "metric", sev, name, v, **attrs)))
         return out

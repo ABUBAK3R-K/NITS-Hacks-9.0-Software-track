@@ -1,5 +1,5 @@
 "use client";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import {
   Background,
   Handle,
@@ -40,44 +40,59 @@ type ServiceData = {
 function ServiceNode({ data }: NodeProps<Node<ServiceData>>) {
   const color = HEALTH_COLOR[data.health];
   const hot = data.health !== "healthy";
+  // U7: a ripple each time health changes, so failure visibly travels hop by hop
+  const [prev, setPrev] = useState(data.health);
+  const [ripple, setRipple] = useState(0);
+  if (prev !== data.health) {
+    setPrev(data.health);
+    setRipple((r) => r + 1);
+  }
   return (
     <div
-      className={`relative w-[200px] rounded-xl border-2 bg-[#0d131d] px-3.5 py-2.5 transition-colors duration-500 ${
+      className={`relative w-[200px] rounded-lg border-2 bg-sheet px-3.5 py-2.5 transition-colors duration-500 ${
         data.root ? "root-pulse" : data.candidate ? "cand-pulse" : ""
       }`}
       style={{
-        borderColor: data.candidate && !data.root ? "#fbbf24" : color,
-        background: hot ? `linear-gradient(180deg, ${color}22, #0d131d 70%)` : "#0d131d",
+        borderColor: data.candidate && !data.root ? "#f5a623" : hot ? color : "#2e2e2e",
+        borderWidth: hot || data.candidate ? 2 : 1,
+        background: hot ? `color-mix(in srgb, ${color} 8%, #111111)` : "#111111",
       }}
     >
-      <Handle type="target" position={Position.Left} className="!h-2 !w-2 !border-0 !bg-slate-600" />
-      <Handle type="source" position={Position.Right} className="!h-2 !w-2 !border-0 !bg-slate-600" />
+      {ripple > 0 && (
+        <span
+          key={ripple}
+          className="node-ripple pointer-events-none absolute inset-0 rounded-lg"
+          style={{ "--ripple": color } as React.CSSProperties}
+        />
+      )}
+      <Handle type="target" position={Position.Left} className="!h-2 !w-2 !border-0 !bg-subtle" />
+      <Handle type="source" position={Position.Right} className="!h-2 !w-2 !border-0 !bg-subtle" />
       <div className="flex items-center justify-between">
-        <span className="text-[10px] font-bold tracking-widest text-slate-500">{TIER_LABEL[data.tier]}</span>
+        <span className="text-[10px] font-bold tracking-widest text-subtle">{TIER_LABEL[data.tier]}</span>
         <span className="flex items-center gap-1.5 text-[11px] font-semibold uppercase" style={{ color }}>
-          <span className="h-2.5 w-2.5 rounded-full" style={{ background: color, boxShadow: hot ? `0 0 10px ${color}` : "none" }} />
+          <span className="h-2.5 w-2.5 rounded-full" style={{ background: color }} />
           {data.health}
         </span>
       </div>
-      <div className="mt-0.5 text-[17px] font-bold leading-tight text-white">{data.label}</div>
-      <div className="font-mono text-xs text-slate-400">{data.id}</div>
+      <div className="mt-0.5 text-[17px] font-bold leading-tight text-ink">{data.label}</div>
+      <div className="font-mono text-xs text-muted">{data.id}</div>
       {data.score !== null && (
-        <div className="mt-1 font-mono text-xs text-slate-300">
-          score <span className="font-bold text-white">{data.score.toFixed(2)}</span>
+        <div className="mt-1 font-mono text-xs text-ink-2">
+          score <span className="font-bold text-ink">{data.score.toFixed(2)}</span>
         </div>
       )}
       {data.root && (
-        <span className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-red-600 px-2 py-0.5 text-[11px] font-black tracking-widest text-white">
+        <span className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-danger px-2 py-0.5 text-[11px] font-black tracking-widest text-paper">
           ROOT CAUSE
         </span>
       )}
       {data.candidate && !data.root && (
-        <span className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-amber-400 px-2 py-0.5 text-[11px] font-black tracking-widest text-black">
+        <span className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-warn px-2 py-0.5 text-[11px] font-black tracking-widest text-paper">
           POSSIBLE CAUSE
         </span>
       )}
       {data.alerts > 0 && (
-        <span className="absolute -right-3 -top-3 flex h-7 min-w-7 items-center justify-center rounded-full bg-red-600 px-1.5 text-sm font-black text-white ring-2 ring-[#05070b]">
+        <span className="absolute -right-3 -top-3 flex h-7 min-w-7 items-center justify-center rounded-full bg-danger px-1.5 text-sm font-black text-paper ring-2 ring-paper">
           {data.alerts}
         </span>
       )}
@@ -134,8 +149,8 @@ export function ServiceGraph({
         target: e.to,
         animated: isHot,
         className: isHot ? "hot" : "",
-        style: { stroke: isHot ? "#ff4d4d" : "#334155", strokeWidth: isHot ? 3 : 1.6 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: isHot ? "#ff4d4d" : "#475569", width: 18, height: 18 },
+        style: { stroke: isHot ? "#ff6166" : "#454545", strokeWidth: isHot ? 3 : 1.6 },
+        markerEnd: { type: MarkerType.ArrowClosed, color: isHot ? "#ff6166" : "#707070", width: 18, height: 18 },
       };
     });
     return { nodes, edges };
@@ -159,7 +174,7 @@ export function ServiceGraph({
       colorMode="dark"
       style={{ background: "transparent" }}
     >
-      <Background color="#1b2433" gap={22} size={1.2} />
+      <Background color="#1f1f1f" gap={22} size={1.2} />
     </ReactFlow>
   );
 }

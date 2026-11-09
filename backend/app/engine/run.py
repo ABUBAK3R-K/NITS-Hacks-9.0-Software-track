@@ -10,9 +10,9 @@ from __future__ import annotations
 
 import hashlib
 
-from app.schemas import Event, Incident, RootCause, Topology
+from app.schemas import Event, Incident, Noise, RootCause, Topology
 
-from . import anomaly, grouping, impact, rca, recommend, timeline
+from . import anomaly, grouping, impact, lifecycle, rca, recommend, timeline, whynot
 from .common import SEV_NAME, Episode, TopoIndex, event_status, iso, parse_ts
 from .config import CONFIG
 
@@ -36,6 +36,8 @@ def analyze(events: list[Event], topology: Topology, config: dict | None = None)
     evs: list[Event] = []
     ts: list[float] = []
     changes: dict[str, list[tuple[float, Event]]] = {}
+    fixes: dict[str, list[float]] = {}  # fix_applied remediations: lifecycle only, never a deploy
+    fix_name = cfg["fix_event_name"]
     failed: list[tuple[float, Event]] = []
     alerts_by_svc: dict[str, list[float]] = {}
     for t, eid, i in keyed:
@@ -47,7 +49,10 @@ def analyze(events: list[Event], topology: Topology, config: dict | None = None)
         ts.append(t)
         k = e.kind
         if k == "change":
-            changes.setdefault(e.service, []).append((t, e))
+            if e.name == fix_name:
+                fixes.setdefault(e.service, []).append(t)
+            else:
+                changes.setdefault(e.service, []).append((t, e))
         elif k == "request":
             st = event_status(e)
             if st is not None and st >= 500:
@@ -63,7 +68,7 @@ def analyze(events: list[Event], topology: Topology, config: dict | None = None)
     res = anomaly.detect(evs, ts, cfg)
     groups = grouping.group(res.episodes, topo, cfg)
     ctx = {"topo": topo, "cfg": cfg, "changes": changes, "failed": failed, "failed_ts": failed_ts,
-           "alerts": alerts_by_svc, "scrape": res.scrape_interval, "t_end": t_end,
+           "alerts": alerts_by_svc, "fixes": fixes, "scrape": res.scrape_interval, "t_end": t_end,
            "by_id": {e.id: (t, e) for t, e in zip(ts, evs)}}
     # A lone service that turned anomalous in the last settle_s seconds is held
     # back for a moment: the edge often pages before the services between it
@@ -72,6 +77,10 @@ def analyze(events: list[Event], topology: Topology, config: dict | None = None)
     groups = [g for g in groups if len(g) > 1 or t_end - next(iter(g.values())).onset >= settle]
     out = [_build(g, ctx) for g in groups]
     out.sort(key=lambda i: (i.opened_at, i.id))
+    # Noise: this incident's alerts vs the number of incidents the same input collapsed into.
+    n = len(out)
+    for inc in out:
+        inc.noise = Noise(alerts=inc.alert_count, incidents=n, ratio=round(inc.alert_count / n, 1))
     return out
 
 
@@ -100,11 +109,16 @@ def _build(group: dict[str, Episode], ctx: dict) -> Incident:
     alert_count = sum(1 for svc in group for t in ctx["alerts"].get(svc, ()) if t_open <= t <= t_to)
     sev = max(p.sev for ep in group.values() for p in ep.points)
 
+    why = whynot.build(cands, verdict.abstain, group, topo, cfg)
     candidates = [{
         "service": c.service, "score": c.score, "components": c.comps, "penalty": c.penalty,
         "victim_of": c.victim_of, "onset": iso(c.onset), "signature": c.signature,
         "evidence": c.evidence, "component_evidence": c.ce,
+        "ruled_out_reason": why.get(c.service, (None, []))[0],
+        "ruled_out_evidence": why.get(c.service, (None, []))[1],
     } for c in cands]
+    fixes = [t for svc in group for t in ctx["fixes"].get(svc, ())]
+    state, history = lifecycle.compute(group, verdict.abstain, fixes, t_end, cfg)
     tl = timeline.build(group, topo, cands)
     recs = recommend.build(verdict, group, topo)
     imp = impact.compute(group, topo, ctx["failed"], ctx["failed_ts"], t_open, t_to)
@@ -116,6 +130,7 @@ def _build(group: dict[str, Episode], ctx: dict) -> Incident:
         ids += c.evidence
         for k in ("upstream", "precedence", "change", "severity"):
             ids += c.ce[k]
+        ids += why.get(c.service, (None, []))[1]
     for row in tl:
         ids += row.event_ids
     for r in recs:
@@ -141,4 +156,6 @@ def _build(group: dict[str, Episode], ctx: dict) -> Incident:
         "timeline": tl,
         "recommendations": recs,
         "evidence_events": [e for _, e in found],
+        "lifecycle": state,
+        "lifecycle_history": history,
     })

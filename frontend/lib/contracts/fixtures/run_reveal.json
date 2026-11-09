@@ -1,0 +1,14 @@
+{
+  "run_id": "run_fixture_hero",
+  "spec": {
+    "target": "postgres",
+    "kind": "pool_exhaustion",
+    "onset_jitter_s": 0.0,
+    "decoy": null,
+    "seed": 0
+  },
+  "expected_root": "postgres",
+  "our_top1": "postgres",
+  "abstained": false,
+  "matched": true
+}

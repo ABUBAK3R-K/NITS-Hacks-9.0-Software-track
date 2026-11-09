@@ -62,3 +62,29 @@ def test_sse_sample():
 def test_health():
     r = TestClient(app).get("/health")
     assert r.status_code == 200 and r.json()["status"] == "ok"
+
+
+def test_upgrade_fixtures():
+    from app.schemas import EvalResults, NaiveAnswer, Run, RunReveal
+
+    run = Run.model_validate(load_fixture("run_blind.json"))
+    assert run.spec_hidden and run.spec is None and run.incidents
+    rev = RunReveal.model_validate(load_fixture("run_reveal.json"))
+    assert rev.expected_root == rev.spec.target
+    assert rev.matched == (rev.our_top1 == rev.expected_root and not rev.abstained)
+    NaiveAnswer.model_validate(load_fixture("naive_answer_db_pool.json"))
+    ev = EvalResults.model_validate(load_fixture("eval_results.json"))
+    assert ev.n == 0 and not ev.methods  # honest placeholder until eval/run_eval.py runs
+    for name in ("alertmanager_webhook.json", "grafana_webhook.json"):
+        body = load_fixture(name)
+        assert body["alerts"] and all("labels" in a and "startsAt" in a for a in body["alerts"])
+
+
+def test_ruled_out_reasons_reference_known_evidence():
+    for name in ("incident_db_pool.json", "incident_ambiguous.json"):
+        inc = Incident.model_validate(load_fixture(name))
+        known = {e.id for e in inc.evidence_events}
+        keep = 2 if inc.status == "ABSTAINED" else 1
+        assert all(c.ruled_out_reason is None for c in inc.candidates[:keep])
+        for c in inc.candidates[keep:]:
+            assert c.ruled_out_reason and set(c.ruled_out_evidence) <= known

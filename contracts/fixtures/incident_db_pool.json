@@ -66,7 +66,9 @@
         "severity": [
           "evt_000481"
         ]
-      }
+      },
+      "ruled_out_reason": null,
+      "ruled_out_evidence": []
     },
     {
       "service": "ledger-svc",
@@ -101,7 +103,12 @@
         "severity": [
           "evt_000792"
         ]
-      }
+      },
+      "ruled_out_reason": "ledger-svc: ruled out. Went bad 1.4 s after postgres, and its own dependency postgres is broken, so the victim penalty applied (x0.5). Score 0.30 vs postgres 0.80.",
+      "ruled_out_evidence": [
+        "evt_000790",
+        "evt_000784"
+      ]
     },
     {
       "service": "auth-svc",
@@ -133,7 +140,13 @@
         "severity": [
           "evt_000789"
         ]
-      }
+      },
+      "ruled_out_reason": "auth-svc: ruled out. Only 1 of the 4 other affected services depends on it, vs 4 for postgres, so it explains fewer of the failures. Score 0.25 vs postgres 0.80.",
+      "ruled_out_evidence": [
+        "evt_000787",
+        "evt_000796",
+        "evt_000790"
+      ]
     },
     {
       "service": "payments-svc",
@@ -165,7 +178,14 @@
         "severity": [
           "evt_000795"
         ]
-      }
+      },
+      "ruled_out_reason": "payments-svc: ruled out. Only 1 of the 4 other affected services depends on it, vs 4 for postgres, so it explains fewer of the failures. Score 0.25 vs postgres 0.80.",
+      "ruled_out_evidence": [
+        "evt_000793",
+        "evt_000796",
+        "evt_000787",
+        "evt_000790"
+      ]
     },
     {
       "service": "api-gateway",
@@ -192,7 +212,13 @@
         "severity": [
           "evt_000796"
         ]
-      }
+      },
+      "ruled_out_reason": "api-gateway: ruled out. None of the 4 other affected services depend on it, vs 4 for postgres, so it explains fewer of the failures. Score 0.05 vs postgres 0.80.",
+      "ruled_out_evidence": [
+        "evt_000796",
+        "evt_000787",
+        "evt_000790"
+      ]
     }
   ],
   "abstain_reason": null,
@@ -274,7 +300,8 @@
         "evt_000793",
         "evt_000796"
       ],
-      "runbook": "psql -c \"SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE state = 'idle in transaction' AND state_change < now() - interval '30 seconds';\" then confirm db_pool_in_use_pct drops below 80%. Raise max_connections or the PgBouncer pool_size only if usage stays high."
+      "runbook": "psql -c \"SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE state = 'idle in transaction' AND state_change < now() - interval '30 seconds';\" then confirm db_pool_in_use_pct drops below 80%. Raise max_connections or the PgBouncer pool_size only if usage stays high.",
+      "fix_id": "raise_pool_postgres"
     },
     {
       "action": "Cap per-client pool size in auth-svc and ledger-svc and fail fast with a 2 s acquire timeout",
@@ -283,7 +310,8 @@
         "evt_000787",
         "evt_000790"
       ],
-      "runbook": "Set DB_POOL_MAX=20 and DB_ACQUIRE_TIMEOUT_MS=2000 in each caller's config, then do a rolling restart one replica at a time."
+      "runbook": "Set DB_POOL_MAX=20 and DB_ACQUIRE_TIMEOUT_MS=2000 in each caller's config, then do a rolling restart one replica at a time.",
+      "fix_id": null
     },
     {
       "action": "Do not roll back or restart ledger-svc, auth-svc, payments-svc, api-gateway: they are victims of postgres",
@@ -294,7 +322,8 @@
         "evt_000793",
         "evt_000796"
       ],
-      "runbook": "Hold changes on ledger-svc, auth-svc, payments-svc, api-gateway. Re-check their error_rate after postgres recovers."
+      "runbook": "Hold changes on ledger-svc, auth-svc, payments-svc, api-gateway. Re-check their error_rate after postgres recovers.",
+      "fix_id": null
     }
   ],
   "evidence_events": [
@@ -460,5 +489,27 @@
       "message": null,
       "attrs": {}
     }
-  ]
+  ],
+  "lifecycle": "CAUSE_IDENTIFIED",
+  "lifecycle_history": [
+    {
+      "state": "DETECTED",
+      "ts": "2026-11-09T08:32:06.210Z"
+    },
+    {
+      "state": "SPREADING",
+      "ts": "2026-11-09T08:32:06.210Z"
+    },
+    {
+      "state": "CAUSE_IDENTIFIED",
+      "ts": "2026-11-09T08:32:18.300Z"
+    }
+  ],
+  "mttd_s": null,
+  "mttr_s": null,
+  "noise": {
+    "alerts": 14,
+    "incidents": 1,
+    "ratio": 14.0
+  }
 }

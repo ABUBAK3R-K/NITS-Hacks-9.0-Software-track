@@ -1,0 +1,8 @@
+{
+  "provider": "groq",
+  "model": "openai/gpt-oss-120b",
+  "root_cause_service": "postgres",
+  "raw_text": "**Root‑cause service:** `postgres`\n\n**Why:**  \n- At the very start the PostgreSQL instance reports `db_pool_in_use_pct=100 %` and logs `FATAL: remaining connection slots are reserved for non‑replication superuser connections`.  \n- This saturation triggers the `PgConnectionsSaturated` alert and a cascade of high query latency (`PgQueryLatencyHigh`).  \n- All downstream services (auth‑svc, ledger‑svc, payments‑svc, api‑gateway) immediately start failing to acquire DB connections, showing timeouts, increased latency, and rising error rates.  \n- Their alerts (login failures, ledger write errors, payment failures, gateway 5xx) are all downstream symptoms of the database connection pool exhaustion.\n\nThus the single root‑cause is the **PostgreSQL service**.",
+  "latency_ms": 2137,
+  "measured": null
+}

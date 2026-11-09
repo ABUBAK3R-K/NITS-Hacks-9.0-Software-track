@@ -5,6 +5,7 @@ import { EvidenceProvider } from "./Evidence";
 import { ImpactStrip } from "./ImpactStrip";
 import { IncidentList } from "./IncidentList";
 import { RootCausePanel } from "./RootCausePanel";
+import { JudgeBar, RevealCard } from "./Sandbox";
 import { ServiceGraph } from "./ServiceGraph";
 import { Sparklines } from "./Sparklines";
 import { Timeline } from "./Timeline";
@@ -35,9 +36,13 @@ function useDesignCanvas() {
 
 function Screen() {
   const live = useLiveData();
-  const { selected, storm } = live;
+  // a sandbox run (Judge's Chaos / designed outage) takes over the panels until "Back to live"
+  const sandbox = live.sandbox.active;
+  const view = sandbox ? live.sandbox.view : live;
+  const { selected, storm } = view;
+  const stormNoun = sandbox && live.sandbox.signalStorm ? "signals" : "alerts";
 
-  const evidence = useMemo(() => [...live.events, ...(selected?.evidence_events ?? [])], [live.events, selected]);
+  const evidence = useMemo(() => [...view.events, ...(selected?.evidence_events ?? [])], [view.events, selected]);
 
   // per-service alert badges on the graph while the storm is on screen
   const alertCounts = useMemo(() => {
@@ -48,11 +53,11 @@ function Screen() {
 
   const possibleCauses = useCallback(
     (id: string) => {
-      const d = live.details[id];
+      const d = view.details[id];
       if (!d) return 2;
       return Math.max(2, d.candidates.filter((c) => d.candidates[0].score - c.score < 0.15).length);
     },
-    [live.details],
+    [view.details],
   );
 
   const graphIncident = storm.phase === "flood" ? null : selected;
@@ -65,12 +70,16 @@ function Screen() {
         style={fit ? { width: DESIGN_W, height: fit.h, zoom: fit.scale } : undefined}
       >
         <TopBar />
+        <JudgeBar />
         <main className="grid min-h-0 flex-1 grid-cols-[330px_minmax(0,1fr)_560px] gap-3 p-3">
           <IncidentList
-            incidents={live.incidents}
+            incidents={view.incidents}
+            details={view.details}
             storm={storm}
-            selectedId={live.selectedId}
-            onSelect={live.select}
+            stormNoun={stormNoun}
+            sandbox={sandbox}
+            selectedId={view.selectedId}
+            onSelect={view.select}
             possibleCauses={possibleCauses}
           />
           <div className="flex min-h-0 flex-col gap-3">
@@ -78,40 +87,46 @@ function Screen() {
             <section className={`panel relative min-h-0 flex-1 overflow-hidden ${storm.phase === "flood" ? "storm-flash border-2" : ""}`}>
               <div className="absolute left-4 top-3 z-10 flex items-center gap-3">
                 <span className="panel-title">Service graph</span>
+                {sandbox && (
+                  <span className="rounded bg-accent-soft px-2 py-0.5 text-xs font-black tracking-widest text-accent ring-1 ring-accent/60">
+                    SANDBOX RUN
+                  </span>
+                )}
                 {graphIncident && (
-                  <span className="text-sm text-slate-300">
+                  <span className="text-sm text-ink-2">
                     {graphIncident.status === "ABSTAINED" ? (
-                      <span className="text-amber-200">two possible causes highlighted</span>
+                      <span className="text-warn">two possible causes highlighted</span>
                     ) : (
                       <>
-                        failure path from <span className="font-bold text-red-300">{graphIncident.root_cause?.service}</span>
+                        failure path from <span className="font-bold text-danger">{graphIncident.root_cause?.service}</span>
                       </>
                     )}
                   </span>
                 )}
               </div>
               {storm.phase === "flood" && (
-                <div className="absolute right-4 top-3 z-10 rounded-lg bg-red-600 px-3 py-1 text-sm font-black tracking-widest text-white">
-                  {storm.alerts.length} ALERTS FIRING
+                <div className="absolute right-4 top-3 z-10 rounded-lg bg-danger px-3 py-1 text-sm font-black tracking-widest text-paper">
+                  {storm.alerts.length} {stormNoun.toUpperCase()} FIRING
                 </div>
               )}
-              <div className="absolute bottom-3 left-4 z-10 flex gap-3 text-xs text-slate-400">
-                <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-[#22c55e]" />healthy</span>
-                <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-[#f59e0b]" />degraded</span>
-                <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-[#ff3b3b]" />critical</span>
-                <span className="text-slate-500">arrows point from caller to dependency</span>
+              {storm.phase !== "flood" && <RevealCard />}
+              <div className="absolute bottom-3 left-4 z-10 flex gap-3 text-xs text-muted">
+                <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-safe" />healthy</span>
+                <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-warn" />degraded</span>
+                <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-danger" />critical</span>
+                <span className="text-subtle">arrows point from caller to dependency</span>
               </div>
               <ServiceGraph
                 key={`${live.topology ? "ready" : "empty"}-${fit?.scale ?? 1}-${fit?.h ?? 0}`}
                 topology={live.topology}
-                topo={live.topo}
+                topo={view.topo}
                 incident={graphIncident}
                 alertCounts={alertCounts}
               />
             </section>
             <div className="grid h-[285px] shrink-0 grid-cols-[minmax(0,1fr)_320px] gap-3">
               <Timeline incident={graphIncident} />
-              <Sparklines events={live.events} incident={graphIncident} />
+              <Sparklines events={view.events} incident={graphIncident} />
             </div>
           </div>
           <RootCausePanel incident={graphIncident} />

@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "@xyflow/react/dist/style.css";
 import "./globals.css";
-import { LiveDataProvider } from "@/lib/live";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,13 +15,13 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "J.A.R.V.I.S. | incident root cause",
-  description: "Many alerts, one cause, and every claim shows its evidence.",
+  description: "Many alerts. One cause. Proof attached.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-background text-foreground"><LiveDataProvider>{children}</LiveDataProvider>
+      <body className="min-h-full flex flex-col bg-background text-foreground">{children}
       </body>
     </html>
   );

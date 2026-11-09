@@ -1,0 +1,68 @@
+{
+  "receiver": "jarvis-webhook",
+  "status": "firing",
+  "orgId": 1,
+  "alerts": [
+    {
+      "status": "firing",
+      "labels": {
+        "alertname": "PaymentFailureRateHigh",
+        "service": "payments-svc",
+        "grafana_folder": "payments",
+        "severity": "critical"
+      },
+      "annotations": {
+        "summary": "payments-svc failure rate 38%",
+        "description": "POST /v1/payments returning 503"
+      },
+      "startsAt": "2026-11-09T08:32:09.400Z",
+      "endsAt": "0001-01-01T00:00:00Z",
+      "generatorURL": "http://grafana.payments.internal/alerting/grafana/pay-fail/view",
+      "fingerprint": "d4a6f2b5e0a73344",
+      "silenceURL": "http://grafana.payments.internal/alerting/silence/new",
+      "dashboardURL": "http://grafana.payments.internal/d/payments",
+      "panelURL": "http://grafana.payments.internal/d/payments?viewPanel=4",
+      "values": {
+        "B": 0.38,
+        "C": 1
+      },
+      "valueString": "[ var='B' labels={service=payments-svc} value=0.38 ]"
+    },
+    {
+      "status": "firing",
+      "labels": {
+        "alertname": "LedgerWriteErrors",
+        "service": "ledger-svc",
+        "severity": "critical"
+      },
+      "annotations": {
+        "summary": "ledger-svc write error rate 42%"
+      },
+      "startsAt": "2026-11-09T08:32:10.200Z",
+      "endsAt": "0001-01-01T00:00:00Z",
+      "generatorURL": "http://grafana.payments.internal/alerting/grafana/ledger-err/view",
+      "fingerprint": "e5b7a3c6f1b84455",
+      "silenceURL": "",
+      "dashboardURL": "",
+      "panelURL": "",
+      "values": {
+        "B": 0.42
+      },
+      "valueString": "[ var='B' labels={service=ledger-svc} value=0.42 ]"
+    }
+  ],
+  "groupLabels": {
+    "alertname": "PaymentFailureRateHigh"
+  },
+  "commonLabels": {
+    "severity": "critical"
+  },
+  "commonAnnotations": {},
+  "externalURL": "http://grafana.payments.internal/",
+  "version": "1",
+  "groupKey": "{}:{alertname=\"PaymentFailureRateHigh\"}",
+  "truncatedAlerts": 0,
+  "title": "[FIRING:2] payments alerts",
+  "state": "alerting",
+  "message": "**Firing**\n\nPaymentFailureRateHigh on payments-svc\nLedgerWriteErrors on ledger-svc"
+}

@@ -37,7 +37,11 @@ CONFIG = {
     "episode_gap_s": 60.0,             # a quiet gap this long ends a service's anomaly episode
     "group_window_s": 300.0,           # onsets within 5 min can share an incident
     "resolve_after_s": 60.0,
-    "settle_single_s": 3.0,            # hold back a single-service incident until it is this old           # RESOLVED when no anomalous signal in the last 60 s (vs latest event ts)
+    "settle_single_s": 3.0,            # hold back a single-service incident until it is this old
+    # resolve_after_s: status RESOLVED when no anomalous signal in the last 60 s (vs latest event ts)
+    "spreading_window_s": 10.0,        # lifecycle SPREADING: the anomalous set grew in the last 10 s
+    "resolved_quiet_s": 15.0,          # lifecycle RESOLVED: every incident service within baseline for 15 s
+    "fix_event_name": "fix_applied",   # change events with this name are remediations, never deploys
     # ---- disambiguation
     "scrape_interval_default_s": 2.0,
     "close_onset_intervals": 2.0,      # onsets this many scrape intervals apart are "too close to order"

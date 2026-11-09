@@ -28,10 +28,10 @@ export function TopBar() {
 
   const streaming = now > 0 && now - live.lastEventAt < 5000;
   let indicator: { label: string; cls: string; dot: string };
-  if (live.connection === "down") indicator = { label: "RECONNECTING", cls: "text-red-300", dot: "bg-red-500" };
-  else if (live.connection === "connecting") indicator = { label: "CONNECTING", cls: "text-amber-200", dot: "bg-amber-400" };
-  else if (streaming) indicator = { label: "LIVE", cls: "text-emerald-300", dot: "bg-emerald-400 live-dot" };
-  else indicator = { label: "PAUSED", cls: "text-slate-300", dot: "bg-slate-500" };
+  if (live.connection === "down") indicator = { label: "RECONNECTING", cls: "text-danger", dot: "bg-danger" };
+  else if (live.connection === "connecting") indicator = { label: "CONNECTING", cls: "text-warn", dot: "bg-warn" };
+  else if (streaming) indicator = { label: "LIVE", cls: "text-safe", dot: "bg-safe live-dot" };
+  else indicator = { label: "PAUSED", cls: "text-ink-2", dot: "bg-subtle" };
 
   const run = async (key: string, fn: () => Promise<unknown>) => {
     setBusy(key);
@@ -57,19 +57,19 @@ export function TopBar() {
   const active = new Set(live.sim?.active_faults ?? []);
 
   return (
-    <header className="relative flex h-[68px] shrink-0 items-center gap-4 border-b border-slate-800 bg-[#070a10] px-5">
+    <header className="relative flex h-[68px] shrink-0 items-center gap-4 border-b border-rule bg-paper px-5">
       <div className="flex items-baseline gap-3 pr-2">
-        <span className="text-2xl font-black tracking-[0.18em] text-cyan-300">J.A.R.V.I.S.</span>
-        <span className="hidden text-sm text-slate-400 2xl:inline">many alerts, one cause, every claim with evidence</span>
+        <span className="text-2xl font-black tracking-[0.18em] text-ink">J.A.R.V.I.S.</span>
+        <span className="whitespace-nowrap text-sm font-semibold text-ink-2">Many alerts. One cause. Proof attached.</span>
       </div>
 
-      <div className="flex items-center gap-2 rounded-xl border border-slate-800 bg-slate-900/60 px-3 py-1.5">
-        <span className="panel-title mr-1 text-fuchsia-300">Chaos Lab</span>
+      <div className="flex items-center gap-2 rounded-lg border border-rule bg-sheet px-3 py-1.5">
+        <span className="panel-title mr-1 text-accent">Chaos Lab</span>
         <button
           type="button"
           disabled={busy !== null}
           onClick={() => run("start", live.start)}
-          className="whitespace-nowrap rounded-lg bg-emerald-500/15 px-3 py-1.5 text-sm font-semibold text-emerald-200 ring-1 ring-emerald-500/50 hover:bg-emerald-500/30 disabled:opacity-50"
+          className="whitespace-nowrap rounded-md bg-paper px-3 py-1.5 text-sm font-semibold text-ink ring-1 ring-rule-strong hover:bg-sheet disabled:opacity-50"
         >
           Start
         </button>
@@ -82,8 +82,8 @@ export function TopBar() {
             onClick={() => run(t, () => live.fault(t))}
             className={`whitespace-nowrap rounded-lg px-3 py-1.5 text-sm font-semibold ring-1 transition disabled:opacity-50 ${
               active.has(t)
-                ? "bg-red-600 text-white ring-red-400"
-                : "bg-red-500/10 text-red-200 ring-red-500/40 hover:bg-red-500/25"
+                ? "bg-danger text-paper ring-danger"
+                : "bg-paper text-ink ring-rule-strong hover:bg-sheet"
             }`}
           >
             {FAULT_LABELS[t]}
@@ -93,7 +93,7 @@ export function TopBar() {
           type="button"
           disabled={busy !== null}
           onClick={() => run("reset", live.reset)}
-          className="whitespace-nowrap rounded-lg bg-slate-700/40 px-3 py-1.5 text-sm font-semibold text-slate-200 ring-1 ring-slate-600 hover:bg-slate-700"
+          className="whitespace-nowrap rounded-md bg-paper px-3 py-1.5 text-sm font-semibold text-ink ring-1 ring-rule-strong hover:bg-sheet"
         >
           Reset
         </button>
@@ -103,7 +103,7 @@ export function TopBar() {
         <button
           type="button"
           onClick={() => fileRef.current?.click()}
-          className="whitespace-nowrap rounded-lg bg-cyan-500/10 px-3 py-1.5 text-sm font-semibold text-cyan-200 ring-1 ring-cyan-500/40 hover:bg-cyan-500/25"
+          className="whitespace-nowrap rounded-md bg-paper px-3 py-1.5 text-sm font-semibold text-ink ring-1 ring-rule-strong hover:bg-sheet"
         >
           Upload logs
         </button>
@@ -115,24 +115,24 @@ export function TopBar() {
           onChange={(e) => onFile(e.target.files?.[0])}
         />
         {upload && (
-          <div className="fade-up absolute left-0 top-11 z-40 w-80 rounded-lg border border-slate-700 bg-[#0d131d] p-3 text-sm shadow-xl">
+          <div className="fade-up absolute left-0 top-11 z-40 w-80 rounded-lg border border-rule-strong bg-sheet p-3 text-sm">
             <div className="flex items-center justify-between">
-              <span className="truncate font-mono text-slate-300">{upload.name}</span>
-              <button type="button" onClick={() => setUpload(null)} className="text-slate-500 hover:text-white">
+              <span className="truncate font-mono text-ink-2">{upload.name}</span>
+              <button type="button" onClick={() => setUpload(null)} className="text-subtle hover:text-ink">
                 x
               </button>
             </div>
-            {!upload.res && !upload.err && <div className="mt-1 text-slate-400">Uploading...</div>}
-            {upload.err && <div className="mt-1 text-red-300">{upload.err}</div>}
+            {!upload.res && !upload.err && <div className="mt-1 text-muted">Uploading...</div>}
+            {upload.err && <div className="mt-1 text-danger">{upload.err}</div>}
             {upload.res && (
               <div className="mt-1">
-                <span className="font-semibold text-emerald-300">{upload.res.accepted} accepted</span>
-                <span className="mx-2 text-slate-600">|</span>
-                <span className={upload.res.rejected ? "font-semibold text-amber-300" : "text-slate-400"}>
+                <span className="font-semibold text-safe">{upload.res.accepted} accepted</span>
+                <span className="mx-2 text-subtle">|</span>
+                <span className={upload.res.rejected ? "font-semibold text-warn" : "text-muted"}>
                   {upload.res.rejected} rejected
                 </span>
                 {upload.res.errors.length > 0 && (
-                  <ul className="mt-1 list-disc pl-4 text-xs text-slate-400">
+                  <ul className="mt-1 list-disc pl-4 text-xs text-muted">
                     {upload.res.errors.slice(0, 4).map((e) => (
                       <li key={e}>{e}</li>
                     ))}
@@ -146,12 +146,12 @@ export function TopBar() {
 
       <div className="ml-auto flex items-center gap-4">
         {live.fixtureMode && (
-          <span className="rounded bg-slate-800 px-2 py-0.5 text-xs font-semibold tracking-wider text-slate-400">
+          <span className="rounded bg-raised px-2 py-0.5 text-xs font-semibold tracking-wider text-muted">
             FIXTURE MODE
           </span>
         )}
-        <span className="font-mono text-lg text-slate-300 tabular-nums">
-          {now ? istTime(new Date(now).toISOString()) : "--:--:--"} <span className="text-sm text-slate-500">IST</span>
+        <span className="font-mono text-lg text-ink-2 tabular-nums">
+          {now ? istTime(new Date(now).toISOString()) : "--:--:--"} <span className="text-sm text-subtle">IST</span>
         </span>
         <span className={`flex items-center gap-2 text-sm font-bold tracking-widest ${indicator.cls}`}>
           <span className={`h-3 w-3 rounded-full ${indicator.dot}`} />
@@ -160,9 +160,9 @@ export function TopBar() {
       </div>
 
       {live.notice && (
-        <div className="fade-up absolute right-5 top-[72px] z-40 flex max-w-xl items-start gap-3 rounded-lg border border-amber-500/40 bg-[#1a1408] px-4 py-2 text-sm text-amber-100 shadow-xl">
+        <div className="fade-up absolute right-5 top-[72px] z-40 flex max-w-xl items-start gap-3 rounded-lg border border-warn/40 bg-warn-soft px-4 py-2 text-sm text-warn">
           <span>{live.notice}</span>
-          <button type="button" onClick={live.dismissNotice} className="text-amber-300 hover:text-white">
+          <button type="button" onClick={live.dismissNotice} className="text-warn hover:text-ink">
             x
           </button>
         </div>

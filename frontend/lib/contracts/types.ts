@@ -9,6 +9,9 @@ export type Tier = "edge" | "app" | "data" | "external";
 export type IncidentStatus = "OPEN" | "ABSTAINED" | "RESOLVED";
 export type Health = "healthy" | "degraded" | "critical";
 export type Provider = "groq" | "gemini" | "template";
+export type Lifecycle = "DETECTED" | "SPREADING" | "CAUSE_IDENTIFIED" | "MITIGATING" | "RESOLVED";
+export type FaultKind = "pool_exhaustion" | "latency" | "error_spike" | "down" | "bad_deploy";
+export type RunMode = "blind" | "designed" | "live";
 export type FaultType =
   | "db_pool_exhaustion"
   | "bad_deploy"
@@ -106,6 +109,9 @@ export interface Candidate {
   signature: string | null;
   evidence: string[];
   component_evidence: ComponentEvidence;
+  /** U2 "Why not X?": one sentence with engine numbers; null for the winner (and top two when ABSTAINED) */
+  ruled_out_reason: string | null;
+  ruled_out_evidence: string[];
 }
 
 export interface RootCause {
@@ -135,6 +141,19 @@ export interface Recommendation {
   why: string;
   evidence: string[];
   runbook: string;
+  /** present when the simulator can apply it (POST /api/incidents/{id}/apply_fix) */
+  fix_id: string | null;
+}
+
+export interface LifecycleEntry {
+  state: Lifecycle;
+  ts: string;
+}
+
+export interface Noise {
+  alerts: number;
+  incidents: number;
+  ratio: number;
 }
 
 /** Item of GET /api/incidents */
@@ -170,6 +189,13 @@ export interface Incident {
   recommendations: Recommendation[];
   /** every event id referenced above, resolved */
   evidence_events: Event[];
+  lifecycle: Lifecycle;
+  lifecycle_history: LifecycleEntry[];
+  /** fault injection -> DETECTED; null when injection time is unknown */
+  mttd_s: number | null;
+  /** fault injection -> RESOLVED */
+  mttr_s: number | null;
+  noise: Noise | null;
 }
 
 // ---------------------------------------------------------------- report
@@ -187,6 +213,97 @@ export interface Report {
   provider: Provider;
   generated_at: string;
 }
+
+// ---------------------------------------------------------------- runs (U1)
+export interface Decoy {
+  service: string;
+  offset_s: number;
+}
+
+/** pool_exhaustion only on postgres; bad_deploy only on app services */
+export interface FaultSpec {
+  target: string;
+  kind: FaultKind;
+  onset_jitter_s: number;
+  decoy: Decoy | null;
+  seed: number;
+}
+
+/** POST /api/runs/blind | POST /api/runs/designed (body FaultSpec). Isolated, fast-forwarded sandbox. */
+export interface Run {
+  run_id: string;
+  mode: RunMode;
+  created_at: string;
+  spec_hidden: boolean;
+  spec: FaultSpec | null;
+  incidents: Incident[];
+}
+
+/** GET /api/runs/{id}/reveal */
+export interface RunReveal {
+  run_id: string;
+  spec: FaultSpec;
+  expected_root: string;
+  our_top1: string | null;
+  abstained: boolean;
+  matched: boolean;
+}
+
+export interface ApplyFixRequest {
+  fix_id: string;
+}
+
+export interface ApplyFixResult {
+  incident_id: string;
+  fix_id: string;
+  applied: boolean;
+  message: string;
+}
+
+// ---------------------------------------------------------------- naive LLM + eval (U3, U4)
+export interface Measured {
+  top1: number;
+  n: number;
+}
+
+/** GET /api/incidents/{id}/naive */
+export interface NaiveAnswer {
+  provider: Provider;
+  model: string;
+  root_cause_service: string | null;
+  raw_text: string;
+  latency_ms: number;
+  /** naive method's measured top-1 from eval/results.json; null until the eval exists */
+  measured: Measured | null;
+}
+
+export interface MethodScore {
+  name: string;
+  n: number;
+  top1: number;
+  top3: number;
+  abstain_rate: number;
+  false_blame_rate: number;
+}
+
+export interface Sensitivity {
+  weight: string;
+  minus50_top1: number;
+  plus50_top1: number;
+}
+
+/** GET /api/eval/results. n === 0 means the eval has not run: show "eval pending", never invent numbers. */
+export interface EvalResults {
+  n: number;
+  seeds: number[];
+  split: string;
+  methods: MethodScore[];
+  sensitivity: Sensitivity[];
+  generated_at: string;
+  command: string;
+}
+
+export const FIX_IDS = ["raise_pool_postgres", "rollback_deploy", "circuit_breaker_psp", "restart_service"] as const;
 
 // ---------------------------------------------------------------- api io
 export interface FaultRequest {

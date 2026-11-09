@@ -119,6 +119,19 @@ def _change_vals(c: Scored) -> tuple[str, str]:
     return str(a.get("version") or "the new version"), str(a.get("previous_version") or "the previous version")
 
 
+def fix_id_for(c: Scored) -> Optional[str]:
+    """Fix the simulator can apply for this root (contracts FIX_IDS), first rule wins."""
+    if c.service == "postgres" and c.signature == "connection_pool_exhausted":
+        return "raise_pool_postgres"
+    if c.signature == "error_spike_after_deploy":
+        return "rollback_deploy"
+    if c.service == "psp-adapter":
+        return "circuit_breaker_psp"
+    if c.signature == "dependency_down":
+        return "restart_service"
+    return None
+
+
 def _for_root(c: Scored, group: dict[str, Episode], topo: TopoIndex) -> list[Recommendation]:
     tier = topo.tier.get(c.service, "app")
     sig = c.signature
@@ -138,7 +151,7 @@ def _for_root(c: Scored, group: dict[str, Episode], topo: TopoIndex) -> list[Rec
             caller_ids = [group[s].onset_point.event_id for s in callers if s in group]
             evidence = caller_ids or ev
         out.append(Recommendation(action=_fill(a, **kw), why=_fill(w, **kw), evidence=list(evidence),
-                                  runbook=_fill(r, **kw)))
+                                  runbook=_fill(r, **kw), fix_id=fix_id_for(c) if i == 0 else None))
     return out
 
 
