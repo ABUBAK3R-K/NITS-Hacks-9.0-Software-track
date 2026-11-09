@@ -18,7 +18,7 @@ const STEPS: Step[] = [
     target: "topbar",
     title: "Live status and your own data",
     body:
-      "The dot tells you whether the stream is live, paused or reconnecting. Upload logs feeds your own .jsonl, .csv or plain log lines into the same engine, and the case study link returns to the landing page.",
+      "The dot tells you whether the stream is live, paused or reconnecting. Try sample logs feeds a recorded payments outage into the same engine in one click, the arrow next to it uploads your own .jsonl, .csv or plain log file, and the case study link returns to the landing page.",
   },
   {
     target: "chaos",
