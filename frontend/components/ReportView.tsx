@@ -6,6 +6,7 @@ import { api } from "@/lib/api";
 import { inr, int, istDateTime, istTimeMs, pct, signatureLabel } from "@/lib/format";
 import { EvidenceChips, EvidenceProvider } from "./Evidence";
 import { NaiveCompare } from "./NaiveCompare";
+import { ShiftCheck } from "./ShiftCheck";
 import { ShieldIcon } from "./Sandbox";
 import { HINTS, Hint } from "./Hint";
 import { FallbackNote, ProviderBadge, StatusBadge } from "./ui";
@@ -240,6 +241,7 @@ export function ReportView({ id }: { id: string }) {
                   </dl>
                 </div>
               )}
+              {incident && <ShiftCheck incident={incident} />}
               {incident && (
                 <div className="panel p-4">
                   <div className="panel-title mb-2">Evidence set ({incident.evidence_events.length})</div>

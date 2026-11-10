@@ -344,6 +344,12 @@ def main():
     dump("eval_results.json", EvalResults.model_validate(body).model_dump(mode="json"))
     dump("report_db_pool.json", report)
 
+    # ---- lane S: the given-time shift check on the hero incident, from the real endpoint code
+    from app.api.incidents import shift_check
+    from contracts.schemas import Incident
+    sc = shift_check(Incident.model_validate(inc1), [Event.model_validate(e) for e in ev1])
+    dump("shift_check_db_pool.json", sc.model_dump(mode="json"))
+
     # SSE sample: exactly the wire format of GET /api/stream
     first_alert = next(e for e in ev1 if e["kind"] == "alert")
     pg_event = next(e for e in ev1 if e["id"] == ids["p_on"])

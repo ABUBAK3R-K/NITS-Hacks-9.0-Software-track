@@ -43,11 +43,13 @@ for p in (str(HERE), str(ROOT / "backend"), str(ROOT)):
 import adapter as A  # noqa: E402
 from app.engine.common import parse_ts  # noqa: E402
 from app.engine.config import CONFIG  # noqa: E402
+from app.engine.given_time import rank_at  # noqa: E402
 from app.engine.run import analyze  # noqa: E402
 from eval.run_eval import primary_incident  # noqa: E402
 
 OUT_DIR = HERE
-PROTOCOLS = ("blind", "windowed")
+ENGINE_PROTOCOLS = ("blind", "windowed")  # the live engine (run.analyze)
+PROTOCOLS = ENGINE_PROTOCOLS + ("given_time",)  # + the given-time ranking (engine/given_time.py)
 SOURCE_SENTENCE = ("RE1-OB from RCAEval (Pham et al., WWW 2025), 125 labelled failures from the Online "
                    "Boutique microservice system")
 
@@ -79,6 +81,13 @@ def run_case(args) -> dict:
     t1 = time.perf_counter()
     incs = analyze(case.events, A.ob_topology(), config)
     after = [i for i in incs if parse_ts(i.opened_at) >= case.inject_time]
+    gt_res = rank_at(case.events, float(case.inject_time), {**CONFIG, **(config or {})})
+    given = {"incident": "given_time" if gt_res.ranking else None,
+             "ranking": [c.service for c in gt_res.ranking][:5],
+             "scores": [c.score for c in gt_res.ranking][:5],
+             "metrics": [c.metric for c in gt_res.ranking][:5],
+             "evidence": [c.evidence for c in gt_res.ranking][:5],
+             "confident": gt_res.root is not None, "root": gt_res.root}
     return {"case": case.case, "fault": case.fault, "ground_truth": case.ground_truth,
             "label_matches_dir": label_from_dir == case.ground_truth,
             "inject_time": case.inject_time, "inject_iso": A.iso_utc(case.inject_time),
@@ -87,6 +96,7 @@ def run_case(args) -> dict:
             "dropped_columns": sorted(case.adapted.dropped_columns), "null_values": case.adapted.null_values,
             "n_incidents": len(incs), "n_incidents_after_inject": len(after),
             "blind": _answer(primary_incident(incs)), "windowed": _answer(primary_incident(after)),
+            "given_time": given,
             "seconds": round(time.perf_counter() - t0, 1), "analyze_s": round(time.perf_counter() - t1, 1)}
 
 
@@ -132,6 +142,42 @@ def load_run(out_dir: Path, tag: str) -> list[dict] | None:
     return json.loads(f.read_text(encoding="utf-8"))["cases"] if f.is_file() else None
 
 
+def avg5_of(rows: list[dict], proto: str) -> float:
+    return score(rows, proto)["avg5"]
+
+
+def lane_s_section(out_dir: Path) -> list[str]:
+    """Given-time ranking (engine/given_time.py): DEV and the single TEST run. Empty if missing."""
+    dev, test = load_run(out_dir, "dev_given"), load_run(out_dir, "test_given")
+    if dev is None or test is None:
+        return []
+    L = ["## Lane S: when the failure time is known (given_time.py)", "",
+         "The live engine has to find the failure on its own. When the failure time is known (a responder "
+         "says when it broke, or a benchmark supplies it, as every published RCAEval baseline gets), "
+         "`app.engine.given_time.rank_at` ranks services by their largest robust metric shift: "
+         "|median after - median before| / IQR before, as in BARO (Pham, Ha, Zhang, ASE 2024). Windows "
+         "(600 s before, 300 s after) were chosen on DEV from three tried; the commit rule (top shift at least "
+         "2x the second) was set before any run. Frozen and logged in DECISIONS.md, then TEST was run once.", "",
+         *ROW_HEAD,
+         row("TEST (held out)", "given_time", score(test, "given_time")),
+         row("DEV (tuning)", "given_time", score(dev, "given_time")),
+         row("TEST, live engine for comparison", "windowed", score(test, "windowed")), "",
+         "| Fault | TEST n | TEST AC@1 | TEST Avg@5 | All 125 Avg@5 | BARO Avg@5 (published, 125) |",
+         "|---|---|---|---|---|---|"]
+    baro = {"cpu": 0.97, "mem": 1.00, "disk": 0.91, "delay": 0.98, "loss": 0.67}
+    for f in sorted({r["fault"] for r in test}):
+        t = [r for r in test if r["fault"] == f]
+        a = t + [r for r in dev if r["fault"] == f]
+        st = score(t, "given_time")
+        L.append(f"| {f} | {st['n']} | {pct(st['ac1'])} | {pct(st['avg5'])} | {pct(avg5_of(a, 'given_time'))} | "
+                 f"{baro[f]:.2f} |")
+    L += ["", "This is the same family of method as BARO, so being in the same range is the expected result, "
+          "not a new state of the art. What it adds here: every ranked service carries evidence event ids, "
+          "and the dashboard shows it as a second opinion next to the engine's answer "
+          "(`GET /api/incidents/{id}/shift_check`).", ""]
+    return L
+
+
 def lane_r_section(out_dir: Path) -> list[str]:
     """TEST before vs after (headline), DEV before vs after, by fault on TEST. Empty if the runs are missing."""
     runs = {t: load_run(out_dir, t) for t in ("test_before", "test_after", "dev_before", "dev_after")}
@@ -146,11 +192,11 @@ def lane_r_section(out_dir: Path) -> list[str]:
          "the engine never sees labels or inject_time. \"Before\" is the engine Lane K measured (plus only the "
          "speed fix, which leaves every answer unchanged).", "",
          "### TEST (held out, 50 cases): the headline", "", *ROW_HEAD]
-    for proto in PROTOCOLS:
+    for proto in ENGINE_PROTOCOLS:
         for t in ("test_before", "test_after"):
             L.append(row(t.split("_")[1], proto, score(runs[t], proto)))
     L += ["", "### DEV (75 cases, used for tuning, so optimistic)", "", *ROW_HEAD]
-    for proto in PROTOCOLS:
+    for proto in ENGINE_PROTOCOLS:
         for t in ("dev_before", "dev_after"):
             L.append(row(t.split("_")[1], proto, score(runs[t], proto)))
     L += ["", "### TEST by fault type", "",
@@ -189,6 +235,7 @@ def markdown(res: dict, out_dir: Path = OUT_DIR) -> str:
     L += ["# J.A.R.V.I.S. on RCAEval RE1-OB (real labelled failures)", "",
           SOURCE_SENTENCE + ". Metrics only (CPU, memory, load, latency, error per service, 1 s apart); "
           "faults: cpu, mem, disk, delay, loss on 5 services, 5 repetitions each.", ""]
+    L += lane_s_section(out_dir)
     L += lane_r_section(out_dir)
     before_all = None
     tb, db = load_run(out_dir, "test_before"), load_run(out_dir, "dev_before")
@@ -198,7 +245,7 @@ def markdown(res: dict, out_dir: Path = OUT_DIR) -> str:
           f"Weights {res['weights']}. No case filtering: n = {res['n_cases']} of {res['n_index']} cases, "
           f"{res['n_excluded']} excluded.", "", *ROW_HEAD]
     for p in PROTOCOLS:
-        if before_all is not None:
+        if before_all is not None and p in ENGINE_PROTOCOLS:
             L.append(row("before", p, score(before_all, p)))
         L.append(row("after" if before_all is not None else "current", p, o[p]))
     L += ["", "- **blind**: the incident a responder opens first (still active at the end of the data, then "
@@ -207,6 +254,9 @@ def markdown(res: dict, out_dir: Path = OUT_DIR) -> str:
           "- **windowed**: the same rule, but only over incidents opened at or after the case's "
           "`inject_time`. The RCAEval baselines are all given `inject_time`, so this row is the "
           "like-for-like one. The engine never sees the label or the inject time.",
+          "- **given_time**: `app.engine.given_time.rank_at` at the case's `inject_time`: services ranked by "
+          "their largest robust metric shift (median after vs before, over the IQR before). Committed when the "
+          "top shift is at least 2x the second. This is the protocol of the published baselines.",
           "- AC@k follows RCAEval: the true root-cause service is in the top k of the ranking. We count "
           "the ranking even when the engine abstains. Confident top-1 = committed and right. "
           "Abstain = no committed root (ABSTAINED or no incident). False blame = committed and wrong. "
@@ -266,8 +316,9 @@ def markdown(res: dict, out_dir: Path = OUT_DIR) -> str:
           "an adjacent service, grouping joins it to the older incident, so no incident opens after "
           f"inject_time ({nb} of {len(res['cases'])} cases here). Our simulator spreads every fault cleanly from "
           "cause to symptoms, which is why it scores 100% there.", "",
-          "Next ideas, not done: ranking by how far each service moved from its own normal period (the idea "
-          "behind BARO) would need a fifth score component, which the contract does not allow today.", "",
+          "Lane S answers this for the case where the failure time is known: ranking by how far each "
+          "service moved from its own recent normal (the idea behind BARO) is a separate engine module "
+          "(`given_time.py`), not a fifth score component, so the live engine and its contract are unchanged.", "",
           "Speed: `timeline.main_point` used to test `p in pref` on a list, which was quadratic (70 s of analyze "
           "on a 189k-event case). It is now one boolean with the same answer; that case takes about 1 s, and "
           f"all 125 cases take {res['runtime_s']:.0f} s on 7 workers.", "",
@@ -276,8 +327,11 @@ def markdown(res: dict, out_dir: Path = OUT_DIR) -> str:
           "for RE2 on Train Ticket only. It has no RE1-OB AC@1 table: it points to the earlier study "
           "[6] (Pham et al., \"Root Cause Analysis for Microservice System based on Causal Inference: How "
           "Far Are We?\", ASE 2024, arXiv 2408.13729) for RE1. That study reports Avg@5 with the methods given "
-          "the failure time, so the Avg@5 column above (windowed row) is the one to compare. No published "
-          "number is quoted here.", "",
+          "the failure time. Its Table 5 (Online Boutique, 125 cases, Avg@5, read from the table's header "
+          "order) gives BARO cpu 0.97, mem 1.00, disk 0.91, delay 0.98, loss 0.67 and NSigma 0.94, 1.00, 0.90, "
+          "0.98, 0.67. Compare them with the given_time row, which uses the same information (the failure "
+          "time). Our window lengths were chosen on DEV, so the all-125 per-fault numbers include tuned cases; "
+          "the TEST row is the clean one.", "",
           "## Data notes", ""]
     L += [f"- {x}" for x in res["data_notes"]]
     L += ["", "## How to reproduce", "",
@@ -289,6 +343,9 @@ def markdown(res: dict, out_dir: Path = OUT_DIR) -> str:
           "# Lane R protocol (DEV = repetitions 1-3, TEST = repetitions 4-5)",
           "python -I eval/rcaeval/run_rcaeval.py --split dev --tag dev_after      # tuning set",
           "python -I eval/rcaeval/run_rcaeval.py --split test --tag test_after    # run once, after freezing",
+          "# Lane S: the given_time protocol is in every run above; its DEV and TEST runs are",
+          "python -I eval/rcaeval/run_rcaeval.py --split dev --tag dev_given",
+          "python -I eval/rcaeval/run_rcaeval.py --split test --tag test_given   # run once, after freezing",
           "# before = the same commands from a checkout of commit 6ca3443 (speed fix only), with",
           "#   --tag dev_before / --tag test_before --out <this repo>/eval/rcaeval",
           "python -I eval/rcaeval/diagnose.py --data D:/rcaeval-data", "```", "",

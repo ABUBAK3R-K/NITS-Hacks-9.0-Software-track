@@ -81,7 +81,13 @@ Our own simulator spreads faults cleanly, so we also ran the engine on real labe
 | Engine before | 24.0% | 52.0% | 44.4% | 34.0% |
 | Engine after (two anomaly-detection changes) | **48.0%** | 60.0% | 59.2% | **20.0%** |
 
-Chance is about 8% (1 of 12 services). For context, methods built only for metrics, such as BARO and NSigma, report higher Avg@5 on the same 125 cases when they are given the failure time [[R7]](docs/REFERENCES.md#benchmark-and-industry-practice); on that same given-time protocol our TEST Avg@5 is 41.6%. J.A.R.V.I.S. is built for a different job: one live pipeline across alerts, logs, metrics and deploys, every claim tied to evidence ids, and abstaining instead of guessing. RCAEval RE1 is metrics only, so our change signal (20% of the score) is always zero here and there are no alerts or logs to correlate. Closing the metrics-only gap, starting with cpu faults (0% on TEST), is our next step. The full protocol, per-fault tables and the reproduce command are in `eval/rcaeval/RESULTS.md`.
+Chance is about 8% (1 of 12 services). The live engine above has to find the failure time on its own. The published RCAEval methods are given the failure time, so we added a mode for that case: when you know when it broke, `given_time.py` ranks services by how far each one's metrics moved from its own recent normal (median before vs after, the robust scoring BARO uses [[R7]](docs/REFERENCES.md#benchmark-and-industry-practice)). Tuned on DEV, then run once on TEST [[E14]](docs/REFERENCES.md#real-data-rcaeval-re1-ob):
+
+| Held-out TEST (50 cases), failure time given | AC@1 | AC@3 | Avg@5 | False blame |
+|---|---|---|---|---|
+| J.A.R.V.I.S. given-time mode | **90.0%** | 94.0% | **94.8%** | **2.0%** |
+
+Per fault on TEST, Avg@5 is 100% for cpu, mem and delay, 96% for disk and 78% for loss, in the same range as the published BARO numbers (0.67 to 1.00 per fault) on this data [[R7]](docs/REFERENCES.md#benchmark-and-industry-practice). It is the same family of method, so matching it is the expected result, not a new state of the art. In the product it runs as a **second opinion** on every incident report (`GET /api/incidents/{id}/shift_check`): it ignores the dependency graph, so when it agrees with the engine, two different methods point at the same service. The full protocol, per-fault tables and the reproduce commands are in `eval/rcaeval/RESULTS.md`.
 
 ### What it looks like
 

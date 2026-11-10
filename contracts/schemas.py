@@ -328,6 +328,30 @@ class ApplyFixResult(_Model):
     message: str
 
 
+# ---------------------------------------------------------------- given-time shift check (lane S)
+class ShiftCandidate(_Model):
+    service: str
+    score: float  # largest |median after - median before| / IQR(before) over the service's metrics
+    metric: str
+    before_median: float
+    after_median: float
+    evidence: list[str]  # [sample after the failure time furthest from the median, last sample before it]
+
+
+class ShiftCheck(_Model):
+    """GET /api/incidents/{id}/shift_check. A second, independent ranking: which service's metrics
+    shifted most at the incident's first onset (robust median/IQR, as in BARO, ASE 2024). It does
+    not use the topology. `agrees` compares its committed root with the engine's (None if either
+    side did not commit)."""
+
+    incident_id: str
+    failure_ts: str
+    ranking: list[ShiftCandidate]
+    confident: bool
+    root_service: Optional[str] = None
+    agrees: Optional[bool] = None
+
+
 # ---------------------------------------------------------------- naive LLM + eval (U3, U4)
 class Measured(_Model):
     top1: float

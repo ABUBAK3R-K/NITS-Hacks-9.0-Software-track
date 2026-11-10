@@ -458,6 +458,18 @@ class Store:
         rec, inc = hit
         return incident_window(rec.events, inc)
 
+    def events_and_incident(self, incident_id: str) -> Optional[tuple[list[Event], Incident]]:
+        """Every stored event (live store or the run's own events) plus the incident, for checks
+        that need history before the incident window (the given-time shift check)."""
+        inc = self.incidents.get(incident_id)
+        if inc is not None:
+            return self.snapshot(), inc
+        hit = self.runs.find_incident(incident_id)
+        if hit is None:
+            return None
+        rec, inc = hit
+        return list(rec.events), inc
+
     def apply_fix(self, incident_id: str, fix_id: str) -> Optional[ApplyFixResult]:
         """U5: remediate a live or sandbox incident. None if the incident is unknown.
         Never touches lifecycle: the engine moves it once it sees the fix_applied event

@@ -1,0 +1,7820 @@
+{
+ "dataset": "RE1-OB",
+ "source": "huggingface.co/datasets/phamquiluan/RCAEval (MIT licence)",
+ "paper": "Pham et al., RCAEval, WWW 2025 companion, arXiv 2412.17015",
+ "sentence": "RE1-OB from RCAEval (Pham et al., WWW 2025), 125 labelled failures from the Online Boutique microservice system",
+ "split": "dev",
+ "split_instances": [
+  1,
+  2,
+  3
+ ],
+ "config_overrides": null,
+ "n_index": 125,
+ "n_cases": 75,
+ "n_excluded": 0,
+ "excluded": [],
+ "weights": {
+  "upstream": 0.4,
+  "precedence": 0.3,
+  "change": 0.2,
+  "severity": 0.1
+ },
+ "n_topology_services": 12,
+ "overall": {
+  "blind": {
+   "n": 75,
+   "ac1": 0.587,
+   "ac3": 0.68,
+   "ac5": 0.8,
+   "avg5": 0.693,
+   "confident_top1": 0.347,
+   "abstain_rate": 0.507,
+   "false_blame_rate": 0.147,
+   "no_incident": 1
+  },
+  "windowed": {
+   "n": 75,
+   "ac1": 0.293,
+   "ac3": 0.307,
+   "ac5": 0.307,
+   "avg5": 0.304,
+   "confident_top1": 0.24,
+   "abstain_rate": 0.427,
+   "false_blame_rate": 0.333,
+   "no_incident": 25
+  },
+  "given_time": {
+   "n": 75,
+   "ac1": 0.893,
+   "ac3": 0.92,
+   "ac5": 0.973,
+   "avg5": 0.925,
+   "confident_top1": 0.813,
+   "abstain_rate": 0.16,
+   "false_blame_rate": 0.027,
+   "no_incident": 2
+  }
+ },
+ "by_fault": {
+  "cpu": {
+   "blind": {
+    "n": 15,
+    "ac1": 0.4,
+    "ac3": 0.467,
+    "ac5": 0.8,
+    "avg5": 0.533,
+    "confident_top1": 0.267,
+    "abstain_rate": 0.733,
+    "false_blame_rate": 0.0,
+    "no_incident": 1
+   },
+   "windowed": {
+    "n": 15,
+    "ac1": 0.2,
+    "ac3": 0.2,
+    "ac5": 0.2,
+    "avg5": 0.2,
+    "confident_top1": 0.2,
+    "abstain_rate": 0.2,
+    "false_blame_rate": 0.6,
+    "no_incident": 1
+   },
+   "given_time": {
+    "n": 15,
+    "ac1": 0.933,
+    "ac3": 0.933,
+    "ac5": 0.933,
+    "avg5": 0.933,
+    "confident_top1": 0.933,
+    "abstain_rate": 0.067,
+    "false_blame_rate": 0.0,
+    "no_incident": 1
+   }
+  },
+  "delay": {
+   "blind": {
+    "n": 15,
+    "ac1": 0.933,
+    "ac3": 0.933,
+    "ac5": 1.0,
+    "avg5": 0.96,
+    "confident_top1": 0.467,
+    "abstain_rate": 0.533,
+    "false_blame_rate": 0.0,
+    "no_incident": 0
+   },
+   "windowed": {
+    "n": 15,
+    "ac1": 0.267,
+    "ac3": 0.267,
+    "ac5": 0.267,
+    "avg5": 0.267,
+    "confident_top1": 0.2,
+    "abstain_rate": 0.8,
+    "false_blame_rate": 0.0,
+    "no_incident": 11
+   },
+   "given_time": {
+    "n": 15,
+    "ac1": 0.933,
+    "ac3": 0.933,
+    "ac5": 1.0,
+    "avg5": 0.96,
+    "confident_top1": 0.8,
+    "abstain_rate": 0.2,
+    "false_blame_rate": 0.0,
+    "no_incident": 0
+   }
+  },
+  "disk": {
+   "blind": {
+    "n": 15,
+    "ac1": 0.8,
+    "ac3": 0.933,
+    "ac5": 0.933,
+    "avg5": 0.893,
+    "confident_top1": 0.333,
+    "abstain_rate": 0.467,
+    "false_blame_rate": 0.2,
+    "no_incident": 0
+   },
+   "windowed": {
+    "n": 15,
+    "ac1": 0.467,
+    "ac3": 0.467,
+    "ac5": 0.467,
+    "avg5": 0.467,
+    "confident_top1": 0.267,
+    "abstain_rate": 0.667,
+    "false_blame_rate": 0.067,
+    "no_incident": 7
+   },
+   "given_time": {
+    "n": 15,
+    "ac1": 1.0,
+    "ac3": 1.0,
+    "ac5": 1.0,
+    "avg5": 1.0,
+    "confident_top1": 1.0,
+    "abstain_rate": 0.0,
+    "false_blame_rate": 0.0,
+    "no_incident": 0
+   }
+  },
+  "loss": {
+   "blind": {
+    "n": 15,
+    "ac1": 0.333,
+    "ac3": 0.467,
+    "ac5": 0.467,
+    "avg5": 0.44,
+    "confident_top1": 0.267,
+    "abstain_rate": 0.267,
+    "false_blame_rate": 0.467,
+    "no_incident": 0
+   },
+   "windowed": {
+    "n": 15,
+    "ac1": 0.133,
+    "ac3": 0.2,
+    "ac5": 0.2,
+    "avg5": 0.187,
+    "confident_top1": 0.133,
+    "abstain_rate": 0.4,
+    "false_blame_rate": 0.467,
+    "no_incident": 6
+   },
+   "given_time": {
+    "n": 15,
+    "ac1": 0.6,
+    "ac3": 0.733,
+    "ac5": 0.933,
+    "avg5": 0.733,
+    "confident_top1": 0.4,
+    "abstain_rate": 0.467,
+    "false_blame_rate": 0.133,
+    "no_incident": 1
+   }
+  },
+  "mem": {
+   "blind": {
+    "n": 15,
+    "ac1": 0.467,
+    "ac3": 0.6,
+    "ac5": 0.8,
+    "avg5": 0.64,
+    "confident_top1": 0.4,
+    "abstain_rate": 0.533,
+    "false_blame_rate": 0.067,
+    "no_incident": 0
+   },
+   "windowed": {
+    "n": 15,
+    "ac1": 0.4,
+    "ac3": 0.4,
+    "ac5": 0.4,
+    "avg5": 0.4,
+    "confident_top1": 0.4,
+    "abstain_rate": 0.067,
+    "false_blame_rate": 0.533,
+    "no_incident": 0
+   },
+   "given_time": {
+    "n": 15,
+    "ac1": 1.0,
+    "ac3": 1.0,
+    "ac5": 1.0,
+    "avg5": 1.0,
+    "confident_top1": 0.933,
+    "abstain_rate": 0.067,
+    "false_blame_rate": 0.0,
+    "no_incident": 0
+   }
+  }
+ },
+ "by_service_windowed": {
+  "adservice": {
+   "n": 15,
+   "ac1": 0.267,
+   "ac3": 0.267,
+   "ac5": 0.267,
+   "avg5": 0.267,
+   "confident_top1": 0.267,
+   "abstain_rate": 0.467,
+   "false_blame_rate": 0.267,
+   "no_incident": 6
+  },
+  "cartservice": {
+   "n": 15,
+   "ac1": 0.2,
+   "ac3": 0.2,
+   "ac5": 0.2,
+   "avg5": 0.2,
+   "confident_top1": 0.2,
+   "abstain_rate": 0.333,
+   "false_blame_rate": 0.467,
+   "no_incident": 5
+  },
+  "checkoutservice": {
+   "n": 15,
+   "ac1": 0.2,
+   "ac3": 0.267,
+   "ac5": 0.267,
+   "avg5": 0.253,
+   "confident_top1": 0.2,
+   "abstain_rate": 0.4,
+   "false_blame_rate": 0.4,
+   "no_incident": 5
+  },
+  "currencyservice": {
+   "n": 15,
+   "ac1": 0.467,
+   "ac3": 0.467,
+   "ac5": 0.467,
+   "avg5": 0.467,
+   "confident_top1": 0.333,
+   "abstain_rate": 0.333,
+   "false_blame_rate": 0.333,
+   "no_incident": 2
+  },
+  "productcatalogservice": {
+   "n": 15,
+   "ac1": 0.333,
+   "ac3": 0.333,
+   "ac5": 0.333,
+   "avg5": 0.333,
+   "confident_top1": 0.2,
+   "abstain_rate": 0.6,
+   "false_blame_rate": 0.2,
+   "no_incident": 7
+  }
+ },
+ "published_baselines": null,
+ "published_baselines_note": "arXiv 2412.17015 has no RE1-OB results table (only Table 6, RE2 Train Ticket).",
+ "data_notes": [
+  "Label check: cases.parquet root_cause_service equals the service in the directory name for 75 of 75 cases.",
+  "Columns `InboundPassthroughClusterIpv4_*` are not fed to the engine, present in `re1ob_productcatalogservice_cpu_3`. Reason: Istio's catch-all cluster for inbound traffic, not a service.",
+  "Columns `PassthroughCluster_*` are not fed to the engine, present in 30 cases. Reason: Istio's catch-all cluster for traffic to unknown destinations, not a service.",
+  "Columns `carts_*` are not fed to the engine, present in `re1ob_productcatalogservice_cpu_3`. Reason: not in the Online Boutique call graph.",
+  "Columns `catalogue_*` are not fed to the engine, present in `re1ob_productcatalogservice_cpu_3`. Reason: not in the Online Boutique call graph.",
+  "Columns `front-end_*` are not fed to the engine, present in `re1ob_productcatalogservice_cpu_3`. Reason: not in the Online Boutique call graph.",
+  "Columns `frontend-check_*` are not fed to the engine, present in `re1ob_cartservice_disk_3`. Reason: the loadgenerator init container (waits for the frontend), kubernetes-manifests/loadgenerator.yaml.",
+  "Columns `main_*` are not fed to the engine, present in all 75 cases. Reason: the loadgenerator container (Locust traffic client, kubernetes-manifests/loadgenerator.yaml).",
+  "Columns `orders_*` are not fed to the engine, present in `re1ob_productcatalogservice_cpu_3`. Reason: not in the Online Boutique call graph.",
+  "Every other column is used, with its original name as the event name.",
+  "Null cells (metric not observed at that second, skipped, no fill): 374.",
+  "`re1ob_currencyservice_loss_1`: inject_time 16933142 is before the first metric row (it looks truncated in the source). Kept as is; in the windowed protocol every incident of this case therefore qualifies.",
+  "`re1ob_productcatalogservice_cpu_3`: only 63 metric rows, all before inject_time (no faulty period in the data), and it also carries Sock Shop column names (carts, catalogue, orders, front-end). Kept and scored like every other case.",
+  "No case was excluded."
+ ],
+ "data_files": 252,
+ "data_bytes": 31874591,
+ "command": "python -I eval/rcaeval/run_rcaeval.py --data D:/rcaeval-data --split dev --tag dev_given",
+ "runtime_s": 50.8,
+ "diagnostics": {
+  "overall": {
+   "n": 125,
+   "mean_services_anomalous_before_inject": 3.91,
+   "gt_anomalous_after_inject": 0.888,
+   "gt_first_after_inject": 0.504,
+   "gt_episode_started_before_inject": 0.2,
+   "no_episode_starts_after_inject": 0.024
+  },
+  "by_fault": {
+   "cpu": {
+    "n": 25,
+    "mean_services_anomalous_before_inject": 8.64,
+    "gt_anomalous_after_inject": 0.96,
+    "gt_first_after_inject": 0.72,
+    "gt_episode_started_before_inject": 0.56,
+    "no_episode_starts_after_inject": 0.04
+   },
+   "delay": {
+    "n": 25,
+    "mean_services_anomalous_before_inject": 1.08,
+    "gt_anomalous_after_inject": 1.0,
+    "gt_first_after_inject": 0.16,
+    "gt_episode_started_before_inject": 0.0,
+    "no_episode_starts_after_inject": 0.0
+   },
+   "disk": {
+    "n": 25,
+    "mean_services_anomalous_before_inject": 1.08,
+    "gt_anomalous_after_inject": 0.88,
+    "gt_first_after_inject": 0.6,
+    "gt_episode_started_before_inject": 0.0,
+    "no_episode_starts_after_inject": 0.0
+   },
+   "loss": {
+    "n": 25,
+    "mean_services_anomalous_before_inject": 1.0,
+    "gt_anomalous_after_inject": 0.6,
+    "gt_first_after_inject": 0.48,
+    "gt_episode_started_before_inject": 0.04,
+    "no_episode_starts_after_inject": 0.08
+   },
+   "mem": {
+    "n": 25,
+    "mean_services_anomalous_before_inject": 7.76,
+    "gt_anomalous_after_inject": 1.0,
+    "gt_first_after_inject": 0.56,
+    "gt_episode_started_before_inject": 0.4,
+    "no_episode_starts_after_inject": 0.0
+   }
+  }
+ },
+ "generated_at": "2026-11-10T09:25:55.000Z",
+ "cases": [
+  {
+   "case": "re1ob_adservice_cpu_1",
+   "fault": "cpu",
+   "ground_truth": "adservice",
+   "label_matches_dir": true,
+   "inject_time": 1685202688,
+   "inject_iso": "2023-05-27T15:51:28.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 6,
+   "n_incidents_after_inject": 3,
+   "blind": {
+    "incident": "inc_ae859085bb",
+    "opened_at": "2023-05-27T15:47:59.000Z",
+    "status": "OPEN",
+    "n_services": 2,
+    "ranking": [
+     "adservice",
+     "frontend"
+    ],
+    "scores": [
+     0.5,
+     0.004
+    ],
+    "confident": true,
+    "root": "adservice"
+   },
+   "windowed": {
+    "incident": "inc_c35590e24a",
+    "opened_at": "2023-05-27T16:18:32.000Z",
+    "status": "RESOLVED",
+    "n_services": 2,
+    "ranking": [
+     "frontend",
+     "frontend-external"
+    ],
+    "scores": [
+     0.409,
+     0.05
+    ],
+    "confident": false,
+    "root": null
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "adservice",
+     "cartservice",
+     "recommendationservice",
+     "paymentservice",
+     "productcatalogservice"
+    ],
+    "scores": [
+     620.968,
+     0.756,
+     0.47,
+     0.387,
+     0.338
+    ],
+    "metrics": [
+     "adservice_cpu",
+     "cartservice_latency",
+     "recommendationservice_cpu",
+     "paymentservice_mem",
+     "productcatalogservice_cpu"
+    ],
+    "evidence": [
+     [
+      "evt_r02149_c00",
+      "evt_r02099_c00"
+     ],
+     [
+      "evt_r02183_c37",
+      "evt_r02099_c37"
+     ],
+     [
+      "evt_r02287_c09",
+      "evt_r02099_c09"
+     ],
+     [
+      "evt_r02362_c19",
+      "evt_r02099_c19"
+     ],
+     [
+      "evt_r02113_c08",
+      "evt_r02099_c08"
+     ]
+    ],
+    "confident": true,
+    "root": "adservice"
+   },
+   "seconds": 7.1,
+   "analyze_s": 3.6
+  },
+  {
+   "case": "re1ob_adservice_cpu_2",
+   "fault": "cpu",
+   "ground_truth": "adservice",
+   "label_matches_dir": true,
+   "inject_time": 1685206967,
+   "inject_iso": "2023-05-27T17:02:47.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 7,
+   "n_incidents_after_inject": 2,
+   "blind": {
+    "incident": "inc_4127e92785",
+    "opened_at": "2023-05-27T17:01:49.000Z",
+    "status": "ABSTAINED",
+    "n_services": 3,
+    "ranking": [
+     "adservice",
+     "cartservice",
+     "frontend"
+    ],
+    "scores": [
+     0.3,
+     0.222,
+     0.008
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_04ecd34e35",
+    "opened_at": "2023-05-27T17:15:21.000Z",
+    "status": "RESOLVED",
+    "n_services": 1,
+    "ranking": [
+     "frontend-external"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "frontend-external"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "adservice",
+     "cartservice",
+     "shippingservice",
+     "recommendationservice",
+     "redis"
+    ],
+    "scores": [
+     1203.819,
+     1.405,
+     1.297,
+     0.985,
+     0.973
+    ],
+    "metrics": [
+     "adservice_cpu",
+     "cartservice_latency",
+     "shippingservice_cpu",
+     "recommendationservice_latency",
+     "redis_cpu"
+    ],
+    "evidence": [
+     [
+      "evt_r02323_c00",
+      "evt_r02099_c00"
+     ],
+     [
+      "evt_r02212_c37",
+      "evt_r02099_c37"
+     ],
+     [
+      "evt_r02171_c11",
+      "evt_r02099_c11"
+     ],
+     [
+      "evt_r02210_c44",
+      "evt_r02099_c44"
+     ],
+     [
+      "evt_r02232_c10",
+      "evt_r02099_c10"
+     ]
+    ],
+    "confident": true,
+    "root": "adservice"
+   },
+   "seconds": 7.0,
+   "analyze_s": 3.6
+  },
+  {
+   "case": "re1ob_adservice_cpu_3",
+   "fault": "cpu",
+   "ground_truth": "adservice",
+   "label_matches_dir": true,
+   "inject_time": 1685211245,
+   "inject_iso": "2023-05-27T18:14:05.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 8,
+   "n_incidents_after_inject": 4,
+   "blind": {
+    "incident": "inc_0785fc2454",
+    "opened_at": "2023-05-27T18:14:07.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "adservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "adservice"
+   },
+   "windowed": {
+    "incident": "inc_0785fc2454",
+    "opened_at": "2023-05-27T18:14:07.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "adservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "adservice"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "adservice",
+     "paymentservice",
+     "cartservice",
+     "productcatalogservice",
+     "shippingservice"
+    ],
+    "scores": [
+     1205.233,
+     0.931,
+     0.585,
+     0.519,
+     0.379
+    ],
+    "metrics": [
+     "adservice_cpu",
+     "paymentservice_mem",
+     "cartservice_latency",
+     "productcatalogservice_cpu",
+     "shippingservice_cpu"
+    ],
+    "evidence": [
+     [
+      "evt_r02372_c00",
+      "evt_r02099_c00"
+     ],
+     [
+      "evt_r02324_c19",
+      "evt_r02099_c19"
+     ],
+     [
+      "evt_r02272_c37",
+      "evt_r02099_c37"
+     ],
+     [
+      "evt_r02130_c08",
+      "evt_r02099_c08"
+     ],
+     [
+      "evt_r02225_c11",
+      "evt_r02099_c11"
+     ]
+    ],
+    "confident": true,
+    "root": "adservice"
+   },
+   "seconds": 7.2,
+   "analyze_s": 3.7
+  },
+  {
+   "case": "re1ob_adservice_delay_1",
+   "fault": "delay",
+   "ground_truth": "adservice",
+   "label_matches_dir": true,
+   "inject_time": 1692583932,
+   "inject_iso": "2023-08-21T02:12:12.000Z",
+   "rows": 721,
+   "events": 39655,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_652344eb7e",
+    "opened_at": "2023-08-21T02:06:24.000Z",
+    "status": "ABSTAINED",
+    "n_services": 6,
+    "ranking": [
+     "cartservice",
+     "paymentservice",
+     "checkoutservice",
+     "adservice",
+     "frontend-external"
+    ],
+    "scores": [
+     0.48,
+     0.476,
+     0.258,
+     0.203,
+     0.05
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "adservice",
+     "checkoutservice",
+     "shippingservice",
+     "productcatalogservice",
+     "currencyservice"
+    ],
+    "scores": [
+     973.061,
+     83.115,
+     4.174,
+     1.449,
+     0.891
+    ],
+    "metrics": [
+     "adservice_latency-90",
+     "checkoutservice_latency-50",
+     "shippingservice_latency-50",
+     "productcatalogservice_latency-90",
+     "currencyservice_latency-90"
+    ],
+    "evidence": [
+     [
+      "evt_r00487_c53",
+      "evt_r00359_c53"
+     ],
+     [
+      "evt_r00559_c39",
+      "evt_r00359_c39"
+     ],
+     [
+      "evt_r00659_c46",
+      "evt_r00359_c46"
+     ],
+     [
+      "evt_r00463_c54",
+      "evt_r00359_c54"
+     ],
+     [
+      "evt_r00464_c50",
+      "evt_r00359_c50"
+     ]
+    ],
+    "confident": true,
+    "root": "adservice"
+   },
+   "seconds": 1.7,
+   "analyze_s": 0.9
+  },
+  {
+   "case": "re1ob_adservice_delay_2",
+   "fault": "delay",
+   "ground_truth": "adservice",
+   "label_matches_dir": true,
+   "inject_time": 1692584700,
+   "inject_iso": "2023-08-21T02:25:00.000Z",
+   "rows": 721,
+   "events": 39655,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_bb68fbefe8",
+    "opened_at": "2023-08-21T02:23:27.000Z",
+    "status": "ABSTAINED",
+    "n_services": 4,
+    "ranking": [
+     "adservice",
+     "checkoutservice",
+     "frontend",
+     "frontend-external"
+    ],
+    "scores": [
+     0.463,
+     0.457,
+     0.228,
+     0.05
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "adservice",
+     "checkoutservice",
+     "redis",
+     "cartservice",
+     "recommendationservice"
+    ],
+    "scores": [
+     993.061,
+     90.697,
+     0.859,
+     0.714,
+     0.507
+    ],
+    "metrics": [
+     "adservice_latency-90",
+     "checkoutservice_latency-50",
+     "redis_mem",
+     "cartservice_cpu",
+     "recommendationservice_latency-90"
+    ],
+    "evidence": [
+     [
+      "evt_r00555_c53",
+      "evt_r00359_c53"
+     ],
+     [
+      "evt_r00476_c39",
+      "evt_r00359_c39"
+     ],
+     [
+      "evt_r00596_c22",
+      "evt_r00359_c22"
+     ],
+     [
+      "evt_r00432_c01",
+      "evt_r00359_c01"
+     ],
+     [
+      "evt_r00561_c55",
+      "evt_r00359_c55"
+     ]
+    ],
+    "confident": true,
+    "root": "adservice"
+   },
+   "seconds": 1.8,
+   "analyze_s": 1.0
+  },
+  {
+   "case": "re1ob_adservice_delay_3",
+   "fault": "delay",
+   "ground_truth": "adservice",
+   "label_matches_dir": true,
+   "inject_time": 1692585468,
+   "inject_iso": "2023-08-21T02:37:48.000Z",
+   "rows": 721,
+   "events": 39655,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_ba06f9697f",
+    "opened_at": "2023-08-21T02:32:05.000Z",
+    "status": "ABSTAINED",
+    "n_services": 5,
+    "ranking": [
+     "adservice",
+     "cartservice",
+     "checkoutservice",
+     "frontend",
+     "frontend-external"
+    ],
+    "scores": [
+     0.543,
+     0.521,
+     0.27,
+     0.208,
+     0.05
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "adservice",
+     "checkoutservice",
+     "productcatalogservice",
+     "frontend",
+     "currencyservice"
+    ],
+    "scores": [
+     977.885,
+     79.182,
+     0.841,
+     0.769,
+     0.757
+    ],
+    "metrics": [
+     "adservice_latency-90",
+     "checkoutservice_latency-90",
+     "productcatalogservice_latency-50",
+     "frontend_latency-50",
+     "currencyservice_latency-90"
+    ],
+    "evidence": [
+     [
+      "evt_r00552_c53",
+      "evt_r00359_c53"
+     ],
+     [
+      "evt_r00505_c49",
+      "evt_r00359_c49"
+     ],
+     [
+      "evt_r00643_c44",
+      "evt_r00359_c44"
+     ],
+     [
+      "evt_r00389_c42",
+      "evt_r00359_c42"
+     ],
+     [
+      "evt_r00374_c50",
+      "evt_r00359_c50"
+     ]
+    ],
+    "confident": true,
+    "root": "adservice"
+   },
+   "seconds": 1.8,
+   "analyze_s": 1.0
+  },
+  {
+   "case": "re1ob_adservice_disk_1",
+   "fault": "disk",
+   "ground_truth": "adservice",
+   "label_matches_dir": true,
+   "inject_time": 1702354817,
+   "inject_iso": "2023-12-12T04:20:17.000Z",
+   "rows": 721,
+   "events": 38934,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_ca141148a5",
+    "opened_at": "2023-12-12T04:16:15.000Z",
+    "status": "ABSTAINED",
+    "n_services": 3,
+    "ranking": [
+     "adservice",
+     "cartservice",
+     "frontend"
+    ],
+    "scores": [
+     0.3,
+     0.256,
+     0.013
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "adservice",
+     "emailservice",
+     "checkoutservice",
+     "productcatalogservice",
+     "paymentservice"
+    ],
+    "scores": [
+     166.22,
+     7.395,
+     1.772,
+     1.16,
+     1.087
+    ],
+    "metrics": [
+     "adservice_cpu",
+     "emailservice_latency-90",
+     "checkoutservice_latency-50",
+     "productcatalogservice_latency-90",
+     "paymentservice_mem"
+    ],
+    "evidence": [
+     [
+      "evt_r00472_c00",
+      "evt_r00359_c00"
+     ],
+     [
+      "evt_r00644_c50",
+      "evt_r00359_c50"
+     ],
+     [
+      "evt_r00659_c38",
+      "evt_r00359_c38"
+     ],
+     [
+      "evt_r00659_c53",
+      "evt_r00359_c53"
+     ],
+     [
+      "evt_r00656_c19",
+      "evt_r00359_c19"
+     ]
+    ],
+    "confident": true,
+    "root": "adservice"
+   },
+   "seconds": 1.7,
+   "analyze_s": 0.9
+  },
+  {
+   "case": "re1ob_adservice_disk_2",
+   "fault": "disk",
+   "ground_truth": "adservice",
+   "label_matches_dir": true,
+   "inject_time": 1702359042,
+   "inject_iso": "2023-12-12T05:30:42.000Z",
+   "rows": 721,
+   "events": 39655,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 1,
+   "blind": {
+    "incident": "inc_c920014c71",
+    "opened_at": "2023-12-12T05:30:45.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "adservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "adservice"
+   },
+   "windowed": {
+    "incident": "inc_c920014c71",
+    "opened_at": "2023-12-12T05:30:45.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "adservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "adservice"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "adservice",
+     "emailservice",
+     "productcatalogservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     209.075,
+     10.37,
+     5.905,
+     3.502,
+     1.928
+    ],
+    "metrics": [
+     "adservice_cpu",
+     "emailservice_latency-90",
+     "productcatalogservice_latency-90",
+     "checkoutservice_latency-50",
+     "frontend_latency-50"
+    ],
+    "evidence": [
+     [
+      "evt_r00442_c00",
+      "evt_r00359_c00"
+     ],
+     [
+      "evt_r00630_c51",
+      "evt_r00359_c51"
+     ],
+     [
+      "evt_r00540_c54",
+      "evt_r00359_c54"
+     ],
+     [
+      "evt_r00525_c39",
+      "evt_r00359_c39"
+     ],
+     [
+      "evt_r00559_c42",
+      "evt_r00359_c42"
+     ]
+    ],
+    "confident": true,
+    "root": "adservice"
+   },
+   "seconds": 1.1,
+   "analyze_s": 0.5
+  },
+  {
+   "case": "re1ob_adservice_disk_3",
+   "fault": "disk",
+   "ground_truth": "adservice",
+   "label_matches_dir": true,
+   "inject_time": 1702359817,
+   "inject_iso": "2023-12-12T05:43:37.000Z",
+   "rows": 721,
+   "events": 39655,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 3,
+   "n_incidents_after_inject": 1,
+   "blind": {
+    "incident": "inc_3d4c229460",
+    "opened_at": "2023-12-12T05:43:54.000Z",
+    "status": "OPEN",
+    "n_services": 3,
+    "ranking": [
+     "adservice",
+     "cartservice",
+     "frontend"
+    ],
+    "scores": [
+     0.6,
+     0.252,
+     0.015
+    ],
+    "confident": true,
+    "root": "adservice"
+   },
+   "windowed": {
+    "incident": "inc_3d4c229460",
+    "opened_at": "2023-12-12T05:43:54.000Z",
+    "status": "OPEN",
+    "n_services": 3,
+    "ranking": [
+     "adservice",
+     "cartservice",
+     "frontend"
+    ],
+    "scores": [
+     0.6,
+     0.252,
+     0.015
+    ],
+    "confident": true,
+    "root": "adservice"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "adservice",
+     "emailservice",
+     "productcatalogservice",
+     "checkoutservice",
+     "paymentservice"
+    ],
+    "scores": [
+     174.801,
+     9.412,
+     4.519,
+     2.112,
+     0.751
+    ],
+    "metrics": [
+     "adservice_cpu",
+     "emailservice_latency-90",
+     "productcatalogservice_latency-90",
+     "checkoutservice_latency-50",
+     "paymentservice_mem"
+    ],
+    "evidence": [
+     [
+      "evt_r00452_c00",
+      "evt_r00359_c00"
+     ],
+     [
+      "evt_r00460_c51",
+      "evt_r00359_c51"
+     ],
+     [
+      "evt_r00510_c54",
+      "evt_r00359_c54"
+     ],
+     [
+      "evt_r00509_c39",
+      "evt_r00359_c39"
+     ],
+     [
+      "evt_r00638_c19",
+      "evt_r00359_c19"
+     ]
+    ],
+    "confident": true,
+    "root": "adservice"
+   },
+   "seconds": 1.1,
+   "analyze_s": 0.4
+  },
+  {
+   "case": "re1ob_adservice_loss_1",
+   "fault": "loss",
+   "ground_truth": "adservice",
+   "label_matches_dir": true,
+   "inject_time": 1693322053,
+   "inject_iso": "2023-08-29T15:14:13.000Z",
+   "rows": 721,
+   "events": 41097,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_2f7a5659c0",
+    "opened_at": "2023-08-29T15:10:47.000Z",
+    "status": "ABSTAINED",
+    "n_services": 3,
+    "ranking": [
+     "checkoutservice",
+     "adservice",
+     "frontend"
+    ],
+    "scores": [
+     0.3,
+     0.273,
+     0.015
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "adservice",
+     "checkoutservice",
+     "currencyservice",
+     "shippingservice",
+     "emailservice"
+    ],
+    "scores": [
+     736.761,
+     140.789,
+     0.641,
+     0.281,
+     0.257
+    ],
+    "metrics": [
+     "adservice_latency-90",
+     "checkoutservice_latency-90",
+     "currencyservice_latency-90",
+     "shippingservice_cpu",
+     "emailservice_cpu"
+    ],
+    "evidence": [
+     [
+      "evt_r00503_c55",
+      "evt_r00359_c55"
+     ],
+     [
+      "evt_r00507_c51",
+      "evt_r00359_c51"
+     ],
+     [
+      "evt_r00363_c52",
+      "evt_r00359_c52"
+     ],
+     [
+      "evt_r00654_c11",
+      "evt_r00359_c11"
+     ],
+     [
+      "evt_r00387_c04",
+      "evt_r00359_c04"
+     ]
+    ],
+    "confident": true,
+    "root": "adservice"
+   },
+   "seconds": 1.2,
+   "analyze_s": 0.5
+  },
+  {
+   "case": "re1ob_adservice_loss_2",
+   "fault": "loss",
+   "ground_truth": "adservice",
+   "label_matches_dir": true,
+   "inject_time": 1693316537,
+   "inject_iso": "2023-08-29T13:42:17.000Z",
+   "rows": 721,
+   "events": 41097,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 2,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_80b088ad33",
+    "opened_at": "2023-08-29T13:41:03.000Z",
+    "status": "RESOLVED",
+    "n_services": 4,
+    "ranking": [
+     "adservice",
+     "checkoutservice",
+     "frontend",
+     "frontend-external"
+    ],
+    "scores": [
+     0.454,
+     0.287,
+     0.267,
+     0.05
+    ],
+    "confident": true,
+    "root": "adservice"
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "checkoutservice",
+     "currencyservice",
+     "adservice",
+     "frontend",
+     "productcatalogservice"
+    ],
+    "scores": [
+     13.295,
+     1.457,
+     1.318,
+     1.162,
+     1.087
+    ],
+    "metrics": [
+     "checkoutservice_latency-90",
+     "currencyservice_latency-90",
+     "adservice_cpu",
+     "frontend_latency-90",
+     "productcatalogservice_latency-90"
+    ],
+    "evidence": [
+     [
+      "evt_r00461_c51",
+      "evt_r00359_c51"
+     ],
+     [
+      "evt_r00411_c52",
+      "evt_r00359_c52"
+     ],
+     [
+      "evt_r00394_c07",
+      "evt_r00359_c07"
+     ],
+     [
+      "evt_r00435_c54",
+      "evt_r00359_c54"
+     ],
+     [
+      "evt_r00440_c56",
+      "evt_r00359_c56"
+     ]
+    ],
+    "confident": true,
+    "root": "checkoutservice"
+   },
+   "seconds": 1.1,
+   "analyze_s": 0.6
+  },
+  {
+   "case": "re1ob_adservice_loss_3",
+   "fault": "loss",
+   "ground_truth": "adservice",
+   "label_matches_dir": true,
+   "inject_time": 1693317308,
+   "inject_iso": "2023-08-29T13:55:08.000Z",
+   "rows": 721,
+   "events": 41097,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 2,
+   "n_incidents_after_inject": 2,
+   "blind": {
+    "incident": "inc_658027cf51",
+    "opened_at": "2023-08-29T13:58:08.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "checkoutservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "checkoutservice"
+   },
+   "windowed": {
+    "incident": "inc_658027cf51",
+    "opened_at": "2023-08-29T13:58:08.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "checkoutservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "checkoutservice"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "checkoutservice",
+     "adservice",
+     "productcatalogservice",
+     "recommendationservice",
+     "frontend"
+    ],
+    "scores": [
+     3.61,
+     1.682,
+     1.218,
+     1.155,
+     0.923
+    ],
+    "metrics": [
+     "checkoutservice_latency-90",
+     "adservice_mem",
+     "productcatalogservice_latency-90",
+     "recommendationservice_latency-90",
+     "frontend_latency-90"
+    ],
+    "evidence": [
+     [
+      "evt_r00655_c51",
+      "evt_r00359_c51"
+     ],
+     [
+      "evt_r00403_c19",
+      "evt_r00359_c19"
+     ],
+     [
+      "evt_r00629_c56",
+      "evt_r00359_c56"
+     ],
+     [
+      "evt_r00369_c57",
+      "evt_r00359_c57"
+     ],
+     [
+      "evt_r00368_c54",
+      "evt_r00359_c54"
+     ]
+    ],
+    "confident": true,
+    "root": "checkoutservice"
+   },
+   "seconds": 1.4,
+   "analyze_s": 0.8
+  },
+  {
+   "case": "re1ob_adservice_mem_1",
+   "fault": "mem",
+   "ground_truth": "adservice",
+   "label_matches_dir": true,
+   "inject_time": 1685224742,
+   "inject_iso": "2023-05-27T21:59:02.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 21,
+   "n_incidents_after_inject": 8,
+   "blind": {
+    "incident": "inc_87561868a1",
+    "opened_at": "2023-05-27T21:24:07.000Z",
+    "status": "ABSTAINED",
+    "n_services": 8,
+    "ranking": [
+     "paymentservice",
+     "cartservice",
+     "productcatalogservice",
+     "recommendationservice",
+     "currencyservice"
+    ],
+    "scores": [
+     0.514,
+     0.466,
+     0.334,
+     0.219,
+     0.18
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_5c2201d9e7",
+    "opened_at": "2023-05-27T21:59:23.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "emailservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "emailservice"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "adservice",
+     "productcatalogservice",
+     "recommendationservice",
+     "cartservice",
+     "frontend"
+    ],
+    "scores": [
+     194.282,
+     1.259,
+     1.134,
+     1.05,
+     0.739
+    ],
+    "metrics": [
+     "adservice_mem",
+     "productcatalogservice_cpu",
+     "recommendationservice_latency",
+     "cartservice_cpu",
+     "frontend_cpu"
+    ],
+    "evidence": [
+     [
+      "evt_r02150_c12",
+      "evt_r02099_c12"
+     ],
+     [
+      "evt_r02141_c08",
+      "evt_r02099_c08"
+     ],
+     [
+      "evt_r02229_c44",
+      "evt_r02099_c44"
+     ],
+     [
+      "evt_r02319_c01",
+      "evt_r02099_c01"
+     ],
+     [
+      "evt_r02176_c05",
+      "evt_r02099_c05"
+     ]
+    ],
+    "confident": true,
+    "root": "adservice"
+   },
+   "seconds": 8.7,
+   "analyze_s": 4.3
+  },
+  {
+   "case": "re1ob_adservice_mem_2",
+   "fault": "mem",
+   "ground_truth": "adservice",
+   "label_matches_dir": true,
+   "inject_time": 1685234046,
+   "inject_iso": "2023-05-28T00:34:06.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 22,
+   "n_incidents_after_inject": 9,
+   "blind": {
+    "incident": "inc_f391b89003",
+    "opened_at": "2023-05-27T23:59:44.000Z",
+    "status": "ABSTAINED",
+    "n_services": 10,
+    "ranking": [
+     "paymentservice",
+     "redis",
+     "checkoutservice",
+     "productcatalogservice",
+     "cartservice"
+    ],
+    "scores": [
+     0.312,
+     0.27,
+     0.244,
+     0.228,
+     0.217
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_1cf6c0ac72",
+    "opened_at": "2023-05-28T00:34:17.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "adservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "adservice"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "adservice",
+     "productcatalogservice",
+     "frontend",
+     "checkoutservice",
+     "cartservice"
+    ],
+    "scores": [
+     186.943,
+     1.155,
+     0.825,
+     0.766,
+     0.532
+    ],
+    "metrics": [
+     "adservice_mem",
+     "productcatalogservice_cpu",
+     "frontend_cpu",
+     "checkoutservice_latency",
+     "cartservice_latency"
+    ],
+    "evidence": [
+     [
+      "evt_r02147_c12",
+      "evt_r02099_c12"
+     ],
+     [
+      "evt_r02261_c08",
+      "evt_r02099_c08"
+     ],
+     [
+      "evt_r02211_c05",
+      "evt_r02099_c05"
+     ],
+     [
+      "evt_r02377_c38",
+      "evt_r02099_c38"
+     ],
+     [
+      "evt_r02357_c37",
+      "evt_r02099_c37"
+     ]
+    ],
+    "confident": true,
+    "root": "adservice"
+   },
+   "seconds": 8.2,
+   "analyze_s": 3.9
+  },
+  {
+   "case": "re1ob_adservice_mem_3",
+   "fault": "mem",
+   "ground_truth": "adservice",
+   "label_matches_dir": true,
+   "inject_time": 1685238391,
+   "inject_iso": "2023-05-28T01:46:31.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 29,
+   "n_incidents_after_inject": 12,
+   "blind": {
+    "incident": "inc_e95c799d76",
+    "opened_at": "2023-05-28T01:11:47.000Z",
+    "status": "ABSTAINED",
+    "n_services": 9,
+    "ranking": [
+     "productcatalogservice",
+     "paymentservice",
+     "currencyservice",
+     "adservice",
+     "cartservice"
+    ],
+    "scores": [
+     0.39,
+     0.338,
+     0.319,
+     0.27,
+     0.25
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_8415fd5ecf",
+    "opened_at": "2023-05-28T02:16:58.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "paymentservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "paymentservice"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "adservice",
+     "checkoutservice",
+     "shippingservice",
+     "recommendationservice",
+     "frontend"
+    ],
+    "scores": [
+     207.698,
+     3.134,
+     1.351,
+     1.344,
+     0.982
+    ],
+    "metrics": [
+     "adservice_mem",
+     "checkoutservice_latency",
+     "shippingservice_latency",
+     "recommendationservice_latency",
+     "frontend_cpu"
+    ],
+    "evidence": [
+     [
+      "evt_r02175_c12",
+      "evt_r02099_c12"
+     ],
+     [
+      "evt_r02249_c38",
+      "evt_r02099_c38"
+     ],
+     [
+      "evt_r02313_c45",
+      "evt_r02099_c45"
+     ],
+     [
+      "evt_r02100_c44",
+      "evt_r02099_c44"
+     ],
+     [
+      "evt_r02177_c05",
+      "evt_r02099_c05"
+     ]
+    ],
+    "confident": true,
+    "root": "adservice"
+   },
+   "seconds": 8.4,
+   "analyze_s": 4.1
+  },
+  {
+   "case": "re1ob_cartservice_cpu_1",
+   "fault": "cpu",
+   "ground_truth": "cartservice",
+   "label_matches_dir": true,
+   "inject_time": 1685251430,
+   "inject_iso": "2023-05-28T05:23:50.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 29,
+   "n_incidents_after_inject": 13,
+   "blind": {
+    "incident": "inc_eccefb73b5",
+    "opened_at": "2023-05-28T04:49:34.000Z",
+    "status": "ABSTAINED",
+    "n_services": 10,
+    "ranking": [
+     "paymentservice",
+     "productcatalogservice",
+     "redis",
+     "currencyservice",
+     "cartservice"
+    ],
+    "scores": [
+     0.481,
+     0.444,
+     0.426,
+     0.274,
+     0.267
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_9c0f82d6d7",
+    "opened_at": "2023-05-28T05:29:56.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "emailservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "emailservice"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "cartservice",
+     "redis",
+     "shippingservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     69.538,
+     0.813,
+     0.54,
+     0.517,
+     0.469
+    ],
+    "metrics": [
+     "cartservice_cpu",
+     "redis_mem",
+     "shippingservice_latency",
+     "checkoutservice_latency",
+     "frontend_latency"
+    ],
+    "evidence": [
+     [
+      "evt_r02232_c01",
+      "evt_r02099_c01"
+     ],
+     [
+      "evt_r02175_c22",
+      "evt_r02099_c22"
+     ],
+     [
+      "evt_r02238_c45",
+      "evt_r02099_c45"
+     ],
+     [
+      "evt_r02243_c38",
+      "evt_r02099_c38"
+     ],
+     [
+      "evt_r02241_c41",
+      "evt_r02099_c41"
+     ]
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "seconds": 8.6,
+   "analyze_s": 4.6
+  },
+  {
+   "case": "re1ob_cartservice_cpu_2",
+   "fault": "cpu",
+   "ground_truth": "cartservice",
+   "label_matches_dir": true,
+   "inject_time": 1685255770,
+   "inject_iso": "2023-05-28T06:36:10.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 32,
+   "n_incidents_after_inject": 18,
+   "blind": {
+    "incident": "inc_ce6812ce61",
+    "opened_at": "2023-05-28T06:01:44.000Z",
+    "status": "ABSTAINED",
+    "n_services": 9,
+    "ranking": [
+     "paymentservice",
+     "productcatalogservice",
+     "redis",
+     "currencyservice",
+     "cartservice"
+    ],
+    "scores": [
+     0.334,
+     0.191,
+     0.174,
+     0.149,
+     0.1
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_9bdd3ab9a7",
+    "opened_at": "2023-05-28T07:06:45.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "paymentservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "paymentservice"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "cartservice",
+     "checkoutservice",
+     "shippingservice",
+     "productcatalogservice",
+     "frontend"
+    ],
+    "scores": [
+     78.368,
+     3.548,
+     0.902,
+     0.475,
+     0.454
+    ],
+    "metrics": [
+     "cartservice_cpu",
+     "checkoutservice_latency",
+     "shippingservice_latency",
+     "productcatalogservice_cpu",
+     "frontend_latency"
+    ],
+    "evidence": [
+     [
+      "evt_r02396_c01",
+      "evt_r02099_c01"
+     ],
+     [
+      "evt_r02276_c38",
+      "evt_r02099_c38"
+     ],
+     [
+      "evt_r02100_c45",
+      "evt_r02099_c45"
+     ],
+     [
+      "evt_r02394_c08",
+      "evt_r02099_c08"
+     ],
+     [
+      "evt_r02109_c41",
+      "evt_r02099_c41"
+     ]
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "seconds": 8.9,
+   "analyze_s": 5.0
+  },
+  {
+   "case": "re1ob_cartservice_cpu_3",
+   "fault": "cpu",
+   "ground_truth": "cartservice",
+   "label_matches_dir": true,
+   "inject_time": 1685260110,
+   "inject_iso": "2023-05-28T07:48:30.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 16,
+   "n_incidents_after_inject": 8,
+   "blind": {
+    "incident": "inc_6694df0d70",
+    "opened_at": "2023-05-28T07:13:54.000Z",
+    "status": "ABSTAINED",
+    "n_services": 10,
+    "ranking": [
+     "emailservice",
+     "checkoutservice",
+     "paymentservice",
+     "cartservice",
+     "productcatalogservice"
+    ],
+    "scores": [
+     0.279,
+     0.222,
+     0.189,
+     0.169,
+     0.166
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_9c34f3cc08",
+    "opened_at": "2023-05-28T07:50:28.000Z",
+    "status": "RESOLVED",
+    "n_services": 1,
+    "ranking": [
+     "redis"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "redis"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "cartservice",
+     "shippingservice",
+     "redis",
+     "paymentservice",
+     "recommendationservice"
+    ],
+    "scores": [
+     76.217,
+     0.933,
+     0.759,
+     0.685,
+     0.621
+    ],
+    "metrics": [
+     "cartservice_cpu",
+     "shippingservice_latency",
+     "redis_mem",
+     "paymentservice_mem",
+     "recommendationservice_latency"
+    ],
+    "evidence": [
+     [
+      "evt_r02261_c01",
+      "evt_r02099_c01"
+     ],
+     [
+      "evt_r02262_c45",
+      "evt_r02099_c45"
+     ],
+     [
+      "evt_r02263_c22",
+      "evt_r02099_c22"
+     ],
+     [
+      "evt_r02357_c19",
+      "evt_r02099_c19"
+     ],
+     [
+      "evt_r02262_c44",
+      "evt_r02099_c44"
+     ]
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "seconds": 9.3,
+   "analyze_s": 5.2
+  },
+  {
+   "case": "re1ob_cartservice_delay_1",
+   "fault": "delay",
+   "ground_truth": "cartservice",
+   "label_matches_dir": true,
+   "inject_time": 1692628112,
+   "inject_iso": "2023-08-21T14:28:32.000Z",
+   "rows": 721,
+   "events": 40376,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_b338aa8da0",
+    "opened_at": "2023-08-21T14:25:08.000Z",
+    "status": "OPEN",
+    "n_services": 4,
+    "ranking": [
+     "cartservice",
+     "frontend",
+     "checkoutservice",
+     "frontend-external"
+    ],
+    "scores": [
+     0.7,
+     0.267,
+     0.259,
+     0.05
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "cartservice",
+     "checkoutservice",
+     "frontend",
+     "emailservice",
+     "recommendationservice"
+    ],
+    "scores": [
+     2858.725,
+     722.501,
+     355.51,
+     2.452,
+     1.526
+    ],
+    "metrics": [
+     "cartservice_latency-50",
+     "checkoutservice_latency-50",
+     "frontend_latency-50",
+     "emailservice_latency-50",
+     "recommendationservice_cpu"
+    ],
+    "evidence": [
+     [
+      "evt_r00523_c39",
+      "evt_r00359_c39"
+     ],
+     [
+      "evt_r00527_c40",
+      "evt_r00359_c40"
+     ],
+     [
+      "evt_r00532_c43",
+      "evt_r00359_c43"
+     ],
+     [
+      "evt_r00430_c42",
+      "evt_r00359_c42"
+     ],
+     [
+      "evt_r00542_c09",
+      "evt_r00359_c09"
+     ]
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "seconds": 1.0,
+   "analyze_s": 0.6
+  },
+  {
+   "case": "re1ob_cartservice_delay_2",
+   "fault": "delay",
+   "ground_truth": "cartservice",
+   "label_matches_dir": true,
+   "inject_time": 1692628881,
+   "inject_iso": "2023-08-21T14:41:21.000Z",
+   "rows": 721,
+   "events": 40376,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 1,
+   "blind": {
+    "incident": "inc_fc4f992aa1",
+    "opened_at": "2023-08-21T14:41:30.000Z",
+    "status": "OPEN",
+    "n_services": 3,
+    "ranking": [
+     "cartservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.65,
+     0.15,
+     0.05
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "windowed": {
+    "incident": "inc_fc4f992aa1",
+    "opened_at": "2023-08-21T14:41:30.000Z",
+    "status": "OPEN",
+    "n_services": 3,
+    "ranking": [
+     "cartservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.65,
+     0.15,
+     0.05
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "cartservice",
+     "checkoutservice",
+     "frontend",
+     "redis",
+     "productcatalogservice"
+    ],
+    "scores": [
+     2995.187,
+     710.333,
+     359.982,
+     2.039,
+     1.924
+    ],
+    "metrics": [
+     "cartservice_latency-50",
+     "checkoutservice_latency-50",
+     "frontend_latency-50",
+     "redis_cpu",
+     "productcatalogservice_cpu"
+    ],
+    "evidence": [
+     [
+      "evt_r00619_c39",
+      "evt_r00359_c39"
+     ],
+     [
+      "evt_r00614_c40",
+      "evt_r00359_c40"
+     ],
+     [
+      "evt_r00619_c43",
+      "evt_r00359_c43"
+     ],
+     [
+      "evt_r00549_c10",
+      "evt_r00359_c10"
+     ],
+     [
+      "evt_r00610_c08",
+      "evt_r00359_c08"
+     ]
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "seconds": 2.1,
+   "analyze_s": 1.1
+  },
+  {
+   "case": "re1ob_cartservice_delay_3",
+   "fault": "delay",
+   "ground_truth": "cartservice",
+   "label_matches_dir": true,
+   "inject_time": 1692608348,
+   "inject_iso": "2023-08-21T08:59:08.000Z",
+   "rows": 721,
+   "events": 40376,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_c6dfb66bc2",
+    "opened_at": "2023-08-21T08:55:20.000Z",
+    "status": "OPEN",
+    "n_services": 4,
+    "ranking": [
+     "cartservice",
+     "checkoutservice",
+     "frontend",
+     "frontend-external"
+    ],
+    "scores": [
+     0.6,
+     0.183,
+     0.117,
+     0.05
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "cartservice",
+     "checkoutservice",
+     "frontend",
+     "currencyservice",
+     "recommendationservice"
+    ],
+    "scores": [
+     2158.526,
+     709.821,
+     355.036,
+     1.828,
+     1.677
+    ],
+    "metrics": [
+     "cartservice_latency-90",
+     "checkoutservice_latency-50",
+     "frontend_latency-50",
+     "currencyservice_cpu",
+     "recommendationservice_cpu"
+    ],
+    "evidence": [
+     [
+      "evt_r00636_c49",
+      "evt_r00359_c49"
+     ],
+     [
+      "evt_r00545_c40",
+      "evt_r00359_c40"
+     ],
+     [
+      "evt_r00633_c43",
+      "evt_r00359_c43"
+     ],
+     [
+      "evt_r00606_c03",
+      "evt_r00359_c03"
+     ],
+     [
+      "evt_r00607_c09",
+      "evt_r00359_c09"
+     ]
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "seconds": 1.9,
+   "analyze_s": 0.9
+  },
+  {
+   "case": "re1ob_cartservice_disk_1",
+   "fault": "disk",
+   "ground_truth": "cartservice",
+   "label_matches_dir": true,
+   "inject_time": 1702355592,
+   "inject_iso": "2023-12-12T04:33:12.000Z",
+   "rows": 721,
+   "events": 38934,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_1ffc7a2022",
+    "opened_at": "2023-12-12T04:32:38.000Z",
+    "status": "ABSTAINED",
+    "n_services": 4,
+    "ranking": [
+     "cartservice",
+     "paymentservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.367,
+     0.301,
+     0.081,
+     0.013
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "cartservice",
+     "checkoutservice",
+     "paymentservice",
+     "recommendationservice",
+     "redis"
+    ],
+    "scores": [
+     80.5,
+     14.243,
+     6.862,
+     3.32,
+     3.05
+    ],
+    "metrics": [
+     "cartservice_latency-90",
+     "checkoutservice_latency-90",
+     "paymentservice_latency-90",
+     "recommendationservice_latency-50",
+     "redis_cpu"
+    ],
+    "evidence": [
+     [
+      "evt_r00514_c47",
+      "evt_r00359_c47"
+     ],
+     [
+      "evt_r00509_c48",
+      "evt_r00359_c48"
+     ],
+     [
+      "evt_r00518_c52",
+      "evt_r00359_c52"
+     ],
+     [
+      "evt_r00515_c44",
+      "evt_r00359_c44"
+     ],
+     [
+      "evt_r00493_c10",
+      "evt_r00359_c10"
+     ]
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "seconds": 1.9,
+   "analyze_s": 0.9
+  },
+  {
+   "case": "re1ob_cartservice_disk_2",
+   "fault": "disk",
+   "ground_truth": "cartservice",
+   "label_matches_dir": true,
+   "inject_time": 1702362131,
+   "inject_iso": "2023-12-12T06:22:11.000Z",
+   "rows": 721,
+   "events": 39655,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 2,
+   "n_incidents_after_inject": 1,
+   "blind": {
+    "incident": "inc_234121af5c",
+    "opened_at": "2023-12-12T06:22:20.000Z",
+    "status": "OPEN",
+    "n_services": 3,
+    "ranking": [
+     "cartservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.8,
+     0.126,
+     0.022
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "windowed": {
+    "incident": "inc_234121af5c",
+    "opened_at": "2023-12-12T06:22:20.000Z",
+    "status": "OPEN",
+    "n_services": 3,
+    "ranking": [
+     "cartservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.8,
+     0.126,
+     0.022
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "cartservice",
+     "checkoutservice",
+     "recommendationservice",
+     "shippingservice",
+     "emailservice"
+    ],
+    "scores": [
+     52.674,
+     14.04,
+     3.474,
+     3.096,
+     2.563
+    ],
+    "metrics": [
+     "cartservice_latency-50",
+     "checkoutservice_latency-50",
+     "recommendationservice_latency-50",
+     "shippingservice_latency-50",
+     "emailservice_latency-90"
+    ],
+    "evidence": [
+     [
+      "evt_r00441_c38",
+      "evt_r00359_c38"
+     ],
+     [
+      "evt_r00461_c39",
+      "evt_r00359_c39"
+     ],
+     [
+      "evt_r00432_c45",
+      "evt_r00359_c45"
+     ],
+     [
+      "evt_r00442_c46",
+      "evt_r00359_c46"
+     ],
+     [
+      "evt_r00537_c51",
+      "evt_r00359_c51"
+     ]
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "seconds": 1.9,
+   "analyze_s": 0.9
+  },
+  {
+   "case": "re1ob_cartservice_disk_3",
+   "fault": "disk",
+   "ground_truth": "cartservice",
+   "label_matches_dir": true,
+   "inject_time": 1702362925,
+   "inject_iso": "2023-12-12T06:35:25.000Z",
+   "rows": 721,
+   "events": 39655,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "frontend-check_mem",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 2,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_6d1f658257",
+    "opened_at": "2023-12-12T06:35:10.000Z",
+    "status": "ABSTAINED",
+    "n_services": 4,
+    "ranking": [
+     "cartservice",
+     "productcatalogservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.658,
+     0.591,
+     0.084,
+     0.05
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "cartservice",
+     "checkoutservice",
+     "adservice",
+     "emailservice",
+     "currencyservice"
+    ],
+    "scores": [
+     30.06,
+     11.276,
+     7.226,
+     4.467,
+     4.269
+    ],
+    "metrics": [
+     "cartservice_latency-90",
+     "checkoutservice_latency-50",
+     "adservice_latency-90",
+     "emailservice_latency-90",
+     "currencyservice_latency-90"
+    ],
+    "evidence": [
+     [
+      "evt_r00576_c49",
+      "evt_r00359_c49"
+     ],
+     [
+      "evt_r00646_c40",
+      "evt_r00359_c40"
+     ],
+     [
+      "evt_r00583_c48",
+      "evt_r00359_c48"
+     ],
+     [
+      "evt_r00649_c52",
+      "evt_r00359_c52"
+     ],
+     [
+      "evt_r00577_c51",
+      "evt_r00359_c51"
+     ]
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "seconds": 1.9,
+   "analyze_s": 1.0
+  },
+  {
+   "case": "re1ob_cartservice_loss_1",
+   "fault": "loss",
+   "ground_truth": "cartservice",
+   "label_matches_dir": true,
+   "inject_time": 1693313452,
+   "inject_iso": "2023-08-29T12:50:52.000Z",
+   "rows": 721,
+   "events": 41097,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_2952a12c92",
+    "opened_at": "2023-08-29T12:46:55.000Z",
+    "status": "ABSTAINED",
+    "n_services": 4,
+    "ranking": [
+     "cartservice",
+     "adservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.487,
+     0.457,
+     0.117,
+     0.047
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "cartservice",
+     "checkoutservice",
+     "frontend",
+     "shippingservice",
+     "recommendationservice"
+    ],
+    "scores": [
+     804.389,
+     94.126,
+     20.534,
+     19.501,
+     5.752
+    ],
+    "metrics": [
+     "cartservice_latency-90",
+     "checkoutservice_latency-90",
+     "frontend_latency-50",
+     "shippingservice_latency-50",
+     "recommendationservice_latency-50"
+    ],
+    "evidence": [
+     [
+      "evt_r00460_c50",
+      "evt_r00359_c50"
+     ],
+     [
+      "evt_r00428_c51",
+      "evt_r00359_c51"
+     ],
+     [
+      "evt_r00458_c44",
+      "evt_r00359_c44"
+     ],
+     [
+      "evt_r00418_c48",
+      "evt_r00359_c48"
+     ],
+     [
+      "evt_r00460_c47",
+      "evt_r00359_c47"
+     ]
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "seconds": 2.0,
+   "analyze_s": 0.9
+  },
+  {
+   "case": "re1ob_cartservice_loss_2",
+   "fault": "loss",
+   "ground_truth": "cartservice",
+   "label_matches_dir": true,
+   "inject_time": 1692641016,
+   "inject_iso": "2023-08-21T18:03:36.000Z",
+   "rows": 721,
+   "events": 41097,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 5,
+   "n_incidents_after_inject": 2,
+   "blind": {
+    "incident": "inc_b3b2e95a13",
+    "opened_at": "2023-08-21T18:02:50.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "cartservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "windowed": {
+    "incident": "inc_6f2cbf093e",
+    "opened_at": "2023-08-21T18:09:26.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "frontend-external"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "frontend-external"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "cartservice",
+     "productcatalogservice",
+     "checkoutservice",
+     "frontend",
+     "recommendationservice"
+    ],
+    "scores": [
+     673.845,
+     1.638,
+     1.208,
+     1.206,
+     1.198
+    ],
+    "metrics": [
+     "cartservice_latency-90",
+     "productcatalogservice_cpu",
+     "checkoutservice_latency-50",
+     "frontend_cpu",
+     "recommendationservice_latency-50"
+    ],
+    "evidence": [
+     [
+      "evt_r00544_c50",
+      "evt_r00359_c50"
+     ],
+     [
+      "evt_r00654_c08",
+      "evt_r00359_c08"
+     ],
+     [
+      "evt_r00529_c41",
+      "evt_r00359_c41"
+     ],
+     [
+      "evt_r00548_c05",
+      "evt_r00359_c05"
+     ],
+     [
+      "evt_r00547_c47",
+      "evt_r00359_c47"
+     ]
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "seconds": 1.8,
+   "analyze_s": 0.8
+  },
+  {
+   "case": "re1ob_cartservice_loss_3",
+   "fault": "loss",
+   "ground_truth": "cartservice",
+   "label_matches_dir": true,
+   "inject_time": 1692641787,
+   "inject_iso": "2023-08-21T18:16:27.000Z",
+   "rows": 721,
+   "events": 41097,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 3,
+   "n_incidents_after_inject": 2,
+   "blind": {
+    "incident": "inc_31c6b93f46",
+    "opened_at": "2023-08-21T18:21:16.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "cartservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "windowed": {
+    "incident": "inc_31c6b93f46",
+    "opened_at": "2023-08-21T18:21:16.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "cartservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "cartservice",
+     "recommendationservice",
+     "currencyservice",
+     "adservice",
+     "checkoutservice"
+    ],
+    "scores": [
+     702.102,
+     11.408,
+     3.798,
+     3.681,
+     3.443
+    ],
+    "metrics": [
+     "cartservice_latency-90",
+     "recommendationservice_latency-90",
+     "currencyservice_latency-50",
+     "adservice_latency-50",
+     "checkoutservice_latency-50"
+    ],
+    "evidence": [
+     [
+      "evt_r00534_c50",
+      "evt_r00359_c50"
+     ],
+     [
+      "evt_r00659_c57",
+      "evt_r00359_c57"
+     ],
+     [
+      "evt_r00426_c42",
+      "evt_r00359_c42"
+     ],
+     [
+      "evt_r00531_c39",
+      "evt_r00359_c39"
+     ],
+     [
+      "evt_r00534_c41",
+      "evt_r00359_c41"
+     ]
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "seconds": 2.0,
+   "analyze_s": 0.9
+  },
+  {
+   "case": "re1ob_cartservice_mem_1",
+   "fault": "mem",
+   "ground_truth": "cartservice",
+   "label_matches_dir": true,
+   "inject_time": 1685273133,
+   "inject_iso": "2023-05-28T11:25:33.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 26,
+   "n_incidents_after_inject": 11,
+   "blind": {
+    "incident": "inc_cf12d44218",
+    "opened_at": "2023-05-28T10:51:44.000Z",
+    "status": "ABSTAINED",
+    "n_services": 7,
+    "ranking": [
+     "productcatalogservice",
+     "recommendationservice",
+     "paymentservice",
+     "currencyservice",
+     "adservice"
+    ],
+    "scores": [
+     0.247,
+     0.233,
+     0.217,
+     0.174,
+     0.088
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_a6811ee5d5",
+    "opened_at": "2023-05-28T11:29:14.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "emailservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "emailservice"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "cartservice",
+     "checkoutservice",
+     "recommendationservice",
+     "frontend",
+     "shippingservice"
+    ],
+    "scores": [
+     143.071,
+     4.229,
+     2.114,
+     1.515,
+     0.846
+    ],
+    "metrics": [
+     "cartservice_mem",
+     "checkoutservice_latency",
+     "recommendationservice_latency",
+     "frontend_cpu",
+     "shippingservice_latency"
+    ],
+    "evidence": [
+     [
+      "evt_r02125_c13",
+      "evt_r02099_c13"
+     ],
+     [
+      "evt_r02345_c38",
+      "evt_r02099_c38"
+     ],
+     [
+      "evt_r02320_c44",
+      "evt_r02099_c44"
+     ],
+     [
+      "evt_r02188_c05",
+      "evt_r02099_c05"
+     ],
+     [
+      "evt_r02375_c45",
+      "evt_r02099_c45"
+     ]
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "seconds": 9.3,
+   "analyze_s": 4.2
+  },
+  {
+   "case": "re1ob_cartservice_mem_2",
+   "fault": "mem",
+   "ground_truth": "cartservice",
+   "label_matches_dir": true,
+   "inject_time": 1685277478,
+   "inject_iso": "2023-05-28T12:37:58.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 22,
+   "n_incidents_after_inject": 12,
+   "blind": {
+    "incident": "inc_3fb144dfd1",
+    "opened_at": "2023-05-28T12:03:05.000Z",
+    "status": "ABSTAINED",
+    "n_services": 11,
+    "ranking": [
+     "currencyservice",
+     "redis",
+     "paymentservice",
+     "cartservice",
+     "emailservice"
+    ],
+    "scores": [
+     0.377,
+     0.334,
+     0.32,
+     0.26,
+     0.22
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_023fe6a6d9",
+    "opened_at": "2023-05-28T12:38:43.000Z",
+    "status": "RESOLVED",
+    "n_services": 1,
+    "ranking": [
+     "frontend-external"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "frontend-external"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "cartservice",
+     "recommendationservice",
+     "checkoutservice",
+     "frontend",
+     "productcatalogservice"
+    ],
+    "scores": [
+     150.319,
+     1.59,
+     1.577,
+     1.435,
+     1.309
+    ],
+    "metrics": [
+     "cartservice_mem",
+     "recommendationservice_latency",
+     "checkoutservice_latency",
+     "frontend_cpu",
+     "productcatalogservice_cpu"
+    ],
+    "evidence": [
+     [
+      "evt_r02169_c13",
+      "evt_r02099_c13"
+     ],
+     [
+      "evt_r02227_c44",
+      "evt_r02099_c44"
+     ],
+     [
+      "evt_r02185_c38",
+      "evt_r02099_c38"
+     ],
+     [
+      "evt_r02314_c05",
+      "evt_r02099_c05"
+     ],
+     [
+      "evt_r02323_c08",
+      "evt_r02099_c08"
+     ]
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "seconds": 9.2,
+   "analyze_s": 4.2
+  },
+  {
+   "case": "re1ob_cartservice_mem_3",
+   "fault": "mem",
+   "ground_truth": "cartservice",
+   "label_matches_dir": true,
+   "inject_time": 1685281821,
+   "inject_iso": "2023-05-28T13:50:21.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 24,
+   "n_incidents_after_inject": 10,
+   "blind": {
+    "incident": "inc_365f090c9b",
+    "opened_at": "2023-05-28T13:15:56.000Z",
+    "status": "ABSTAINED",
+    "n_services": 10,
+    "ranking": [
+     "redis",
+     "productcatalogservice",
+     "currencyservice",
+     "cartservice",
+     "paymentservice"
+    ],
+    "scores": [
+     0.502,
+     0.444,
+     0.384,
+     0.217,
+     0.208
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_187554be81",
+    "opened_at": "2023-05-28T14:21:57.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "adservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "adservice"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "cartservice",
+     "checkoutservice",
+     "recommendationservice",
+     "frontend",
+     "shippingservice"
+    ],
+    "scores": [
+     162.968,
+     2.286,
+     1.823,
+     1.453,
+     1.048
+    ],
+    "metrics": [
+     "cartservice_mem",
+     "checkoutservice_latency",
+     "recommendationservice_latency",
+     "frontend_cpu",
+     "shippingservice_latency"
+    ],
+    "evidence": [
+     [
+      "evt_r02119_c13",
+      "evt_r02099_c13"
+     ],
+     [
+      "evt_r02337_c38",
+      "evt_r02099_c38"
+     ],
+     [
+      "evt_r02316_c44",
+      "evt_r02099_c44"
+     ],
+     [
+      "evt_r02251_c05",
+      "evt_r02099_c05"
+     ],
+     [
+      "evt_r02214_c45",
+      "evt_r02099_c45"
+     ]
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "seconds": 9.0,
+   "analyze_s": 4.0
+  },
+  {
+   "case": "re1ob_checkoutservice_cpu_1",
+   "fault": "cpu",
+   "ground_truth": "checkoutservice",
+   "label_matches_dir": true,
+   "inject_time": 1685294851,
+   "inject_iso": "2023-05-28T17:27:31.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 18,
+   "n_incidents_after_inject": 8,
+   "blind": {
+    "incident": "inc_06883678ea",
+    "opened_at": "2023-05-28T16:56:44.000Z",
+    "status": "ABSTAINED",
+    "n_services": 7,
+    "ranking": [
+     "paymentservice",
+     "productcatalogservice",
+     "currencyservice",
+     "checkoutservice",
+     "recommendationservice"
+    ],
+    "scores": [
+     0.49,
+     0.344,
+     0.327,
+     0.233,
+     0.21
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_325ee7c36f",
+    "opened_at": "2023-05-28T17:56:57.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "productcatalogservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "productcatalogservice"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "checkoutservice",
+     "productcatalogservice",
+     "paymentservice",
+     "emailservice",
+     "shippingservice"
+    ],
+    "scores": [
+     314.096,
+     0.292,
+     0.25,
+     0.211,
+     0.203
+    ],
+    "metrics": [
+     "checkoutservice_cpu",
+     "productcatalogservice_cpu",
+     "paymentservice_load",
+     "emailservice_cpu",
+     "shippingservice_mem"
+    ],
+    "evidence": [
+     [
+      "evt_r02278_c02",
+      "evt_r02099_c02"
+     ],
+     [
+      "evt_r02263_c08",
+      "evt_r02099_c08"
+     ],
+     [
+      "evt_r02269_c32",
+      "evt_r02099_c32"
+     ],
+     [
+      "evt_r02395_c04",
+      "evt_r02099_c04"
+     ],
+     [
+      "evt_r02100_c23",
+      "evt_r02099_c23"
+     ]
+    ],
+    "confident": true,
+    "root": "checkoutservice"
+   },
+   "seconds": 8.7,
+   "analyze_s": 3.7
+  },
+  {
+   "case": "re1ob_checkoutservice_cpu_2",
+   "fault": "cpu",
+   "ground_truth": "checkoutservice",
+   "label_matches_dir": true,
+   "inject_time": 1685551922,
+   "inject_iso": "2023-05-31T16:52:02.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 26,
+   "n_incidents_after_inject": 8,
+   "blind": {
+    "incident": "inc_8bbfa29d46",
+    "opened_at": "2023-05-31T16:20:10.000Z",
+    "status": "ABSTAINED",
+    "n_services": 10,
+    "ranking": [
+     "currencyservice",
+     "shippingservice",
+     "paymentservice",
+     "productcatalogservice",
+     "emailservice"
+    ],
+    "scores": [
+     0.443,
+     0.442,
+     0.419,
+     0.285,
+     0.253
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_9e73895d21",
+    "opened_at": "2023-05-31T17:06:46.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "cartservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "checkoutservice",
+     "productcatalogservice",
+     "emailservice",
+     "shippingservice",
+     "redis"
+    ],
+    "scores": [
+     252.792,
+     0.812,
+     0.784,
+     0.553,
+     0.478
+    ],
+    "metrics": [
+     "checkoutservice_cpu",
+     "productcatalogservice_cpu",
+     "emailservice_cpu",
+     "shippingservice_cpu",
+     "redis_cpu"
+    ],
+    "evidence": [
+     [
+      "evt_r02180_c02",
+      "evt_r02099_c02"
+     ],
+     [
+      "evt_r02295_c08",
+      "evt_r02099_c08"
+     ],
+     [
+      "evt_r02190_c04",
+      "evt_r02099_c04"
+     ],
+     [
+      "evt_r02272_c11",
+      "evt_r02099_c11"
+     ],
+     [
+      "evt_r02355_c10",
+      "evt_r02099_c10"
+     ]
+    ],
+    "confident": true,
+    "root": "checkoutservice"
+   },
+   "seconds": 9.0,
+   "analyze_s": 4.1
+  },
+  {
+   "case": "re1ob_checkoutservice_cpu_3",
+   "fault": "cpu",
+   "ground_truth": "checkoutservice",
+   "label_matches_dir": true,
+   "inject_time": 1685303532,
+   "inject_iso": "2023-05-28T19:52:12.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 30,
+   "n_incidents_after_inject": 18,
+   "blind": {
+    "incident": "inc_178db6b0d0",
+    "opened_at": "2023-05-28T19:17:17.000Z",
+    "status": "ABSTAINED",
+    "n_services": 9,
+    "ranking": [
+     "adservice",
+     "paymentservice",
+     "checkoutservice",
+     "productcatalogservice",
+     "redis"
+    ],
+    "scores": [
+     0.36,
+     0.32,
+     0.225,
+     0.192,
+     0.165
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_c48e6f782e",
+    "opened_at": "2023-05-28T20:16:57.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "paymentservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "paymentservice"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "checkoutservice",
+     "paymentservice",
+     "cartservice",
+     "frontend",
+     "emailservice"
+    ],
+    "scores": [
+     312.535,
+     0.803,
+     0.525,
+     0.38,
+     0.337
+    ],
+    "metrics": [
+     "checkoutservice_cpu",
+     "paymentservice_mem",
+     "cartservice_mem",
+     "frontend_cpu",
+     "emailservice_cpu"
+    ],
+    "evidence": [
+     [
+      "evt_r02349_c02",
+      "evt_r02099_c02"
+     ],
+     [
+      "evt_r02219_c19",
+      "evt_r02099_c19"
+     ],
+     [
+      "evt_r02184_c13",
+      "evt_r02099_c13"
+     ],
+     [
+      "evt_r02299_c05",
+      "evt_r02099_c05"
+     ],
+     [
+      "evt_r02184_c04",
+      "evt_r02099_c04"
+     ]
+    ],
+    "confident": true,
+    "root": "checkoutservice"
+   },
+   "seconds": 9.1,
+   "analyze_s": 4.5
+  },
+  {
+   "case": "re1ob_checkoutservice_delay_1",
+   "fault": "delay",
+   "ground_truth": "checkoutservice",
+   "label_matches_dir": true,
+   "inject_time": 1692602972,
+   "inject_iso": "2023-08-21T07:29:32.000Z",
+   "rows": 721,
+   "events": 39655,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_278239bf64",
+    "opened_at": "2023-08-21T07:26:44.000Z",
+    "status": "OPEN",
+    "n_services": 2,
+    "ranking": [
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.5,
+     0.038
+    ],
+    "confident": true,
+    "root": "checkoutservice"
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "checkoutservice",
+     "shippingservice",
+     "adservice",
+     "paymentservice",
+     "frontend"
+    ],
+    "scores": [
+     2161.432,
+     2.201,
+     1.33,
+     1.163,
+     0.644
+    ],
+    "metrics": [
+     "checkoutservice_latency-50",
+     "shippingservice_latency-50",
+     "adservice_latency-90",
+     "paymentservice_mem",
+     "frontend_latency-90"
+    ],
+    "evidence": [
+     [
+      "evt_r00607_c39",
+      "evt_r00359_c39"
+     ],
+     [
+      "evt_r00457_c46",
+      "evt_r00359_c46"
+     ],
+     [
+      "evt_r00397_c47",
+      "evt_r00359_c47"
+     ],
+     [
+      "evt_r00479_c19",
+      "evt_r00359_c19"
+     ],
+     [
+      "evt_r00638_c52",
+      "evt_r00359_c52"
+     ]
+    ],
+    "confident": true,
+    "root": "checkoutservice"
+   },
+   "seconds": 1.5,
+   "analyze_s": 0.7
+  },
+  {
+   "case": "re1ob_checkoutservice_delay_2",
+   "fault": "delay",
+   "ground_truth": "checkoutservice",
+   "label_matches_dir": true,
+   "inject_time": 1692603740,
+   "inject_iso": "2023-08-21T07:42:20.000Z",
+   "rows": 721,
+   "events": 39655,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 1,
+   "blind": {
+    "incident": "inc_2232aedcb6",
+    "opened_at": "2023-08-21T07:42:35.000Z",
+    "status": "OPEN",
+    "n_services": 3,
+    "ranking": [
+     "checkoutservice",
+     "frontend",
+     "frontend-external"
+    ],
+    "scores": [
+     0.8,
+     0.279,
+     0.05
+    ],
+    "confident": true,
+    "root": "checkoutservice"
+   },
+   "windowed": {
+    "incident": "inc_2232aedcb6",
+    "opened_at": "2023-08-21T07:42:35.000Z",
+    "status": "OPEN",
+    "n_services": 3,
+    "ranking": [
+     "checkoutservice",
+     "frontend",
+     "frontend-external"
+    ],
+    "scores": [
+     0.8,
+     0.279,
+     0.05
+    ],
+    "confident": true,
+    "root": "checkoutservice"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "checkoutservice",
+     "frontend",
+     "shippingservice",
+     "cartservice",
+     "recommendationservice"
+    ],
+    "scores": [
+     2092.352,
+     6.86,
+     2.697,
+     2.016,
+     1.269
+    ],
+    "metrics": [
+     "checkoutservice_latency-50",
+     "frontend_latency-90",
+     "shippingservice_latency-50",
+     "cartservice_cpu",
+     "recommendationservice_latency-90"
+    ],
+    "evidence": [
+     [
+      "evt_r00650_c39",
+      "evt_r00359_c39"
+     ],
+     [
+      "evt_r00491_c52",
+      "evt_r00359_c52"
+     ],
+     [
+      "evt_r00565_c46",
+      "evt_r00359_c46"
+     ],
+     [
+      "evt_r00399_c01",
+      "evt_r00359_c01"
+     ],
+     [
+      "evt_r00473_c55",
+      "evt_r00359_c55"
+     ]
+    ],
+    "confident": true,
+    "root": "checkoutservice"
+   },
+   "seconds": 1.8,
+   "analyze_s": 0.9
+  },
+  {
+   "case": "re1ob_checkoutservice_delay_3",
+   "fault": "delay",
+   "ground_truth": "checkoutservice",
+   "label_matches_dir": true,
+   "inject_time": 1692604507,
+   "inject_iso": "2023-08-21T07:55:07.000Z",
+   "rows": 721,
+   "events": 39655,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_668da49d63",
+    "opened_at": "2023-08-21T07:53:57.000Z",
+    "status": "OPEN",
+    "n_services": 3,
+    "ranking": [
+     "checkoutservice",
+     "frontend",
+     "frontend-external"
+    ],
+    "scores": [
+     0.5,
+     0.135,
+     0.05
+    ],
+    "confident": true,
+    "root": "checkoutservice"
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "checkoutservice",
+     "frontend",
+     "shippingservice",
+     "paymentservice",
+     "adservice"
+    ],
+    "scores": [
+     2023.356,
+     6.676,
+     2.788,
+     1.527,
+     1.067
+    ],
+    "metrics": [
+     "checkoutservice_latency-50",
+     "frontend_latency-90",
+     "shippingservice_latency-50",
+     "paymentservice_mem",
+     "adservice_latency-90"
+    ],
+    "evidence": [
+     [
+      "evt_r00624_c39",
+      "evt_r00359_c39"
+     ],
+     [
+      "evt_r00545_c52",
+      "evt_r00359_c52"
+     ],
+     [
+      "evt_r00648_c46",
+      "evt_r00359_c46"
+     ],
+     [
+      "evt_r00658_c19",
+      "evt_r00359_c19"
+     ],
+     [
+      "evt_r00401_c47",
+      "evt_r00359_c47"
+     ]
+    ],
+    "confident": true,
+    "root": "checkoutservice"
+   },
+   "seconds": 1.6,
+   "analyze_s": 0.9
+  },
+  {
+   "case": "re1ob_checkoutservice_disk_1",
+   "fault": "disk",
+   "ground_truth": "checkoutservice",
+   "label_matches_dir": true,
+   "inject_time": 1702356364,
+   "inject_iso": "2023-12-12T04:46:04.000Z",
+   "rows": 721,
+   "events": 38934,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_7878b38760",
+    "opened_at": "2023-12-12T04:45:46.000Z",
+    "status": "OPEN",
+    "n_services": 2,
+    "ranking": [
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.5,
+     0.009
+    ],
+    "confident": true,
+    "root": "checkoutservice"
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "checkoutservice",
+     "emailservice",
+     "productcatalogservice",
+     "adservice",
+     "paymentservice"
+    ],
+    "scores": [
+     140.21,
+     8.177,
+     4.803,
+     2.051,
+     1.231
+    ],
+    "metrics": [
+     "checkoutservice_cpu",
+     "emailservice_latency-90",
+     "productcatalogservice_latency-90",
+     "adservice_latency-90",
+     "paymentservice_mem"
+    ],
+    "evidence": [
+     [
+      "evt_r00425_c02",
+      "evt_r00359_c02"
+     ],
+     [
+      "evt_r00658_c50",
+      "evt_r00359_c50"
+     ],
+     [
+      "evt_r00396_c53",
+      "evt_r00359_c53"
+     ],
+     [
+      "evt_r00397_c46",
+      "evt_r00359_c46"
+     ],
+     [
+      "evt_r00650_c19",
+      "evt_r00359_c19"
+     ]
+    ],
+    "confident": true,
+    "root": "checkoutservice"
+   },
+   "seconds": 1.4,
+   "analyze_s": 0.6
+  },
+  {
+   "case": "re1ob_checkoutservice_disk_2",
+   "fault": "disk",
+   "ground_truth": "checkoutservice",
+   "label_matches_dir": true,
+   "inject_time": 1702365246,
+   "inject_iso": "2023-12-12T07:14:06.000Z",
+   "rows": 721,
+   "events": 40376,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_7d4cf4fdd6",
+    "opened_at": "2023-12-12T07:10:43.000Z",
+    "status": "OPEN",
+    "n_services": 5,
+    "ranking": [
+     "cartservice",
+     "adservice",
+     "checkoutservice",
+     "frontend",
+     "frontend-external"
+    ],
+    "scores": [
+     0.533,
+     0.363,
+     0.225,
+     0.208,
+     0.05
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "checkoutservice",
+     "emailservice",
+     "productcatalogservice",
+     "adservice",
+     "recommendationservice"
+    ],
+    "scores": [
+     147.643,
+     13.495,
+     6.901,
+     1.556,
+     1.159
+    ],
+    "metrics": [
+     "checkoutservice_cpu",
+     "emailservice_latency-90",
+     "productcatalogservice_latency-90",
+     "adservice_latency-90",
+     "recommendationservice_latency-50"
+    ],
+    "evidence": [
+     [
+      "evt_r00579_c02",
+      "evt_r00359_c02"
+     ],
+     [
+      "evt_r00438_c52",
+      "evt_r00359_c52"
+     ],
+     [
+      "evt_r00493_c55",
+      "evt_r00359_c55"
+     ],
+     [
+      "evt_r00632_c48",
+      "evt_r00359_c48"
+     ],
+     [
+      "evt_r00468_c46",
+      "evt_r00359_c46"
+     ]
+    ],
+    "confident": true,
+    "root": "checkoutservice"
+   },
+   "seconds": 1.4,
+   "analyze_s": 0.8
+  },
+  {
+   "case": "re1ob_checkoutservice_disk_3",
+   "fault": "disk",
+   "ground_truth": "checkoutservice",
+   "label_matches_dir": true,
+   "inject_time": 1702366022,
+   "inject_iso": "2023-12-12T07:27:02.000Z",
+   "rows": 721,
+   "events": 40376,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_66dab50295",
+    "opened_at": "2023-12-12T07:23:33.000Z",
+    "status": "OPEN",
+    "n_services": 3,
+    "ranking": [
+     "cartservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.589,
+     0.15,
+     0.014
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "checkoutservice",
+     "cartservice",
+     "productcatalogservice",
+     "emailservice",
+     "frontend"
+    ],
+    "scores": [
+     134.11,
+     14.304,
+     13.885,
+     8.717,
+     5.646
+    ],
+    "metrics": [
+     "checkoutservice_cpu",
+     "cartservice_latency-90",
+     "productcatalogservice_latency-90",
+     "emailservice_latency-90",
+     "frontend_latency-50"
+    ],
+    "evidence": [
+     [
+      "evt_r00621_c02",
+      "evt_r00359_c02"
+     ],
+     [
+      "evt_r00607_c49",
+      "evt_r00359_c49"
+     ],
+     [
+      "evt_r00487_c55",
+      "evt_r00359_c55"
+     ],
+     [
+      "evt_r00462_c52",
+      "evt_r00359_c52"
+     ],
+     [
+      "evt_r00481_c43",
+      "evt_r00359_c43"
+     ]
+    ],
+    "confident": true,
+    "root": "checkoutservice"
+   },
+   "seconds": 1.3,
+   "analyze_s": 0.8
+  },
+  {
+   "case": "re1ob_checkoutservice_loss_1",
+   "fault": "loss",
+   "ground_truth": "checkoutservice",
+   "label_matches_dir": true,
+   "inject_time": 1692634363,
+   "inject_iso": "2023-08-21T16:12:43.000Z",
+   "rows": 721,
+   "events": 41097,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 4,
+   "n_incidents_after_inject": 3,
+   "blind": {
+    "incident": "inc_e8eb4852ed",
+    "opened_at": "2023-08-21T16:18:00.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "cartservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "windowed": {
+    "incident": "inc_e8eb4852ed",
+    "opened_at": "2023-08-21T16:18:00.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "cartservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "checkoutservice",
+     "paymentservice",
+     "emailservice",
+     "recommendationservice",
+     "adservice"
+    ],
+    "scores": [
+     5.266,
+     3.121,
+     1.826,
+     0.651,
+     0.63
+    ],
+    "metrics": [
+     "checkoutservice_mem",
+     "paymentservice_latency-50",
+     "emailservice_latency-50",
+     "recommendationservice_cpu",
+     "adservice_cpu"
+    ],
+    "evidence": [
+     [
+      "evt_r00515_c14",
+      "evt_r00359_c14"
+     ],
+     [
+      "evt_r00603_c45",
+      "evt_r00359_c45"
+     ],
+     [
+      "evt_r00659_c43",
+      "evt_r00359_c43"
+     ],
+     [
+      "evt_r00472_c09",
+      "evt_r00359_c09"
+     ],
+     [
+      "evt_r00489_c00",
+      "evt_r00359_c00"
+     ]
+    ],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 1.7,
+   "analyze_s": 1.0
+  },
+  {
+   "case": "re1ob_checkoutservice_loss_2",
+   "fault": "loss",
+   "ground_truth": "checkoutservice",
+   "label_matches_dir": true,
+   "inject_time": 1692635135,
+   "inject_iso": "2023-08-21T16:25:35.000Z",
+   "rows": 721,
+   "events": 41097,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 3,
+   "n_incidents_after_inject": 1,
+   "blind": {
+    "incident": "inc_4105f4ab3e",
+    "opened_at": "2023-08-21T16:25:44.000Z",
+    "status": "RESOLVED",
+    "n_services": 2,
+    "ranking": [
+     "emailservice",
+     "checkoutservice"
+    ],
+    "scores": [
+     0.5,
+     0.035
+    ],
+    "confident": true,
+    "root": "emailservice"
+   },
+   "windowed": {
+    "incident": "inc_4105f4ab3e",
+    "opened_at": "2023-08-21T16:25:44.000Z",
+    "status": "RESOLVED",
+    "n_services": 2,
+    "ranking": [
+     "emailservice",
+     "checkoutservice"
+    ],
+    "scores": [
+     0.5,
+     0.035
+    ],
+    "confident": true,
+    "root": "emailservice"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "checkoutservice",
+     "paymentservice",
+     "emailservice",
+     "currencyservice",
+     "redis"
+    ],
+    "scores": [
+     8.818,
+     4.754,
+     1.845,
+     0.768,
+     0.756
+    ],
+    "metrics": [
+     "checkoutservice_latency-50",
+     "paymentservice_latency-50",
+     "emailservice_latency-50",
+     "currencyservice_latency-50",
+     "redis_cpu"
+    ],
+    "evidence": [
+     [
+      "evt_r00490_c41",
+      "evt_r00359_c41"
+     ],
+     [
+      "evt_r00576_c45",
+      "evt_r00359_c45"
+     ],
+     [
+      "evt_r00578_c43",
+      "evt_r00359_c43"
+     ],
+     [
+      "evt_r00449_c42",
+      "evt_r00359_c42"
+     ],
+     [
+      "evt_r00656_c10",
+      "evt_r00359_c10"
+     ]
+    ],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 1.8,
+   "analyze_s": 0.9
+  },
+  {
+   "case": "re1ob_checkoutservice_loss_3",
+   "fault": "loss",
+   "ground_truth": "checkoutservice",
+   "label_matches_dir": true,
+   "inject_time": 1692635905,
+   "inject_iso": "2023-08-21T16:38:25.000Z",
+   "rows": 721,
+   "events": 41097,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 1,
+   "blind": {
+    "incident": "inc_f64e314d46",
+    "opened_at": "2023-08-21T16:38:35.000Z",
+    "status": "RESOLVED",
+    "n_services": 3,
+    "ranking": [
+     "checkoutservice",
+     "frontend",
+     "frontend-external"
+    ],
+    "scores": [
+     0.713,
+     0.15,
+     0.05
+    ],
+    "confident": true,
+    "root": "checkoutservice"
+   },
+   "windowed": {
+    "incident": "inc_f64e314d46",
+    "opened_at": "2023-08-21T16:38:35.000Z",
+    "status": "RESOLVED",
+    "n_services": 3,
+    "ranking": [
+     "checkoutservice",
+     "frontend",
+     "frontend-external"
+    ],
+    "scores": [
+     0.713,
+     0.15,
+     0.05
+    ],
+    "confident": true,
+    "root": "checkoutservice"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "checkoutservice",
+     "paymentservice",
+     "emailservice",
+     "shippingservice",
+     "adservice"
+    ],
+    "scores": [
+     8.841,
+     2.395,
+     2.225,
+     1.06,
+     0.768
+    ],
+    "metrics": [
+     "checkoutservice_latency-50",
+     "paymentservice_latency-50",
+     "emailservice_latency-50",
+     "shippingservice_latency-50",
+     "adservice_latency-90"
+    ],
+    "evidence": [
+     [
+      "evt_r00477_c41",
+      "evt_r00359_c41"
+     ],
+     [
+      "evt_r00416_c45",
+      "evt_r00359_c45"
+     ],
+     [
+      "evt_r00475_c43",
+      "evt_r00359_c43"
+     ],
+     [
+      "evt_r00386_c48",
+      "evt_r00359_c48"
+     ],
+     [
+      "evt_r00414_c49",
+      "evt_r00359_c49"
+     ]
+    ],
+    "confident": true,
+    "root": "checkoutservice"
+   },
+   "seconds": 1.9,
+   "analyze_s": 0.9
+  },
+  {
+   "case": "re1ob_checkoutservice_mem_1",
+   "fault": "mem",
+   "ground_truth": "checkoutservice",
+   "label_matches_dir": true,
+   "inject_time": 1685501112,
+   "inject_iso": "2023-05-31T02:45:12.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 9,
+   "n_incidents_after_inject": 6,
+   "blind": {
+    "incident": "inc_a9be787d38",
+    "opened_at": "2023-05-31T02:40:15.000Z",
+    "status": "OPEN",
+    "n_services": 4,
+    "ranking": [
+     "cartservice",
+     "checkoutservice",
+     "frontend",
+     "frontend-external"
+    ],
+    "scores": [
+     0.453,
+     0.183,
+     0.078,
+     0.05
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "windowed": {
+    "incident": "inc_c870f71432",
+    "opened_at": "2023-05-31T03:05:36.000Z",
+    "status": "ABSTAINED",
+    "n_services": 4,
+    "ranking": [
+     "adservice",
+     "cartservice",
+     "frontend",
+     "frontend-external"
+    ],
+    "scores": [
+     0.467,
+     0.462,
+     0.267,
+     0.05
+    ],
+    "confident": false,
+    "root": null
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "checkoutservice",
+     "paymentservice",
+     "frontend",
+     "adservice",
+     "currencyservice"
+    ],
+    "scores": [
+     915.32,
+     1.867,
+     0.949,
+     0.837,
+     0.67
+    ],
+    "metrics": [
+     "checkoutservice_mem",
+     "paymentservice_mem",
+     "frontend_latency",
+     "adservice_cpu",
+     "currencyservice_latency"
+    ],
+    "evidence": [
+     [
+      "evt_r02118_c14",
+      "evt_r02099_c14"
+     ],
+     [
+      "evt_r02366_c19",
+      "evt_r02099_c19"
+     ],
+     [
+      "evt_r02172_c41",
+      "evt_r02099_c41"
+     ],
+     [
+      "evt_r02363_c00",
+      "evt_r02099_c00"
+     ],
+     [
+      "evt_r02176_c39",
+      "evt_r02099_c39"
+     ]
+    ],
+    "confident": true,
+    "root": "checkoutservice"
+   },
+   "seconds": 8.2,
+   "analyze_s": 3.2
+  },
+  {
+   "case": "re1ob_checkoutservice_mem_2",
+   "fault": "mem",
+   "ground_truth": "checkoutservice",
+   "label_matches_dir": true,
+   "inject_time": 1685505453,
+   "inject_iso": "2023-05-31T03:57:33.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 8,
+   "n_incidents_after_inject": 5,
+   "blind": {
+    "incident": "inc_c43229f34d",
+    "opened_at": "2023-05-31T03:47:11.000Z",
+    "status": "ABSTAINED",
+    "n_services": 6,
+    "ranking": [
+     "productcatalogservice",
+     "adservice",
+     "checkoutservice",
+     "recommendationservice",
+     "frontend"
+    ],
+    "scores": [
+     0.336,
+     0.183,
+     0.13,
+     0.092,
+     0.09
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_19c2ffa393",
+    "opened_at": "2023-05-31T04:00:51.000Z",
+    "status": "RESOLVED",
+    "n_services": 2,
+    "ranking": [
+     "cartservice",
+     "frontend"
+    ],
+    "scores": [
+     0.5,
+     0.011
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "checkoutservice",
+     "paymentservice",
+     "frontend",
+     "currencyservice",
+     "recommendationservice"
+    ],
+    "scores": [
+     873.231,
+     2.233,
+     0.82,
+     0.781,
+     0.733
+    ],
+    "metrics": [
+     "checkoutservice_mem",
+     "paymentservice_mem",
+     "frontend_latency",
+     "currencyservice_latency",
+     "recommendationservice_latency"
+    ],
+    "evidence": [
+     [
+      "evt_r02117_c14",
+      "evt_r02099_c14"
+     ],
+     [
+      "evt_r02141_c19",
+      "evt_r02099_c19"
+     ],
+     [
+      "evt_r02102_c41",
+      "evt_r02099_c41"
+     ],
+     [
+      "evt_r02100_c39",
+      "evt_r02099_c39"
+     ],
+     [
+      "evt_r02100_c44",
+      "evt_r02099_c44"
+     ]
+    ],
+    "confident": true,
+    "root": "checkoutservice"
+   },
+   "seconds": 8.3,
+   "analyze_s": 3.4
+  },
+  {
+   "case": "re1ob_checkoutservice_mem_3",
+   "fault": "mem",
+   "ground_truth": "checkoutservice",
+   "label_matches_dir": true,
+   "inject_time": 1685321879,
+   "inject_iso": "2023-05-29T00:57:59.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 10,
+   "n_incidents_after_inject": 5,
+   "blind": {
+    "incident": "inc_a5074bf2c8",
+    "opened_at": "2023-05-29T00:58:16.000Z",
+    "status": "OPEN",
+    "n_services": 2,
+    "ranking": [
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.8,
+     0.05
+    ],
+    "confident": true,
+    "root": "checkoutservice"
+   },
+   "windowed": {
+    "incident": "inc_a5074bf2c8",
+    "opened_at": "2023-05-29T00:58:16.000Z",
+    "status": "OPEN",
+    "n_services": 2,
+    "ranking": [
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.8,
+     0.05
+    ],
+    "confident": true,
+    "root": "checkoutservice"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "checkoutservice",
+     "recommendationservice",
+     "productcatalogservice",
+     "frontend",
+     "currencyservice"
+    ],
+    "scores": [
+     883.934,
+     9.246,
+     2.717,
+     1.679,
+     1.346
+    ],
+    "metrics": [
+     "checkoutservice_mem",
+     "recommendationservice_latency",
+     "productcatalogservice_latency",
+     "frontend_cpu",
+     "currencyservice_latency"
+    ],
+    "evidence": [
+     [
+      "evt_r02117_c14",
+      "evt_r02099_c14"
+     ],
+     [
+      "evt_r02263_c44",
+      "evt_r02099_c44"
+     ],
+     [
+      "evt_r02259_c43",
+      "evt_r02099_c43"
+     ],
+     [
+      "evt_r02158_c05",
+      "evt_r02099_c05"
+     ],
+     [
+      "evt_r02259_c39",
+      "evt_r02099_c39"
+     ]
+    ],
+    "confident": true,
+    "root": "checkoutservice"
+   },
+   "seconds": 8.1,
+   "analyze_s": 3.2
+  },
+  {
+   "case": "re1ob_currencyservice_cpu_1",
+   "fault": "cpu",
+   "ground_truth": "currencyservice",
+   "label_matches_dir": true,
+   "inject_time": 1685514134,
+   "inject_iso": "2023-05-31T06:22:14.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 15,
+   "n_incidents_after_inject": 10,
+   "blind": {
+    "incident": "inc_d937e37af4",
+    "opened_at": "2023-05-31T06:35:14.000Z",
+    "status": "ABSTAINED",
+    "n_services": 9,
+    "ranking": [
+     "cartservice",
+     "productcatalogservice",
+     "frontend",
+     "paymentservice",
+     "shippingservice"
+    ],
+    "scores": [
+     0.349,
+     0.26,
+     0.225,
+     0.17,
+     0.169
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_d937e37af4",
+    "opened_at": "2023-05-31T06:35:14.000Z",
+    "status": "ABSTAINED",
+    "n_services": 9,
+    "ranking": [
+     "cartservice",
+     "productcatalogservice",
+     "frontend",
+     "paymentservice",
+     "shippingservice"
+    ],
+    "scores": [
+     0.349,
+     0.26,
+     0.225,
+     0.17,
+     0.169
+    ],
+    "confident": false,
+    "root": null
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "currencyservice",
+     "checkoutservice",
+     "shippingservice",
+     "emailservice",
+     "paymentservice"
+    ],
+    "scores": [
+     204.519,
+     8.011,
+     4.983,
+     4.058,
+     2.117
+    ],
+    "metrics": [
+     "currencyservice_cpu",
+     "checkoutservice_latency",
+     "shippingservice_cpu",
+     "emailservice_cpu",
+     "paymentservice_cpu"
+    ],
+    "evidence": [
+     [
+      "evt_r02219_c03",
+      "evt_r02099_c03"
+     ],
+     [
+      "evt_r02102_c38",
+      "evt_r02099_c38"
+     ],
+     [
+      "evt_r02151_c11",
+      "evt_r02099_c11"
+     ],
+     [
+      "evt_r02165_c04",
+      "evt_r02099_c04"
+     ],
+     [
+      "evt_r02100_c07",
+      "evt_r02099_c07"
+     ]
+    ],
+    "confident": true,
+    "root": "currencyservice"
+   },
+   "seconds": 8.2,
+   "analyze_s": 3.6
+  },
+  {
+   "case": "re1ob_currencyservice_cpu_2",
+   "fault": "cpu",
+   "ground_truth": "currencyservice",
+   "label_matches_dir": true,
+   "inject_time": 1685518566,
+   "inject_iso": "2023-05-31T07:36:06.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 23,
+   "n_incidents_after_inject": 12,
+   "blind": {
+    "incident": "inc_de8c16e596",
+    "opened_at": "2023-05-31T07:01:40.000Z",
+    "status": "ABSTAINED",
+    "n_services": 9,
+    "ranking": [
+     "productcatalogservice",
+     "cartservice",
+     "emailservice",
+     "paymentservice",
+     "currencyservice"
+    ],
+    "scores": [
+     0.219,
+     0.2,
+     0.2,
+     0.2,
+     0.166
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_c67e4ec68c",
+    "opened_at": "2023-05-31T08:10:37.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "shippingservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "shippingservice"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "currencyservice",
+     "checkoutservice",
+     "redis",
+     "paymentservice",
+     "emailservice"
+    ],
+    "scores": [
+     15.138,
+     2.1,
+     1.426,
+     0.634,
+     0.626
+    ],
+    "metrics": [
+     "currencyservice_cpu",
+     "checkoutservice_latency",
+     "redis_cpu",
+     "paymentservice_mem",
+     "emailservice_latency"
+    ],
+    "evidence": [
+     [
+      "evt_r02395_c03",
+      "evt_r02099_c03"
+     ],
+     [
+      "evt_r02320_c38",
+      "evt_r02099_c38"
+     ],
+     [
+      "evt_r02235_c10",
+      "evt_r02099_c10"
+     ],
+     [
+      "evt_r02359_c19",
+      "evt_r02099_c19"
+     ],
+     [
+      "evt_r02166_c40",
+      "evt_r02099_c40"
+     ]
+    ],
+    "confident": true,
+    "root": "currencyservice"
+   },
+   "seconds": 8.6,
+   "analyze_s": 4.1
+  },
+  {
+   "case": "re1ob_currencyservice_cpu_3",
+   "fault": "cpu",
+   "ground_truth": "currencyservice",
+   "label_matches_dir": true,
+   "inject_time": 1685523009,
+   "inject_iso": "2023-05-31T08:50:09.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 18,
+   "n_incidents_after_inject": 8,
+   "blind": {
+    "incident": "inc_b3db470222",
+    "opened_at": "2023-05-31T08:15:37.000Z",
+    "status": "ABSTAINED",
+    "n_services": 9,
+    "ranking": [
+     "currencyservice",
+     "productcatalogservice",
+     "paymentservice",
+     "emailservice",
+     "recommendationservice"
+    ],
+    "scores": [
+     0.435,
+     0.41,
+     0.35,
+     0.35,
+     0.217
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_cc595c9d9b",
+    "opened_at": "2023-05-31T08:50:19.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "currencyservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "currencyservice"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "currencyservice",
+     "paymentservice",
+     "checkoutservice",
+     "cartservice",
+     "productcatalogservice"
+    ],
+    "scores": [
+     40.698,
+     2.368,
+     2.136,
+     0.379,
+     0.354
+    ],
+    "metrics": [
+     "currencyservice_cpu",
+     "paymentservice_mem",
+     "checkoutservice_latency",
+     "cartservice_cpu",
+     "productcatalogservice_cpu"
+    ],
+    "evidence": [
+     [
+      "evt_r02175_c03",
+      "evt_r02099_c03"
+     ],
+     [
+      "evt_r02269_c19",
+      "evt_r02099_c19"
+     ],
+     [
+      "evt_r02349_c38",
+      "evt_r02099_c38"
+     ],
+     [
+      "evt_r02344_c01",
+      "evt_r02099_c01"
+     ],
+     [
+      "evt_r02369_c08",
+      "evt_r02099_c08"
+     ]
+    ],
+    "confident": true,
+    "root": "currencyservice"
+   },
+   "seconds": 8.3,
+   "analyze_s": 4.2
+  },
+  {
+   "case": "re1ob_currencyservice_delay_1",
+   "fault": "delay",
+   "ground_truth": "currencyservice",
+   "label_matches_dir": true,
+   "inject_time": 1692576250,
+   "inject_iso": "2023-08-21T00:04:10.000Z",
+   "rows": 721,
+   "events": 39655,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_35d56d74b9",
+    "opened_at": "2023-08-21T00:01:42.000Z",
+    "status": "ABSTAINED",
+    "n_services": 4,
+    "ranking": [
+     "currencyservice",
+     "paymentservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.311,
+     0.277,
+     0.117,
+     0.05
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "currencyservice",
+     "checkoutservice",
+     "frontend",
+     "recommendationservice",
+     "productcatalogservice"
+    ],
+    "scores": [
+     736.681,
+     712.785,
+     70.722,
+     1.49,
+     1.395
+    ],
+    "metrics": [
+     "currencyservice_latency-90",
+     "checkoutservice_latency-90",
+     "frontend_latency-50",
+     "recommendationservice_cpu",
+     "productcatalogservice_cpu"
+    ],
+    "evidence": [
+     [
+      "evt_r00442_c50",
+      "evt_r00359_c50"
+     ],
+     [
+      "evt_r00573_c49",
+      "evt_r00359_c49"
+     ],
+     [
+      "evt_r00448_c42",
+      "evt_r00359_c42"
+     ],
+     [
+      "evt_r00617_c09",
+      "evt_r00359_c09"
+     ],
+     [
+      "evt_r00601_c08",
+      "evt_r00359_c08"
+     ]
+    ],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 2.1,
+   "analyze_s": 1.1
+  },
+  {
+   "case": "re1ob_currencyservice_delay_2",
+   "fault": "delay",
+   "ground_truth": "currencyservice",
+   "label_matches_dir": true,
+   "inject_time": 1692577020,
+   "inject_iso": "2023-08-21T00:17:00.000Z",
+   "rows": 721,
+   "events": 39655,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 1,
+   "blind": {
+    "incident": "inc_2bd07d6fa0",
+    "opened_at": "2023-08-21T00:17:08.000Z",
+    "status": "OPEN",
+    "n_services": 4,
+    "ranking": [
+     "currencyservice",
+     "frontend",
+     "checkoutservice",
+     "frontend-external"
+    ],
+    "scores": [
+     0.543,
+     0.267,
+     0.259,
+     0.05
+    ],
+    "confident": true,
+    "root": "currencyservice"
+   },
+   "windowed": {
+    "incident": "inc_2bd07d6fa0",
+    "opened_at": "2023-08-21T00:17:08.000Z",
+    "status": "OPEN",
+    "n_services": 4,
+    "ranking": [
+     "currencyservice",
+     "frontend",
+     "checkoutservice",
+     "frontend-external"
+    ],
+    "scores": [
+     0.543,
+     0.267,
+     0.259,
+     0.05
+    ],
+    "confident": true,
+    "root": "currencyservice"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "currencyservice",
+     "checkoutservice",
+     "frontend",
+     "productcatalogservice",
+     "recommendationservice"
+    ],
+    "scores": [
+     4985.096,
+     773.119,
+     376.221,
+     1.199,
+     1.192
+    ],
+    "metrics": [
+     "currencyservice_latency-50",
+     "checkoutservice_latency-90",
+     "frontend_latency-50",
+     "productcatalogservice_cpu",
+     "recommendationservice_cpu"
+    ],
+    "evidence": [
+     [
+      "evt_r00502_c40",
+      "evt_r00359_c40"
+     ],
+     [
+      "evt_r00536_c49",
+      "evt_r00359_c49"
+     ],
+     [
+      "evt_r00648_c42",
+      "evt_r00359_c42"
+     ],
+     [
+      "evt_r00511_c08",
+      "evt_r00359_c08"
+     ],
+     [
+      "evt_r00613_c09",
+      "evt_r00359_c09"
+     ]
+    ],
+    "confident": true,
+    "root": "currencyservice"
+   },
+   "seconds": 1.5,
+   "analyze_s": 0.6
+  },
+  {
+   "case": "re1ob_currencyservice_delay_3",
+   "fault": "delay",
+   "ground_truth": "currencyservice",
+   "label_matches_dir": true,
+   "inject_time": 1692610652,
+   "inject_iso": "2023-08-21T09:37:32.000Z",
+   "rows": 721,
+   "events": 40376,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_4f883a26d3",
+    "opened_at": "2023-08-21T09:36:21.000Z",
+    "status": "ABSTAINED",
+    "n_services": 3,
+    "ranking": [
+     "currencyservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.443,
+     0.15,
+     0.05
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "currencyservice",
+     "checkoutservice",
+     "frontend",
+     "paymentservice",
+     "recommendationservice"
+    ],
+    "scores": [
+     979.14,
+     641.587,
+     366.29,
+     2.63,
+     2.178
+    ],
+    "metrics": [
+     "currencyservice_latency-90",
+     "checkoutservice_latency-90",
+     "frontend_latency-50",
+     "paymentservice_mem",
+     "recommendationservice_cpu"
+    ],
+    "evidence": [
+     [
+      "evt_r00629_c51",
+      "evt_r00359_c51"
+     ],
+     [
+      "evt_r00533_c50",
+      "evt_r00359_c50"
+     ],
+     [
+      "evt_r00439_c43",
+      "evt_r00359_c43"
+     ],
+     [
+      "evt_r00496_c19",
+      "evt_r00359_c19"
+     ],
+     [
+      "evt_r00636_c09",
+      "evt_r00359_c09"
+     ]
+    ],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 1.3,
+   "analyze_s": 0.8
+  },
+  {
+   "case": "re1ob_currencyservice_disk_1",
+   "fault": "disk",
+   "ground_truth": "currencyservice",
+   "label_matches_dir": true,
+   "inject_time": 1702357134,
+   "inject_iso": "2023-12-12T04:58:54.000Z",
+   "rows": 721,
+   "events": 38934,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 2,
+   "n_incidents_after_inject": 2,
+   "blind": {
+    "incident": "inc_f82d07b50d",
+    "opened_at": "2023-12-12T04:59:12.000Z",
+    "status": "ABSTAINED",
+    "n_services": 2,
+    "ranking": [
+     "currencyservice",
+     "checkoutservice"
+    ],
+    "scores": [
+     0.415,
+     0.05
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_f82d07b50d",
+    "opened_at": "2023-12-12T04:59:12.000Z",
+    "status": "ABSTAINED",
+    "n_services": 2,
+    "ranking": [
+     "currencyservice",
+     "checkoutservice"
+    ],
+    "scores": [
+     0.415,
+     0.05
+    ],
+    "confident": false,
+    "root": null
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "currencyservice",
+     "checkoutservice",
+     "frontend",
+     "cartservice",
+     "emailservice"
+    ],
+    "scores": [
+     74.551,
+     30.569,
+     13.543,
+     12.534,
+     8.463
+    ],
+    "metrics": [
+     "currencyservice_latency-90",
+     "checkoutservice_latency-50",
+     "frontend_latency-50",
+     "cartservice_latency-90",
+     "emailservice_latency-90"
+    ],
+    "evidence": [
+     [
+      "evt_r00616_c49",
+      "evt_r00359_c49"
+     ],
+     [
+      "evt_r00503_c38",
+      "evt_r00359_c38"
+     ],
+     [
+      "evt_r00614_c41",
+      "evt_r00359_c41"
+     ],
+     [
+      "evt_r00503_c47",
+      "evt_r00359_c47"
+     ],
+     [
+      "evt_r00505_c50",
+      "evt_r00359_c50"
+     ]
+    ],
+    "confident": true,
+    "root": "currencyservice"
+   },
+   "seconds": 1.6,
+   "analyze_s": 0.7
+  },
+  {
+   "case": "re1ob_currencyservice_disk_2",
+   "fault": "disk",
+   "ground_truth": "currencyservice",
+   "label_matches_dir": true,
+   "inject_time": 1702368341,
+   "inject_iso": "2023-12-12T08:05:41.000Z",
+   "rows": 721,
+   "events": 40376,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 1,
+   "blind": {
+    "incident": "inc_690bd6e340",
+    "opened_at": "2023-12-12T08:06:03.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "checkoutservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "checkoutservice"
+   },
+   "windowed": {
+    "incident": "inc_690bd6e340",
+    "opened_at": "2023-12-12T08:06:03.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "checkoutservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "checkoutservice"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "currencyservice",
+     "checkoutservice",
+     "frontend",
+     "cartservice",
+     "recommendationservice"
+    ],
+    "scores": [
+     53.368,
+     19.615,
+     11.031,
+     6.249,
+     4.183
+    ],
+    "metrics": [
+     "currencyservice_latency-90",
+     "checkoutservice_latency-50",
+     "frontend_latency-50",
+     "cartservice_latency-50",
+     "recommendationservice_latency-50"
+    ],
+    "evidence": [
+     [
+      "evt_r00427_c51",
+      "evt_r00359_c51"
+     ],
+     [
+      "evt_r00648_c40",
+      "evt_r00359_c40"
+     ],
+     [
+      "evt_r00437_c43",
+      "evt_r00359_c43"
+     ],
+     [
+      "evt_r00427_c39",
+      "evt_r00359_c39"
+     ],
+     [
+      "evt_r00408_c46",
+      "evt_r00359_c46"
+     ]
+    ],
+    "confident": true,
+    "root": "currencyservice"
+   },
+   "seconds": 1.8,
+   "analyze_s": 0.9
+  },
+  {
+   "case": "re1ob_currencyservice_disk_3",
+   "fault": "disk",
+   "ground_truth": "currencyservice",
+   "label_matches_dir": true,
+   "inject_time": 1702379974,
+   "inject_iso": "2023-12-12T11:19:34.000Z",
+   "rows": 721,
+   "events": 40376,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 1,
+   "blind": {
+    "incident": "inc_0a45a02816",
+    "opened_at": "2023-12-12T11:19:52.000Z",
+    "status": "ABSTAINED",
+    "n_services": 2,
+    "ranking": [
+     "currencyservice",
+     "checkoutservice"
+    ],
+    "scores": [
+     0.427,
+     0.05
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_0a45a02816",
+    "opened_at": "2023-12-12T11:19:52.000Z",
+    "status": "ABSTAINED",
+    "n_services": 2,
+    "ranking": [
+     "currencyservice",
+     "checkoutservice"
+    ],
+    "scores": [
+     0.427,
+     0.05
+    ],
+    "confident": false,
+    "root": null
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "currencyservice",
+     "checkoutservice",
+     "cartservice",
+     "frontend",
+     "recommendationservice"
+    ],
+    "scores": [
+     69.319,
+     33.533,
+     8.362,
+     5.331,
+     2.091
+    ],
+    "metrics": [
+     "currencyservice_latency-90",
+     "checkoutservice_latency-90",
+     "cartservice_latency-50",
+     "frontend_latency-50",
+     "recommendationservice_latency-50"
+    ],
+    "evidence": [
+     [
+      "evt_r00608_c51",
+      "evt_r00359_c51"
+     ],
+     [
+      "evt_r00609_c50",
+      "evt_r00359_c50"
+     ],
+     [
+      "evt_r00608_c39",
+      "evt_r00359_c39"
+     ],
+     [
+      "evt_r00609_c43",
+      "evt_r00359_c43"
+     ],
+     [
+      "evt_r00609_c46",
+      "evt_r00359_c46"
+     ]
+    ],
+    "confident": true,
+    "root": "currencyservice"
+   },
+   "seconds": 1.8,
+   "analyze_s": 0.8
+  },
+  {
+   "case": "re1ob_currencyservice_loss_1",
+   "fault": "loss",
+   "ground_truth": "currencyservice",
+   "label_matches_dir": true,
+   "inject_time": 16933142,
+   "inject_iso": "1970-07-15T23:39:02.000Z",
+   "rows": 721,
+   "events": 41097,
+   "inject_in_range": false,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 1,
+   "blind": {
+    "incident": "inc_5b3a576545",
+    "opened_at": "2023-08-29T12:59:18.000Z",
+    "status": "OPEN",
+    "n_services": 4,
+    "ranking": [
+     "cartservice",
+     "frontend",
+     "checkoutservice",
+     "frontend-external"
+    ],
+    "scores": [
+     0.657,
+     0.267,
+     0.25,
+     0.05
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "windowed": {
+    "incident": "inc_5b3a576545",
+    "opened_at": "2023-08-29T12:59:18.000Z",
+    "status": "OPEN",
+    "n_services": 4,
+    "ranking": [
+     "cartservice",
+     "frontend",
+     "checkoutservice",
+     "frontend-external"
+    ],
+    "scores": [
+     0.657,
+     0.267,
+     0.25,
+     0.05
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "given_time": {
+    "incident": null,
+    "ranking": [],
+    "scores": [],
+    "metrics": [],
+    "evidence": [],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 1.7,
+   "analyze_s": 0.7
+  },
+  {
+   "case": "re1ob_currencyservice_loss_2",
+   "fault": "loss",
+   "ground_truth": "currencyservice",
+   "label_matches_dir": true,
+   "inject_time": 1692646911,
+   "inject_iso": "2023-08-21T19:41:51.000Z",
+   "rows": 721,
+   "events": 41097,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 3,
+   "n_incidents_after_inject": 1,
+   "blind": {
+    "incident": "inc_df25e15085",
+    "opened_at": "2023-08-21T19:40:25.000Z",
+    "status": "OPEN",
+    "n_services": 2,
+    "ranking": [
+     "productcatalogservice",
+     "recommendationservice"
+    ],
+    "scores": [
+     0.8,
+     0.021
+    ],
+    "confident": true,
+    "root": "productcatalogservice"
+   },
+   "windowed": {
+    "incident": "inc_492eb6078f",
+    "opened_at": "2023-08-21T19:45:12.000Z",
+    "status": "RESOLVED",
+    "n_services": 1,
+    "ranking": [
+     "frontend-external"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "frontend-external"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "currencyservice",
+     "recommendationservice",
+     "cartservice",
+     "adservice",
+     "frontend"
+    ],
+    "scores": [
+     15.543,
+     10.261,
+     4.507,
+     3.835,
+     2.298
+    ],
+    "metrics": [
+     "currencyservice_latency-90",
+     "recommendationservice_latency-90",
+     "cartservice_latency-50",
+     "adservice_latency-50",
+     "frontend_cpu"
+    ],
+    "evidence": [
+     [
+      "evt_r00654_c52",
+      "evt_r00359_c52"
+     ],
+     [
+      "evt_r00519_c57",
+      "evt_r00359_c57"
+     ],
+     [
+      "evt_r00529_c40",
+      "evt_r00359_c40"
+     ],
+     [
+      "evt_r00651_c39",
+      "evt_r00359_c39"
+     ],
+     [
+      "evt_r00434_c05",
+      "evt_r00359_c05"
+     ]
+    ],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 1.8,
+   "analyze_s": 0.9
+  },
+  {
+   "case": "re1ob_currencyservice_loss_3",
+   "fault": "loss",
+   "ground_truth": "currencyservice",
+   "label_matches_dir": true,
+   "inject_time": 1692647685,
+   "inject_iso": "2023-08-21T19:54:45.000Z",
+   "rows": 721,
+   "events": 41097,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 4,
+   "n_incidents_after_inject": 2,
+   "blind": {
+    "incident": "inc_9491ef1fe4",
+    "opened_at": "2023-08-21T19:49:48.000Z",
+    "status": "RESOLVED",
+    "n_services": 1,
+    "ranking": [
+     "frontend-external"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "frontend-external"
+   },
+   "windowed": {
+    "incident": "inc_9e85a9075c",
+    "opened_at": "2023-08-21T19:55:11.000Z",
+    "status": "RESOLVED",
+    "n_services": 1,
+    "ranking": [
+     "recommendationservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "recommendationservice"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "currencyservice",
+     "recommendationservice",
+     "cartservice",
+     "adservice",
+     "frontend"
+    ],
+    "scores": [
+     52.207,
+     19.83,
+     4.97,
+     3.85,
+     3.232
+    ],
+    "metrics": [
+     "currencyservice_latency-90",
+     "recommendationservice_latency-90",
+     "cartservice_latency-50",
+     "adservice_latency-50",
+     "frontend_cpu"
+    ],
+    "evidence": [
+     [
+      "evt_r00420_c52",
+      "evt_r00359_c52"
+     ],
+     [
+      "evt_r00585_c57",
+      "evt_r00359_c57"
+     ],
+     [
+      "evt_r00585_c40",
+      "evt_r00359_c40"
+     ],
+     [
+      "evt_r00576_c39",
+      "evt_r00359_c39"
+     ],
+     [
+      "evt_r00628_c05",
+      "evt_r00359_c05"
+     ]
+    ],
+    "confident": true,
+    "root": "currencyservice"
+   },
+   "seconds": 1.6,
+   "analyze_s": 0.7
+  },
+  {
+   "case": "re1ob_currencyservice_mem_1",
+   "fault": "mem",
+   "ground_truth": "currencyservice",
+   "label_matches_dir": true,
+   "inject_time": 1685347082,
+   "inject_iso": "2023-05-29T07:58:02.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 11,
+   "n_incidents_after_inject": 8,
+   "blind": {
+    "incident": "inc_7a33de64a6",
+    "opened_at": "2023-05-29T07:58:09.000Z",
+    "status": "OPEN",
+    "n_services": 4,
+    "ranking": [
+     "currencyservice",
+     "cartservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.667,
+     0.295,
+     0.117,
+     0.05
+    ],
+    "confident": true,
+    "root": "currencyservice"
+   },
+   "windowed": {
+    "incident": "inc_7a33de64a6",
+    "opened_at": "2023-05-29T07:58:09.000Z",
+    "status": "OPEN",
+    "n_services": 4,
+    "ranking": [
+     "currencyservice",
+     "cartservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.667,
+     0.295,
+     0.117,
+     0.05
+    ],
+    "confident": true,
+    "root": "currencyservice"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "currencyservice",
+     "checkoutservice",
+     "frontend",
+     "cartservice",
+     "recommendationservice"
+    ],
+    "scores": [
+     2118.967,
+     346.238,
+     93.392,
+     71.765,
+     37.182
+    ],
+    "metrics": [
+     "currencyservice_latency",
+     "checkoutservice_latency",
+     "frontend_latency",
+     "cartservice_latency",
+     "recommendationservice_latency"
+    ],
+    "evidence": [
+     [
+      "evt_r02250_c39",
+      "evt_r02099_c39"
+     ],
+     [
+      "evt_r02255_c38",
+      "evt_r02099_c38"
+     ],
+     [
+      "evt_r02252_c41",
+      "evt_r02099_c41"
+     ],
+     [
+      "evt_r02256_c37",
+      "evt_r02099_c37"
+     ],
+     [
+      "evt_r02366_c44",
+      "evt_r02099_c44"
+     ]
+    ],
+    "confident": true,
+    "root": "currencyservice"
+   },
+   "seconds": 8.9,
+   "analyze_s": 3.9
+  },
+  {
+   "case": "re1ob_currencyservice_mem_2",
+   "fault": "mem",
+   "ground_truth": "currencyservice",
+   "label_matches_dir": true,
+   "inject_time": 1685351423,
+   "inject_iso": "2023-05-29T09:10:23.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 5,
+   "n_incidents_after_inject": 3,
+   "blind": {
+    "incident": "inc_a22a06956e",
+    "opened_at": "2023-05-29T09:10:32.000Z",
+    "status": "OPEN",
+    "n_services": 3,
+    "ranking": [
+     "currencyservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.5,
+     0.15,
+     0.05
+    ],
+    "confident": true,
+    "root": "currencyservice"
+   },
+   "windowed": {
+    "incident": "inc_a22a06956e",
+    "opened_at": "2023-05-29T09:10:32.000Z",
+    "status": "OPEN",
+    "n_services": 3,
+    "ranking": [
+     "currencyservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.5,
+     0.15,
+     0.05
+    ],
+    "confident": true,
+    "root": "currencyservice"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "currencyservice",
+     "checkoutservice",
+     "frontend",
+     "recommendationservice",
+     "adservice"
+    ],
+    "scores": [
+     1773.457,
+     326.775,
+     40.594,
+     22.796,
+     20.194
+    ],
+    "metrics": [
+     "currencyservice_latency",
+     "checkoutservice_latency",
+     "frontend_latency",
+     "recommendationservice_latency",
+     "adservice_latency"
+    ],
+    "evidence": [
+     [
+      "evt_r02167_c39",
+      "evt_r02099_c39"
+     ],
+     [
+      "evt_r02217_c38",
+      "evt_r02099_c38"
+     ],
+     [
+      "evt_r02164_c41",
+      "evt_r02099_c41"
+     ],
+     [
+      "evt_r02167_c44",
+      "evt_r02099_c44"
+     ],
+     [
+      "evt_r02267_c36",
+      "evt_r02099_c36"
+     ]
+    ],
+    "confident": true,
+    "root": "currencyservice"
+   },
+   "seconds": 9.2,
+   "analyze_s": 4.0
+  },
+  {
+   "case": "re1ob_currencyservice_mem_3",
+   "fault": "mem",
+   "ground_truth": "currencyservice",
+   "label_matches_dir": true,
+   "inject_time": 1685355763,
+   "inject_iso": "2023-05-29T10:22:43.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 12,
+   "n_incidents_after_inject": 9,
+   "blind": {
+    "incident": "inc_1828f0ebfe",
+    "opened_at": "2023-05-29T10:22:49.000Z",
+    "status": "OPEN",
+    "n_services": 4,
+    "ranking": [
+     "currencyservice",
+     "adservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.667,
+     0.146,
+     0.117,
+     0.05
+    ],
+    "confident": true,
+    "root": "currencyservice"
+   },
+   "windowed": {
+    "incident": "inc_1828f0ebfe",
+    "opened_at": "2023-05-29T10:22:49.000Z",
+    "status": "OPEN",
+    "n_services": 4,
+    "ranking": [
+     "currencyservice",
+     "adservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.667,
+     0.146,
+     0.117,
+     0.05
+    ],
+    "confident": true,
+    "root": "currencyservice"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "currencyservice",
+     "checkoutservice",
+     "frontend",
+     "productcatalogservice",
+     "cartservice"
+    ],
+    "scores": [
+     1618.732,
+     322.351,
+     37.431,
+     18.756,
+     17.751
+    ],
+    "metrics": [
+     "currencyservice_latency",
+     "checkoutservice_latency",
+     "frontend_latency",
+     "productcatalogservice_latency",
+     "cartservice_latency"
+    ],
+    "evidence": [
+     [
+      "evt_r02285_c39",
+      "evt_r02099_c39"
+     ],
+     [
+      "evt_r02170_c38",
+      "evt_r02099_c38"
+     ],
+     [
+      "evt_r02162_c41",
+      "evt_r02099_c41"
+     ],
+     [
+      "evt_r02165_c43",
+      "evt_r02099_c43"
+     ],
+     [
+      "evt_r02170_c37",
+      "evt_r02099_c37"
+     ]
+    ],
+    "confident": true,
+    "root": "currencyservice"
+   },
+   "seconds": 9.0,
+   "analyze_s": 4.0
+  },
+  {
+   "case": "re1ob_productcatalogservice_cpu_1",
+   "fault": "cpu",
+   "ground_truth": "productcatalogservice",
+   "label_matches_dir": true,
+   "inject_time": 1685364577,
+   "inject_iso": "2023-05-29T12:49:37.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 5,
+   "n_incidents_after_inject": 4,
+   "blind": {
+    "incident": "inc_80bb11c6d3",
+    "opened_at": "2023-05-29T12:46:42.000Z",
+    "status": "OPEN",
+    "n_services": 3,
+    "ranking": [
+     "productcatalogservice",
+     "frontend",
+     "frontend-external"
+    ],
+    "scores": [
+     0.5,
+     0.3,
+     0.05
+    ],
+    "confident": true,
+    "root": "productcatalogservice"
+   },
+   "windowed": {
+    "incident": "inc_9770067e82",
+    "opened_at": "2023-05-29T12:56:52.000Z",
+    "status": "RESOLVED",
+    "n_services": 3,
+    "ranking": [
+     "cartservice",
+     "frontend",
+     "frontend-external"
+    ],
+    "scores": [
+     0.721,
+     0.257,
+     0.05
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "productcatalogservice",
+     "paymentservice",
+     "cartservice",
+     "redis",
+     "currencyservice"
+    ],
+    "scores": [
+     175.294,
+     1.067,
+     0.866,
+     0.858,
+     0.654
+    ],
+    "metrics": [
+     "productcatalogservice_cpu",
+     "paymentservice_mem",
+     "cartservice_cpu",
+     "redis_mem",
+     "currencyservice_latency"
+    ],
+    "evidence": [
+     [
+      "evt_r02235_c08",
+      "evt_r02099_c08"
+     ],
+     [
+      "evt_r02397_c19",
+      "evt_r02099_c19"
+     ],
+     [
+      "evt_r02234_c01",
+      "evt_r02099_c01"
+     ],
+     [
+      "evt_r02307_c22",
+      "evt_r02099_c22"
+     ],
+     [
+      "evt_r02110_c39",
+      "evt_r02099_c39"
+     ]
+    ],
+    "confident": true,
+    "root": "productcatalogservice"
+   },
+   "seconds": 8.8,
+   "analyze_s": 3.6
+  },
+  {
+   "case": "re1ob_productcatalogservice_cpu_2",
+   "fault": "cpu",
+   "ground_truth": "productcatalogservice",
+   "label_matches_dir": true,
+   "inject_time": 1685368916,
+   "inject_iso": "2023-05-29T14:01:56.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 8,
+   "n_incidents_after_inject": 4,
+   "blind": {
+    "incident": "inc_5ec5f86be5",
+    "opened_at": "2023-05-29T14:02:02.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "productcatalogservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "productcatalogservice"
+   },
+   "windowed": {
+    "incident": "inc_5ec5f86be5",
+    "opened_at": "2023-05-29T14:02:02.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "productcatalogservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "productcatalogservice"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "productcatalogservice",
+     "frontend",
+     "currencyservice",
+     "cartservice",
+     "redis"
+    ],
+    "scores": [
+     177.655,
+     0.909,
+     0.81,
+     0.789,
+     0.715
+    ],
+    "metrics": [
+     "productcatalogservice_cpu",
+     "frontend_latency",
+     "currencyservice_latency",
+     "cartservice_cpu",
+     "redis_cpu"
+    ],
+    "evidence": [
+     [
+      "evt_r02237_c08",
+      "evt_r02099_c08"
+     ],
+     [
+      "evt_r02105_c41",
+      "evt_r02099_c41"
+     ],
+     [
+      "evt_r02104_c39",
+      "evt_r02099_c39"
+     ],
+     [
+      "evt_r02116_c01",
+      "evt_r02099_c01"
+     ],
+     [
+      "evt_r02101_c10",
+      "evt_r02099_c10"
+     ]
+    ],
+    "confident": true,
+    "root": "productcatalogservice"
+   },
+   "seconds": 8.9,
+   "analyze_s": 3.7
+  },
+  {
+   "case": "re1ob_productcatalogservice_cpu_3",
+   "fault": "cpu",
+   "ground_truth": "productcatalogservice",
+   "label_matches_dir": true,
+   "inject_time": 1685373255,
+   "inject_iso": "2023-05-29T15:14:15.000Z",
+   "rows": 63,
+   "events": 2835,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "InboundPassthroughClusterIpv4_error",
+    "InboundPassthroughClusterIpv4_load",
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "carts_error",
+    "carts_load",
+    "catalogue_error",
+    "catalogue_load",
+    "front-end_load",
+    "main_cpu",
+    "main_mem",
+    "orders_error",
+    "orders_load"
+   ],
+   "null_values": 0,
+   "n_incidents": 0,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "given_time": {
+    "incident": null,
+    "ranking": [],
+    "scores": [],
+    "metrics": [],
+    "evidence": [],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 0.1,
+   "analyze_s": 0.0
+  },
+  {
+   "case": "re1ob_productcatalogservice_delay_1",
+   "fault": "delay",
+   "ground_truth": "productcatalogservice",
+   "label_matches_dir": true,
+   "inject_time": 1692589306,
+   "inject_iso": "2023-08-21T03:41:46.000Z",
+   "rows": 721,
+   "events": 39655,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_27a48825ff",
+    "opened_at": "2023-08-21T03:37:52.000Z",
+    "status": "ABSTAINED",
+    "n_services": 4,
+    "ranking": [
+     "productcatalogservice",
+     "checkoutservice",
+     "recommendationservice",
+     "frontend"
+    ],
+    "scores": [
+     0.443,
+     0.117,
+     0.108,
+     0.05
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "recommendationservice",
+     "frontend",
+     "checkoutservice",
+     "productcatalogservice",
+     "paymentservice"
+    ],
+    "scores": [
+     784.242,
+     554.699,
+     510.162,
+     354.696,
+     2.538
+    ],
+    "metrics": [
+     "recommendationservice_latency-50",
+     "frontend_latency-50",
+     "checkoutservice_latency-90",
+     "productcatalogservice_latency-90",
+     "paymentservice_mem"
+    ],
+    "evidence": [
+     [
+      "evt_r00649_c45",
+      "evt_r00359_c45"
+     ],
+     [
+      "evt_r00652_c42",
+      "evt_r00359_c42"
+     ],
+     [
+      "evt_r00637_c49",
+      "evt_r00359_c49"
+     ],
+     [
+      "evt_r00427_c54",
+      "evt_r00359_c54"
+     ],
+     [
+      "evt_r00377_c19",
+      "evt_r00359_c19"
+     ]
+    ],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 1.9,
+   "analyze_s": 0.9
+  },
+  {
+   "case": "re1ob_productcatalogservice_delay_2",
+   "fault": "delay",
+   "ground_truth": "productcatalogservice",
+   "label_matches_dir": true,
+   "inject_time": 1692624019,
+   "inject_iso": "2023-08-21T13:20:19.000Z",
+   "rows": 721,
+   "events": 40376,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_06a43131c9",
+    "opened_at": "2023-08-21T13:16:21.000Z",
+    "status": "ABSTAINED",
+    "n_services": 5,
+    "ranking": [
+     "productcatalogservice",
+     "checkoutservice",
+     "recommendationservice",
+     "frontend",
+     "frontend-external"
+    ],
+    "scores": [
+     0.446,
+     0.15,
+     0.128,
+     0.1,
+     0.05
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "productcatalogservice",
+     "frontend",
+     "recommendationservice",
+     "checkoutservice",
+     "currencyservice"
+    ],
+    "scores": [
+     11262.307,
+     1346.087,
+     1067.604,
+     550.168,
+     3.996
+    ],
+    "metrics": [
+     "productcatalogservice_latency-50",
+     "frontend_latency-50",
+     "recommendationservice_latency-50",
+     "checkoutservice_latency-90",
+     "currencyservice_cpu"
+    ],
+    "evidence": [
+     [
+      "evt_r00427_c45",
+      "evt_r00359_c45"
+     ],
+     [
+      "evt_r00638_c43",
+      "evt_r00359_c43"
+     ],
+     [
+      "evt_r00487_c46",
+      "evt_r00359_c46"
+     ],
+     [
+      "evt_r00487_c50",
+      "evt_r00359_c50"
+     ],
+     [
+      "evt_r00418_c03",
+      "evt_r00359_c03"
+     ]
+    ],
+    "confident": true,
+    "root": "productcatalogservice"
+   },
+   "seconds": 1.8,
+   "analyze_s": 0.9
+  },
+  {
+   "case": "re1ob_productcatalogservice_delay_3",
+   "fault": "delay",
+   "ground_truth": "productcatalogservice",
+   "label_matches_dir": true,
+   "inject_time": 1692614494,
+   "inject_iso": "2023-08-21T10:41:34.000Z",
+   "rows": 721,
+   "events": 40376,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 2,
+   "n_incidents_after_inject": 1,
+   "blind": {
+    "incident": "inc_2598ea2a12",
+    "opened_at": "2023-08-21T10:41:48.000Z",
+    "status": "ABSTAINED",
+    "n_services": 4,
+    "ranking": [
+     "productcatalogservice",
+     "recommendationservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.446,
+     0.256,
+     0.117,
+     0.05
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_2598ea2a12",
+    "opened_at": "2023-08-21T10:41:48.000Z",
+    "status": "ABSTAINED",
+    "n_services": 4,
+    "ranking": [
+     "productcatalogservice",
+     "recommendationservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.446,
+     0.256,
+     0.117,
+     0.05
+    ],
+    "confident": false,
+    "root": null
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "productcatalogservice",
+     "frontend",
+     "recommendationservice",
+     "checkoutservice",
+     "currencyservice"
+    ],
+    "scores": [
+     11171.389,
+     1103.746,
+     1038.142,
+     426.715,
+     3.77
+    ],
+    "metrics": [
+     "productcatalogservice_latency-50",
+     "frontend_latency-50",
+     "recommendationservice_latency-50",
+     "checkoutservice_latency-90",
+     "currencyservice_cpu"
+    ],
+    "evidence": [
+     [
+      "evt_r00424_c45",
+      "evt_r00359_c45"
+     ],
+     [
+      "evt_r00444_c43",
+      "evt_r00359_c43"
+     ],
+     [
+      "evt_r00450_c46",
+      "evt_r00359_c46"
+     ],
+     [
+      "evt_r00439_c50",
+      "evt_r00359_c50"
+     ],
+     [
+      "evt_r00544_c03",
+      "evt_r00359_c03"
+     ]
+    ],
+    "confident": true,
+    "root": "productcatalogservice"
+   },
+   "seconds": 2.1,
+   "analyze_s": 1.1
+  },
+  {
+   "case": "re1ob_productcatalogservice_disk_1",
+   "fault": "disk",
+   "ground_truth": "productcatalogservice",
+   "label_matches_dir": true,
+   "inject_time": 1702357908,
+   "inject_iso": "2023-12-12T05:11:48.000Z",
+   "rows": 721,
+   "events": 39463,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 192,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 1,
+   "blind": {
+    "incident": "inc_be208e3975",
+    "opened_at": "2023-12-12T05:12:11.000Z",
+    "status": "ABSTAINED",
+    "n_services": 4,
+    "ranking": [
+     "productcatalogservice",
+     "cartservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.435,
+     0.31,
+     0.267,
+     0.013
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_be208e3975",
+    "opened_at": "2023-12-12T05:12:11.000Z",
+    "status": "ABSTAINED",
+    "n_services": 4,
+    "ranking": [
+     "productcatalogservice",
+     "cartservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.435,
+     0.31,
+     0.267,
+     0.013
+    ],
+    "confident": false,
+    "root": null
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "productcatalogservice",
+     "recommendationservice",
+     "checkoutservice",
+     "frontend",
+     "emailservice"
+    ],
+    "scores": [
+     140.37,
+     19.155,
+     17.086,
+     10.034,
+     6.511
+    ],
+    "metrics": [
+     "productcatalogservice_latency-90",
+     "recommendationservice_latency-90",
+     "checkoutservice_latency-90",
+     "frontend_latency-50",
+     "emailservice_latency-90"
+    ],
+    "evidence": [
+     [
+      "evt_r00429_c54",
+      "evt_r00359_c54"
+     ],
+     [
+      "evt_r00594_c55",
+      "evt_r00359_c55"
+     ],
+     [
+      "evt_r00592_c49",
+      "evt_r00359_c49"
+     ],
+     [
+      "evt_r00597_c42",
+      "evt_r00359_c42"
+     ],
+     [
+      "evt_r00584_c51",
+      "evt_r00359_c51"
+     ]
+    ],
+    "confident": true,
+    "root": "productcatalogservice"
+   },
+   "seconds": 2.0,
+   "analyze_s": 1.0
+  },
+  {
+   "case": "re1ob_productcatalogservice_disk_2",
+   "fault": "disk",
+   "ground_truth": "productcatalogservice",
+   "label_matches_dir": true,
+   "inject_time": 1702374697,
+   "inject_iso": "2023-12-12T09:51:37.000Z",
+   "rows": 721,
+   "events": 39473,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 182,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_a965ab3b05",
+    "opened_at": "2023-12-12T09:49:22.000Z",
+    "status": "ABSTAINED",
+    "n_services": 4,
+    "ranking": [
+     "productcatalogservice",
+     "cartservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.449,
+     0.322,
+     0.117,
+     0.017
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "productcatalogservice",
+     "recommendationservice",
+     "checkoutservice",
+     "paymentservice",
+     "cartservice"
+    ],
+    "scores": [
+     186.135,
+     30.411,
+     18.57,
+     7.538,
+     6.46
+    ],
+    "metrics": [
+     "productcatalogservice_latency-90",
+     "recommendationservice_latency-50",
+     "checkoutservice_latency-50",
+     "paymentservice_latency-90",
+     "cartservice_latency-90"
+    ],
+    "evidence": [
+     [
+      "evt_r00443_c54",
+      "evt_r00359_c54"
+     ],
+     [
+      "evt_r00440_c45",
+      "evt_r00359_c45"
+     ],
+     [
+      "evt_r00430_c39",
+      "evt_r00359_c39"
+     ],
+     [
+      "evt_r00428_c53",
+      "evt_r00359_c53"
+     ],
+     [
+      "evt_r00444_c48",
+      "evt_r00359_c48"
+     ]
+    ],
+    "confident": true,
+    "root": "productcatalogservice"
+   },
+   "seconds": 1.6,
+   "analyze_s": 0.9
+  },
+  {
+   "case": "re1ob_productcatalogservice_disk_3",
+   "fault": "disk",
+   "ground_truth": "productcatalogservice",
+   "label_matches_dir": true,
+   "inject_time": 1702375470,
+   "inject_iso": "2023-12-12T10:04:30.000Z",
+   "rows": 721,
+   "events": 39655,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 1,
+   "blind": {
+    "incident": "inc_6d14297183",
+    "opened_at": "2023-12-12T10:04:53.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "productcatalogservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "productcatalogservice"
+   },
+   "windowed": {
+    "incident": "inc_6d14297183",
+    "opened_at": "2023-12-12T10:04:53.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "productcatalogservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "productcatalogservice"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "productcatalogservice",
+     "recommendationservice",
+     "checkoutservice",
+     "cartservice",
+     "paymentservice"
+    ],
+    "scores": [
+     196.136,
+     32.351,
+     28.395,
+     12.055,
+     11.295
+    ],
+    "metrics": [
+     "productcatalogservice_latency-90",
+     "recommendationservice_latency-50",
+     "checkoutservice_latency-90",
+     "cartservice_latency-90",
+     "paymentservice_latency-90"
+    ],
+    "evidence": [
+     [
+      "evt_r00457_c54",
+      "evt_r00359_c54"
+     ],
+     [
+      "evt_r00457_c45",
+      "evt_r00359_c45"
+     ],
+     [
+      "evt_r00481_c49",
+      "evt_r00359_c49"
+     ],
+     [
+      "evt_r00456_c48",
+      "evt_r00359_c48"
+     ],
+     [
+      "evt_r00631_c53",
+      "evt_r00359_c53"
+     ]
+    ],
+    "confident": true,
+    "root": "productcatalogservice"
+   },
+   "seconds": 1.7,
+   "analyze_s": 0.9
+  },
+  {
+   "case": "re1ob_productcatalogservice_loss_1",
+   "fault": "loss",
+   "ground_truth": "productcatalogservice",
+   "label_matches_dir": true,
+   "inject_time": 1692665535,
+   "inject_iso": "2023-08-22T00:52:15.000Z",
+   "rows": 721,
+   "events": 41097,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_ea9aa4a366",
+    "opened_at": "2023-08-22T00:47:52.000Z",
+    "status": "ABSTAINED",
+    "n_services": 4,
+    "ranking": [
+     "cartservice",
+     "checkoutservice",
+     "frontend",
+     "frontend-external"
+    ],
+    "scores": [
+     0.442,
+     0.242,
+     0.231,
+     0.05
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "checkoutservice",
+     "recommendationservice",
+     "frontend",
+     "adservice",
+     "productcatalogservice"
+    ],
+    "scores": [
+     62.243,
+     54.591,
+     49.593,
+     42.771,
+     9.58
+    ],
+    "metrics": [
+     "checkoutservice_latency-90",
+     "recommendationservice_latency-90",
+     "frontend_latency-50",
+     "adservice_latency-50",
+     "productcatalogservice_latency-50"
+    ],
+    "evidence": [
+     [
+      "evt_r00502_c51",
+      "evt_r00359_c51"
+     ],
+     [
+      "evt_r00628_c57",
+      "evt_r00359_c57"
+     ],
+     [
+      "evt_r00645_c44",
+      "evt_r00359_c44"
+     ],
+     [
+      "evt_r00567_c39",
+      "evt_r00359_c39"
+     ],
+     [
+      "evt_r00639_c46",
+      "evt_r00359_c46"
+     ]
+    ],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 2.0,
+   "analyze_s": 1.0
+  },
+  {
+   "case": "re1ob_productcatalogservice_loss_2",
+   "fault": "loss",
+   "ground_truth": "productcatalogservice",
+   "label_matches_dir": true,
+   "inject_time": 1692666311,
+   "inject_iso": "2023-08-22T01:05:11.000Z",
+   "rows": 721,
+   "events": 41097,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_d3768e69ee",
+    "opened_at": "2023-08-22T01:01:19.000Z",
+    "status": "ABSTAINED",
+    "n_services": 3,
+    "ranking": [
+     "checkoutservice",
+     "frontend",
+     "frontend-external"
+    ],
+    "scores": [
+     0.449,
+     0.15,
+     0.05
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "recommendationservice",
+     "checkoutservice",
+     "frontend",
+     "adservice",
+     "productcatalogservice"
+    ],
+    "scores": [
+     83.515,
+     74.744,
+     41.626,
+     40.818,
+     9.074
+    ],
+    "metrics": [
+     "recommendationservice_latency-90",
+     "checkoutservice_latency-90",
+     "frontend_latency-50",
+     "adservice_latency-50",
+     "productcatalogservice_latency-50"
+    ],
+    "evidence": [
+     [
+      "evt_r00427_c57",
+      "evt_r00359_c57"
+     ],
+     [
+      "evt_r00534_c51",
+      "evt_r00359_c51"
+     ],
+     [
+      "evt_r00659_c44",
+      "evt_r00359_c44"
+     ],
+     [
+      "evt_r00482_c39",
+      "evt_r00359_c39"
+     ],
+     [
+      "evt_r00485_c46",
+      "evt_r00359_c46"
+     ]
+    ],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 2.1,
+   "analyze_s": 1.0
+  },
+  {
+   "case": "re1ob_productcatalogservice_loss_3",
+   "fault": "loss",
+   "ground_truth": "productcatalogservice",
+   "label_matches_dir": true,
+   "inject_time": 1692667087,
+   "inject_iso": "2023-08-22T01:18:07.000Z",
+   "rows": 721,
+   "events": 41097,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_3defc7c271",
+    "opened_at": "2023-08-22T01:13:57.000Z",
+    "status": "OPEN",
+    "n_services": 3,
+    "ranking": [
+     "checkoutservice",
+     "frontend",
+     "frontend-external"
+    ],
+    "scores": [
+     0.65,
+     0.293,
+     0.05
+    ],
+    "confident": true,
+    "root": "checkoutservice"
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "checkoutservice",
+     "recommendationservice",
+     "adservice",
+     "frontend",
+     "productcatalogservice"
+    ],
+    "scores": [
+     76.652,
+     41.809,
+     38.588,
+     35.729,
+     8.747
+    ],
+    "metrics": [
+     "checkoutservice_latency-90",
+     "recommendationservice_latency-90",
+     "adservice_latency-50",
+     "frontend_latency-50",
+     "productcatalogservice_latency-50"
+    ],
+    "evidence": [
+     [
+      "evt_r00555_c51",
+      "evt_r00359_c51"
+     ],
+     [
+      "evt_r00656_c57",
+      "evt_r00359_c57"
+     ],
+     [
+      "evt_r00552_c39",
+      "evt_r00359_c39"
+     ],
+     [
+      "evt_r00554_c44",
+      "evt_r00359_c44"
+     ],
+     [
+      "evt_r00547_c46",
+      "evt_r00359_c46"
+     ]
+    ],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 1.7,
+   "analyze_s": 0.7
+  },
+  {
+   "case": "re1ob_productcatalogservice_mem_1",
+   "fault": "mem",
+   "ground_truth": "productcatalogservice",
+   "label_matches_dir": true,
+   "inject_time": 1685383134,
+   "inject_iso": "2023-05-29T17:58:54.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 17,
+   "n_incidents_after_inject": 11,
+   "blind": {
+    "incident": "inc_d15b59109e",
+    "opened_at": "2023-05-29T17:58:52.000Z",
+    "status": "ABSTAINED",
+    "n_services": 7,
+    "ranking": [
+     "productcatalogservice",
+     "emailservice",
+     "paymentservice",
+     "frontend",
+     "checkoutservice"
+    ],
+    "scores": [
+     0.592,
+     0.5,
+     0.3,
+     0.233,
+     0.192
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_f99c4f4df1",
+    "opened_at": "2023-05-29T18:31:19.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "cartservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "productcatalogservice",
+     "recommendationservice",
+     "checkoutservice",
+     "frontend",
+     "cartservice"
+    ],
+    "scores": [
+     1714.784,
+     1343.431,
+     313.389,
+     115.75,
+     40.301
+    ],
+    "metrics": [
+     "productcatalogservice_latency",
+     "recommendationservice_latency",
+     "checkoutservice_latency",
+     "frontend_latency",
+     "cartservice_latency"
+    ],
+    "evidence": [
+     [
+      "evt_r02399_c43",
+      "evt_r02099_c43"
+     ],
+     [
+      "evt_r02396_c44",
+      "evt_r02099_c44"
+     ],
+     [
+      "evt_r02395_c38",
+      "evt_r02099_c38"
+     ],
+     [
+      "evt_r02399_c41",
+      "evt_r02099_c41"
+     ],
+     [
+      "evt_r02396_c37",
+      "evt_r02099_c37"
+     ]
+    ],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 4.9,
+   "analyze_s": 1.8
+  },
+  {
+   "case": "re1ob_productcatalogservice_mem_2",
+   "fault": "mem",
+   "ground_truth": "productcatalogservice",
+   "label_matches_dir": true,
+   "inject_time": 1685387474,
+   "inject_iso": "2023-05-29T19:11:14.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 13,
+   "n_incidents_after_inject": 8,
+   "blind": {
+    "incident": "inc_4c2045f515",
+    "opened_at": "2023-05-29T19:06:33.000Z",
+    "status": "OPEN",
+    "n_services": 6,
+    "ranking": [
+     "productcatalogservice",
+     "emailservice",
+     "checkoutservice",
+     "frontend",
+     "recommendationservice"
+    ],
+    "scores": [
+     0.495,
+     0.34,
+     0.13,
+     0.09,
+     0.088
+    ],
+    "confident": true,
+    "root": "productcatalogservice"
+   },
+   "windowed": {
+    "incident": "inc_0d404e5980",
+    "opened_at": "2023-05-29T19:16:40.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "paymentservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "paymentservice"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "productcatalogservice",
+     "recommendationservice",
+     "checkoutservice",
+     "frontend",
+     "adservice"
+    ],
+    "scores": [
+     1063.431,
+     44.903,
+     36.717,
+     9.555,
+     4.964
+    ],
+    "metrics": [
+     "productcatalogservice_mem",
+     "recommendationservice_latency",
+     "checkoutservice_latency",
+     "frontend_cpu",
+     "adservice_cpu"
+    ],
+    "evidence": [
+     [
+      "evt_r02117_c20",
+      "evt_r02099_c20"
+     ],
+     [
+      "evt_r02378_c44",
+      "evt_r02099_c44"
+     ],
+     [
+      "evt_r02399_c38",
+      "evt_r02099_c38"
+     ],
+     [
+      "evt_r02254_c05",
+      "evt_r02099_c05"
+     ],
+     [
+      "evt_r02346_c00",
+      "evt_r02099_c00"
+     ]
+    ],
+    "confident": true,
+    "root": "productcatalogservice"
+   },
+   "seconds": 4.7,
+   "analyze_s": 1.7
+  },
+  {
+   "case": "re1ob_productcatalogservice_mem_3",
+   "fault": "mem",
+   "ground_truth": "productcatalogservice",
+   "label_matches_dir": true,
+   "inject_time": 1685391813,
+   "inject_iso": "2023-05-29T20:23:33.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 14,
+   "n_incidents_after_inject": 7,
+   "blind": {
+    "incident": "inc_61d818c0d1",
+    "opened_at": "2023-05-29T20:23:39.000Z",
+    "status": "OPEN",
+    "n_services": 6,
+    "ranking": [
+     "productcatalogservice",
+     "cartservice",
+     "checkoutservice",
+     "frontend",
+     "recommendationservice"
+    ],
+    "scores": [
+     0.72,
+     0.392,
+     0.28,
+     0.24,
+     0.205
+    ],
+    "confident": true,
+    "root": "productcatalogservice"
+   },
+   "windowed": {
+    "incident": "inc_61d818c0d1",
+    "opened_at": "2023-05-29T20:23:39.000Z",
+    "status": "OPEN",
+    "n_services": 6,
+    "ranking": [
+     "productcatalogservice",
+     "cartservice",
+     "checkoutservice",
+     "frontend",
+     "recommendationservice"
+    ],
+    "scores": [
+     0.72,
+     0.392,
+     0.28,
+     0.24,
+     0.205
+    ],
+    "confident": true,
+    "root": "productcatalogservice"
+   },
+   "given_time": {
+    "incident": "given_time",
+    "ranking": [
+     "productcatalogservice",
+     "checkoutservice",
+     "recommendationservice",
+     "frontend",
+     "shippingservice"
+    ],
+    "scores": [
+     1913.274,
+     335.283,
+     162.693,
+     21.867,
+     19.404
+    ],
+    "metrics": [
+     "productcatalogservice_latency",
+     "checkoutservice_latency",
+     "recommendationservice_latency",
+     "frontend_latency",
+     "shippingservice_latency"
+    ],
+    "evidence": [
+     [
+      "evt_r02179_c43",
+      "evt_r02099_c43"
+     ],
+     [
+      "evt_r02164_c38",
+      "evt_r02099_c38"
+     ],
+     [
+      "evt_r02177_c44",
+      "evt_r02099_c44"
+     ],
+     [
+      "evt_r02176_c41",
+      "evt_r02099_c41"
+     ],
+     [
+      "evt_r02236_c45",
+      "evt_r02099_c45"
+     ]
+    ],
+    "confident": true,
+    "root": "productcatalogservice"
+   },
+   "seconds": 4.6,
+   "analyze_s": 1.7
+  }
+ ]
+}

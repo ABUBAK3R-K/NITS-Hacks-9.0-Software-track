@@ -12,6 +12,7 @@ import type {
   Report,
   Run,
   RunReveal,
+  ShiftCheck,
   SimStatus,
   Topology,
 } from "@/lib/contracts/types";
@@ -23,6 +24,7 @@ import runBlindFx from "@/lib/contracts/fixtures/run_blind.json";
 import runRevealFx from "@/lib/contracts/fixtures/run_reveal.json";
 import naiveDbPoolFx from "@/lib/contracts/fixtures/naive_answer_db_pool.json";
 import evalResultsFx from "@/lib/contracts/fixtures/eval_results.json";
+import shiftDbPoolFx from "@/lib/contracts/fixtures/shift_check_db_pool.json";
 
 export const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? "").replace(/\/+$/, "");
 export const USE_FIXTURES = !API_URL || process.env.NEXT_PUBLIC_USE_FIXTURES === "1";
@@ -45,6 +47,8 @@ export const FX = {
   // the one recorded naive LLM answer, keyed by the incident it was asked about
   naive: { [heroFx.id]: naiveDbPoolFx as NaiveAnswer } as Record<string, NaiveAnswer>,
   evalResults: evalResultsFx as EvalResults,
+  // the given-time shift check on the hero incident (lane S)
+  shift: { [heroFx.id]: shiftDbPoolFx as ShiftCheck } as Record<string, ShiftCheck>,
 };
 
 const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
@@ -167,6 +171,15 @@ export const api = {
       throw new Error(`fixture mode has a recorded naive answer only for ${FX.hero.id}`);
     }
     return http<NaiveAnswer>(`/api/incidents/${encodeURIComponent(id)}/naive`);
+  },
+  async getShiftCheck(id: string): Promise<ShiftCheck> {
+    if (USE_FIXTURES) {
+      await wait(300);
+      const s = FX.shift[id];
+      if (s) return s;
+      throw new Error(`fixture mode has a recorded shift check only for ${FX.hero.id}`);
+    }
+    return http<ShiftCheck>(`/api/incidents/${encodeURIComponent(id)}/shift_check`);
   },
   getEvalResults(): Promise<EvalResults> {
     if (USE_FIXTURES) return Promise.resolve(FX.evalResults);

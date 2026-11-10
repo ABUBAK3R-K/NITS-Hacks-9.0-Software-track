@@ -352,3 +352,22 @@ export const ENGINE_WEIGHTS = { upstream: 0.4, precedence: 0.3, change: 0.2, sev
 export const VICTIM_PENALTY = 0.5;
 export const ABSTAIN_MIN_MARGIN = 0.15;
 export const ABSTAIN_MIN_SCORE = 0.45;
+
+// GET /api/incidents/{id}/shift_check: independent metric-shift ranking at the first onset (lane S)
+export interface ShiftCandidate {
+  service: string;
+  score: number;
+  metric: string;
+  before_median: number;
+  after_median: number;
+  evidence: string[];
+}
+
+export interface ShiftCheck {
+  incident_id: string;
+  failure_ts: string;
+  ranking: ShiftCandidate[];
+  confident: boolean;
+  root_service: string | null;
+  agrees: boolean | null;
+}

@@ -60,6 +60,7 @@ The evaluation runs on our own simulator with randomized blind faults. Real-data
 | Id | Number | Where it lives / how to regenerate |
 |---|---|---|
 | E12 | RE1-OB, 125 cases, split by repetition before any tuning: DEV = repetitions 1-3 (75), TEST = 4-5 (50), and TEST was run once after the engine changes were frozen. TEST blind: AC@1 **24.0% -> 48.0%**, AC@3 52.0% -> 60.0%, Avg@5 44.4% -> 59.2%, false blame 34.0% -> 20.0%. TEST windowed (given inject_time, like-for-like with R7): Avg@5 26.8% -> 41.6%. All 125 cases, blind (includes DEV): AC@1 29.6% -> 54.4%. | `eval/rcaeval/RESULTS.md`, `eval/rcaeval/results.json`, `eval/rcaeval/runs/*.json`: `python -I eval/rcaeval/run_rcaeval.py --data D:/rcaeval-data --split test` |
+| E14 | Given-time mode (`backend/app/engine/given_time.py`), failure time given: TEST (50, run once after freezing) AC@1 **90.0%**, AC@3 94.0%, Avg@5 **94.8%**, false blame **2.0%**; per fault Avg@5 cpu 100%, delay 100%, disk 96%, loss 78%, mem 100%. DEV (75, tuning) AC@1 89.3%, Avg@5 92.5%. Windows 600 s / 300 s chosen on DEV from three tried. | `eval/rcaeval/RESULTS.md` (Lane S section), `eval/rcaeval/runs/{dev,test}_given.json`: `python -I eval/rcaeval/run_rcaeval.py --data D:/rcaeval-data --split test --tag test_given` |
 | E13 | The data download is 252 files, about 32 MB (RE1-OB metrics plus inject times, from Hugging Face `phamquiluan/RCAEval`, MIT). It is kept outside the repo. | `eval/rcaeval/RESULTS.md` (download command) |
 
 ### Project progress

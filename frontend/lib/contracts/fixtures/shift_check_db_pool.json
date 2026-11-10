@@ -1,0 +1,64 @@
+{
+  "incident_id": "inc_303a5911b5",
+  "failure_ts": "2026-11-09T08:32:05.120Z",
+  "ranking": [
+    {
+      "service": "postgres",
+      "score": 2975.087,
+      "metric": "latency_p95_ms",
+      "before_median": 8.14515,
+      "after_median": 2432.7666,
+      "evidence": [
+        "evt_000501",
+        "evt_000477"
+      ]
+    },
+    {
+      "service": "ledger-svc",
+      "score": 576.759,
+      "metric": "error_rate",
+      "before_median": 0.00185,
+      "after_median": 0.42,
+      "evidence": [
+        "evt_000308",
+        "evt_000280"
+      ]
+    },
+    {
+      "service": "auth-svc",
+      "score": 355.658,
+      "metric": "latency_p95_ms",
+      "before_median": 44.76315,
+      "after_median": 2094.8108,
+      "evidence": [
+        "evt_000143",
+        "evt_000119"
+      ]
+    },
+    {
+      "service": "api-gateway",
+      "score": 239.169,
+      "metric": "latency_p95_ms",
+      "before_median": 125.1569,
+      "after_median": 3087.59715,
+      "evidence": [
+        "evt_000065",
+        "evt_000041"
+      ]
+    },
+    {
+      "service": "payments-svc",
+      "score": 136.584,
+      "metric": "latency_p95_ms",
+      "before_median": 184.1226,
+      "after_median": 2615.1926,
+      "evidence": [
+        "evt_000215",
+        "evt_000199"
+      ]
+    }
+  ],
+  "confident": true,
+  "root_service": "postgres",
+  "agrees": true
+}

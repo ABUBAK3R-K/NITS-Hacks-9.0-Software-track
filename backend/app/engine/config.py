@@ -44,6 +44,12 @@ CONFIG = {
     "spreading_window_s": 10.0,        # lifecycle SPREADING: the anomalous set grew in the last 10 s
     "resolved_quiet_s": 15.0,          # lifecycle RESOLVED: every incident service within baseline for 15 s
     "fix_event_name": "fix_applied",   # change events with this name are remediations, never deploys
+    # ---- given-time ranking (given_time.py, used only when the failure time is known)
+    "given_time_pre_s": 600.0,         # "before" window: 10 min up to the failure time (chosen on RCAEval DEV)
+    "given_time_post_s": 300.0,        # "after" window: 5 min from the failure time (chosen on RCAEval DEV)
+    "given_time_min_pre": 10,          # a metric needs this many samples before ...
+    "given_time_min_post": 5,          # ... and after, or it is not scored
+    "given_time_min_ratio": 2.0,       # committed only if the top shift is 2x the second (set before any run)
     # ---- disambiguation
     "scrape_interval_default_s": 2.0,
     "close_onset_intervals": 2.0,      # onsets this many scrape intervals apart are "too close to order"
