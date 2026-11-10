@@ -55,7 +55,10 @@ export function MetricChips({ inc }: { inc: Incident }) {
 
 /** Stepper: reached states show their time from lifecycle_history, the current one pulses. */
 export function LifecycleStrip({ inc }: { inc: Incident }) {
-  const at = new Map(inc.lifecycle_history.map((h) => [h.state, h.ts]));
+  // first time each state was reached: an abstained incident can go back to DETECTED after
+  // SPREADING, and keeping the last time would put DETECTED after SPREADING on the stepper
+  const at = new Map<string, string>();
+  for (const h of inc.lifecycle_history) if (!at.has(h.state)) at.set(h.state, h.ts);
   return (
     <div className="mb-3 rounded-lg bg-sheet p-2.5 ring-1 ring-rule">
       <div className="mb-1.5 flex items-center justify-between gap-2">
@@ -65,7 +68,7 @@ export function LifecycleStrip({ inc }: { inc: Incident }) {
         </span>
         <MetricChips inc={inc} />
       </div>
-      <ol className="flex flex-wrap items-stretch gap-1 md:flex-nowrap">
+      <ol className="grid grid-cols-[repeat(auto-fit,minmax(88px,1fr))] items-stretch gap-1">
         {STEPS.map((s) => {
           const cur = s === inc.lifecycle;
           const ts = at.get(s);
@@ -73,12 +76,12 @@ export function LifecycleStrip({ inc }: { inc: Incident }) {
           return (
             <li
               key={s}
-              className={`min-w-[30%] flex-1 rounded-md px-1.5 py-1 text-center ring-1 md:min-w-0 transition-colors duration-500 ${
+              className={`min-w-0 overflow-hidden rounded-md px-1 py-1 text-center ring-1 transition-colors duration-500 ${
                 reached ? STEP_COLOR[s] : "bg-transparent text-subtle ring-rule"
               } ${cur ? "live-dot-soft font-black" : ""}`}
             >
-              <div className="text-[10px] font-bold uppercase leading-tight tracking-wider">{STEP_LABEL[s]}</div>
-              <div className="font-mono text-[10px] opacity-80">{ts ? istTime(ts) : " "}</div>
+              <div className="truncate text-[10px] font-bold uppercase leading-tight tracking-wide">{STEP_LABEL[s]}</div>
+              <div className="truncate font-mono text-[10px] opacity-80">{ts ? istTime(ts) : " "}</div>
             </li>
           );
         })}
