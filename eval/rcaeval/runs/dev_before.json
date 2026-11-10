@@ -1,0 +1,4352 @@
+{
+ "dataset": "RE1-OB",
+ "source": "huggingface.co/datasets/phamquiluan/RCAEval (MIT licence)",
+ "paper": "Pham et al., RCAEval, WWW 2025 companion, arXiv 2412.17015",
+ "sentence": "RE1-OB from RCAEval (Pham et al., WWW 2025), 125 labelled failures from the Online Boutique microservice system",
+ "split": "dev",
+ "split_instances": [
+  1,
+  2,
+  3
+ ],
+ "config_overrides": null,
+ "n_index": 125,
+ "n_cases": 75,
+ "n_excluded": 0,
+ "excluded": [],
+ "weights": {
+  "upstream": 0.4,
+  "precedence": 0.3,
+  "change": 0.2,
+  "severity": 0.1
+ },
+ "n_topology_services": 12,
+ "overall": {
+  "blind": {
+   "n": 75,
+   "ac1": 0.333,
+   "ac3": 0.56,
+   "ac5": 0.707,
+   "avg5": 0.539,
+   "confident_top1": 0.147,
+   "abstain_rate": 0.667,
+   "false_blame_rate": 0.187,
+   "no_incident": 1
+  },
+  "windowed": {
+   "n": 75,
+   "ac1": 0.16,
+   "ac3": 0.213,
+   "ac5": 0.227,
+   "avg5": 0.205,
+   "confident_top1": 0.12,
+   "abstain_rate": 0.493,
+   "false_blame_rate": 0.387,
+   "no_incident": 26
+  }
+ },
+ "by_fault": {
+  "cpu": {
+   "blind": {
+    "n": 15,
+    "ac1": 0.133,
+    "ac3": 0.333,
+    "ac5": 0.533,
+    "avg5": 0.32,
+    "confident_top1": 0.067,
+    "abstain_rate": 0.933,
+    "false_blame_rate": 0.0,
+    "no_incident": 1
+   },
+   "windowed": {
+    "n": 15,
+    "ac1": 0.067,
+    "ac3": 0.067,
+    "ac5": 0.067,
+    "avg5": 0.067,
+    "confident_top1": 0.067,
+    "abstain_rate": 0.333,
+    "false_blame_rate": 0.6,
+    "no_incident": 1
+   }
+  },
+  "delay": {
+   "blind": {
+    "n": 15,
+    "ac1": 0.667,
+    "ac3": 0.867,
+    "ac5": 1.0,
+    "avg5": 0.84,
+    "confident_top1": 0.2,
+    "abstain_rate": 0.733,
+    "false_blame_rate": 0.067,
+    "no_incident": 0
+   },
+   "windowed": {
+    "n": 15,
+    "ac1": 0.2,
+    "ac3": 0.267,
+    "ac5": 0.267,
+    "avg5": 0.253,
+    "confident_top1": 0.133,
+    "abstain_rate": 0.667,
+    "false_blame_rate": 0.2,
+    "no_incident": 9
+   }
+  },
+  "disk": {
+   "blind": {
+    "n": 15,
+    "ac1": 0.533,
+    "ac3": 0.867,
+    "ac5": 0.933,
+    "avg5": 0.813,
+    "confident_top1": 0.2,
+    "abstain_rate": 0.733,
+    "false_blame_rate": 0.067,
+    "no_incident": 0
+   },
+   "windowed": {
+    "n": 15,
+    "ac1": 0.267,
+    "ac3": 0.333,
+    "ac5": 0.333,
+    "avg5": 0.32,
+    "confident_top1": 0.133,
+    "abstain_rate": 0.8,
+    "false_blame_rate": 0.067,
+    "no_incident": 9
+   }
+  },
+  "loss": {
+   "blind": {
+    "n": 15,
+    "ac1": 0.133,
+    "ac3": 0.333,
+    "ac5": 0.4,
+    "avg5": 0.293,
+    "confident_top1": 0.133,
+    "abstain_rate": 0.333,
+    "false_blame_rate": 0.533,
+    "no_incident": 0
+   },
+   "windowed": {
+    "n": 15,
+    "ac1": 0.067,
+    "ac3": 0.133,
+    "ac5": 0.2,
+    "avg5": 0.133,
+    "confident_top1": 0.067,
+    "abstain_rate": 0.6,
+    "false_blame_rate": 0.333,
+    "no_incident": 7
+   }
+  },
+  "mem": {
+   "blind": {
+    "n": 15,
+    "ac1": 0.2,
+    "ac3": 0.4,
+    "ac5": 0.667,
+    "avg5": 0.427,
+    "confident_top1": 0.133,
+    "abstain_rate": 0.6,
+    "false_blame_rate": 0.267,
+    "no_incident": 0
+   },
+   "windowed": {
+    "n": 15,
+    "ac1": 0.2,
+    "ac3": 0.267,
+    "ac5": 0.267,
+    "avg5": 0.253,
+    "confident_top1": 0.2,
+    "abstain_rate": 0.067,
+    "false_blame_rate": 0.733,
+    "no_incident": 0
+   }
+  }
+ },
+ "by_service_windowed": {
+  "adservice": {
+   "n": 15,
+   "ac1": 0.2,
+   "ac3": 0.2,
+   "ac5": 0.2,
+   "avg5": 0.2,
+   "confident_top1": 0.133,
+   "abstain_rate": 0.467,
+   "false_blame_rate": 0.4,
+   "no_incident": 5
+  },
+  "cartservice": {
+   "n": 15,
+   "ac1": 0.133,
+   "ac3": 0.133,
+   "ac5": 0.133,
+   "avg5": 0.133,
+   "confident_top1": 0.133,
+   "abstain_rate": 0.333,
+   "false_blame_rate": 0.533,
+   "no_incident": 5
+  },
+  "checkoutservice": {
+   "n": 15,
+   "ac1": 0.0,
+   "ac3": 0.133,
+   "ac5": 0.2,
+   "avg5": 0.12,
+   "confident_top1": 0.0,
+   "abstain_rate": 0.6,
+   "false_blame_rate": 0.4,
+   "no_incident": 5
+  },
+  "currencyservice": {
+   "n": 15,
+   "ac1": 0.333,
+   "ac3": 0.467,
+   "ac5": 0.467,
+   "avg5": 0.44,
+   "confident_top1": 0.267,
+   "abstain_rate": 0.4,
+   "false_blame_rate": 0.333,
+   "no_incident": 3
+  },
+  "productcatalogservice": {
+   "n": 15,
+   "ac1": 0.133,
+   "ac3": 0.133,
+   "ac5": 0.133,
+   "avg5": 0.133,
+   "confident_top1": 0.067,
+   "abstain_rate": 0.667,
+   "false_blame_rate": 0.267,
+   "no_incident": 8
+  }
+ },
+ "published_baselines": null,
+ "published_baselines_note": "arXiv 2412.17015 has no RE1-OB results table (only Table 6, RE2 Train Ticket).",
+ "data_notes": [
+  "Label check: cases.parquet root_cause_service equals the service in the directory name for 75 of 75 cases.",
+  "Columns `InboundPassthroughClusterIpv4_*` are not fed to the engine, present in `re1ob_productcatalogservice_cpu_3`. Reason: Istio's catch-all cluster for inbound traffic, not a service.",
+  "Columns `PassthroughCluster_*` are not fed to the engine, present in 30 cases. Reason: Istio's catch-all cluster for traffic to unknown destinations, not a service.",
+  "Columns `carts_*` are not fed to the engine, present in `re1ob_productcatalogservice_cpu_3`. Reason: not in the Online Boutique call graph.",
+  "Columns `catalogue_*` are not fed to the engine, present in `re1ob_productcatalogservice_cpu_3`. Reason: not in the Online Boutique call graph.",
+  "Columns `front-end_*` are not fed to the engine, present in `re1ob_productcatalogservice_cpu_3`. Reason: not in the Online Boutique call graph.",
+  "Columns `frontend-check_*` are not fed to the engine, present in `re1ob_cartservice_disk_3`. Reason: the loadgenerator init container (waits for the frontend), kubernetes-manifests/loadgenerator.yaml.",
+  "Columns `main_*` are not fed to the engine, present in all 75 cases. Reason: the loadgenerator container (Locust traffic client, kubernetes-manifests/loadgenerator.yaml).",
+  "Columns `orders_*` are not fed to the engine, present in `re1ob_productcatalogservice_cpu_3`. Reason: not in the Online Boutique call graph.",
+  "Every other column is used, with its original name as the event name.",
+  "Null cells (metric not observed at that second, skipped, no fill): 374.",
+  "`re1ob_currencyservice_loss_1`: inject_time 16933142 is before the first metric row (it looks truncated in the source). Kept as is; in the windowed protocol every incident of this case therefore qualifies.",
+  "`re1ob_productcatalogservice_cpu_3`: only 63 metric rows, all before inject_time (no faulty period in the data), and it also carries Sock Shop column names (carts, catalogue, orders, front-end). Kept and scored like every other case.",
+  "No case was excluded."
+ ],
+ "data_files": 252,
+ "data_bytes": 31874591,
+ "command": "python -I eval/rcaeval/run_rcaeval.py --split dev --tag dev_before",
+ "runtime_s": 36.0,
+ "diagnostics": {
+  "overall": {
+   "n": 125,
+   "mean_services_anomalous_before_inject": 4.78,
+   "gt_anomalous_after_inject": 0.896,
+   "gt_first_after_inject": 0.496,
+   "gt_episode_started_before_inject": 0.216,
+   "no_episode_starts_after_inject": 0.016
+  },
+  "by_fault": {
+   "cpu": {
+    "n": 25,
+    "mean_services_anomalous_before_inject": 9.64,
+    "gt_anomalous_after_inject": 0.96,
+    "gt_first_after_inject": 0.72,
+    "gt_episode_started_before_inject": 0.56,
+    "no_episode_starts_after_inject": 0.04
+   },
+   "delay": {
+    "n": 25,
+    "mean_services_anomalous_before_inject": 1.68,
+    "gt_anomalous_after_inject": 1.0,
+    "gt_first_after_inject": 0.16,
+    "gt_episode_started_before_inject": 0.0,
+    "no_episode_starts_after_inject": 0.0
+   },
+   "disk": {
+    "n": 25,
+    "mean_services_anomalous_before_inject": 1.96,
+    "gt_anomalous_after_inject": 0.88,
+    "gt_first_after_inject": 0.6,
+    "gt_episode_started_before_inject": 0.04,
+    "no_episode_starts_after_inject": 0.0
+   },
+   "loss": {
+    "n": 25,
+    "mean_services_anomalous_before_inject": 1.92,
+    "gt_anomalous_after_inject": 0.64,
+    "gt_first_after_inject": 0.48,
+    "gt_episode_started_before_inject": 0.04,
+    "no_episode_starts_after_inject": 0.04
+   },
+   "mem": {
+    "n": 25,
+    "mean_services_anomalous_before_inject": 8.72,
+    "gt_anomalous_after_inject": 1.0,
+    "gt_first_after_inject": 0.52,
+    "gt_episode_started_before_inject": 0.44,
+    "no_episode_starts_after_inject": 0.0
+   }
+  }
+ },
+ "generated_at": "2026-11-10T07:02:54.000Z",
+ "cases": [
+  {
+   "case": "re1ob_adservice_cpu_1",
+   "fault": "cpu",
+   "ground_truth": "adservice",
+   "label_matches_dir": true,
+   "inject_time": 1685202688,
+   "inject_iso": "2023-05-27T15:51:28.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 8,
+   "n_incidents_after_inject": 4,
+   "blind": {
+    "incident": "inc_ddf625938c",
+    "opened_at": "2023-05-27T15:29:14.000Z",
+    "status": "RESOLVED",
+    "n_services": 3,
+    "ranking": [
+     "cartservice",
+     "frontend",
+     "frontend-external"
+    ],
+    "scores": [
+     0.423,
+     0.106,
+     0.05
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_c35590e24a",
+    "opened_at": "2023-05-27T16:18:32.000Z",
+    "status": "RESOLVED",
+    "n_services": 3,
+    "ranking": [
+     "cartservice",
+     "frontend",
+     "frontend-external"
+    ],
+    "scores": [
+     0.41,
+     0.105,
+     0.05
+    ],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 5.4,
+   "analyze_s": 2.3
+  },
+  {
+   "case": "re1ob_adservice_cpu_2",
+   "fault": "cpu",
+   "ground_truth": "adservice",
+   "label_matches_dir": true,
+   "inject_time": 1685206967,
+   "inject_iso": "2023-05-27T17:02:47.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 11,
+   "n_incidents_after_inject": 5,
+   "blind": {
+    "incident": "inc_4127e92785",
+    "opened_at": "2023-05-27T17:01:49.000Z",
+    "status": "ABSTAINED",
+    "n_services": 5,
+    "ranking": [
+     "cartservice",
+     "adservice",
+     "recommendationservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.372,
+     0.2,
+     0.111,
+     0.061,
+     0.008
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_f1df2e015a",
+    "opened_at": "2023-05-27T17:13:47.000Z",
+    "status": "RESOLVED",
+    "n_services": 1,
+    "ranking": [
+     "emailservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "emailservice"
+   },
+   "seconds": 5.9,
+   "analyze_s": 2.4
+  },
+  {
+   "case": "re1ob_adservice_cpu_3",
+   "fault": "cpu",
+   "ground_truth": "adservice",
+   "label_matches_dir": true,
+   "inject_time": 1685211245,
+   "inject_iso": "2023-05-27T18:14:05.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 15,
+   "n_incidents_after_inject": 7,
+   "blind": {
+    "incident": "inc_0d7987b65c",
+    "opened_at": "2023-05-27T17:53:14.000Z",
+    "status": "RESOLVED",
+    "n_services": 3,
+    "ranking": [
+     "cartservice",
+     "adservice",
+     "frontend"
+    ],
+    "scores": [
+     0.6,
+     0.57,
+     0.049
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_926cd4da5a",
+    "opened_at": "2023-05-27T18:29:38.000Z",
+    "status": "RESOLVED",
+    "n_services": 3,
+    "ranking": [
+     "cartservice",
+     "frontend",
+     "frontend-external"
+    ],
+    "scores": [
+     0.736,
+     0.3,
+     0.05
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "seconds": 6.2,
+   "analyze_s": 2.4
+  },
+  {
+   "case": "re1ob_adservice_delay_1",
+   "fault": "delay",
+   "ground_truth": "adservice",
+   "label_matches_dir": true,
+   "inject_time": 1692583932,
+   "inject_iso": "2023-08-21T02:12:12.000Z",
+   "rows": 721,
+   "events": 39655,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_9d6caa16fa",
+    "opened_at": "2023-08-21T02:06:18.000Z",
+    "status": "ABSTAINED",
+    "n_services": 6,
+    "ranking": [
+     "cartservice",
+     "paymentservice",
+     "checkoutservice",
+     "adservice",
+     "frontend-external"
+    ],
+    "scores": [
+     0.48,
+     0.476,
+     0.258,
+     0.203,
+     0.05
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 1.8,
+   "analyze_s": 0.6
+  },
+  {
+   "case": "re1ob_adservice_delay_2",
+   "fault": "delay",
+   "ground_truth": "adservice",
+   "label_matches_dir": true,
+   "inject_time": 1692584700,
+   "inject_iso": "2023-08-21T02:25:00.000Z",
+   "rows": 721,
+   "events": 39655,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_c07f17e304",
+    "opened_at": "2023-08-21T02:23:07.000Z",
+    "status": "ABSTAINED",
+    "n_services": 4,
+    "ranking": [
+     "adservice",
+     "checkoutservice",
+     "frontend",
+     "frontend-external"
+    ],
+    "scores": [
+     0.463,
+     0.457,
+     0.228,
+     0.05
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 1.8,
+   "analyze_s": 0.6
+  },
+  {
+   "case": "re1ob_adservice_delay_3",
+   "fault": "delay",
+   "ground_truth": "adservice",
+   "label_matches_dir": true,
+   "inject_time": 1692585468,
+   "inject_iso": "2023-08-21T02:37:48.000Z",
+   "rows": 721,
+   "events": 39655,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 2,
+   "n_incidents_after_inject": 1,
+   "blind": {
+    "incident": "inc_ba06f9697f",
+    "opened_at": "2023-08-21T02:32:05.000Z",
+    "status": "ABSTAINED",
+    "n_services": 5,
+    "ranking": [
+     "adservice",
+     "cartservice",
+     "checkoutservice",
+     "frontend",
+     "frontend-external"
+    ],
+    "scores": [
+     0.543,
+     0.521,
+     0.27,
+     0.208,
+     0.05
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_060ef1f285",
+    "opened_at": "2023-08-21T02:43:34.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "paymentservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "paymentservice"
+   },
+   "seconds": 1.7,
+   "analyze_s": 0.5
+  },
+  {
+   "case": "re1ob_adservice_disk_1",
+   "fault": "disk",
+   "ground_truth": "adservice",
+   "label_matches_dir": true,
+   "inject_time": 1702354817,
+   "inject_iso": "2023-12-12T04:20:17.000Z",
+   "rows": 721,
+   "events": 38934,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_ca141148a5",
+    "opened_at": "2023-12-12T04:16:15.000Z",
+    "status": "ABSTAINED",
+    "n_services": 4,
+    "ranking": [
+     "cartservice",
+     "adservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.323,
+     0.233,
+     0.071,
+     0.013
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 1.5,
+   "analyze_s": 0.5
+  },
+  {
+   "case": "re1ob_adservice_disk_2",
+   "fault": "disk",
+   "ground_truth": "adservice",
+   "label_matches_dir": true,
+   "inject_time": 1702359042,
+   "inject_iso": "2023-12-12T05:30:42.000Z",
+   "rows": 721,
+   "events": 39655,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 1,
+   "blind": {
+    "incident": "inc_c920014c71",
+    "opened_at": "2023-12-12T05:30:45.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "adservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "adservice"
+   },
+   "windowed": {
+    "incident": "inc_c920014c71",
+    "opened_at": "2023-12-12T05:30:45.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "adservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "adservice"
+   },
+   "seconds": 1.1,
+   "analyze_s": 0.4
+  },
+  {
+   "case": "re1ob_adservice_disk_3",
+   "fault": "disk",
+   "ground_truth": "adservice",
+   "label_matches_dir": true,
+   "inject_time": 1702359817,
+   "inject_iso": "2023-12-12T05:43:37.000Z",
+   "rows": 721,
+   "events": 39655,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 3,
+   "n_incidents_after_inject": 1,
+   "blind": {
+    "incident": "inc_3d4c229460",
+    "opened_at": "2023-12-12T05:43:54.000Z",
+    "status": "ABSTAINED",
+    "n_services": 7,
+    "ranking": [
+     "adservice",
+     "emailservice",
+     "shippingservice",
+     "cartservice",
+     "paymentservice"
+    ],
+    "scores": [
+     0.467,
+     0.449,
+     0.447,
+     0.185,
+     0.144
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_3d4c229460",
+    "opened_at": "2023-12-12T05:43:54.000Z",
+    "status": "ABSTAINED",
+    "n_services": 7,
+    "ranking": [
+     "adservice",
+     "emailservice",
+     "shippingservice",
+     "cartservice",
+     "paymentservice"
+    ],
+    "scores": [
+     0.467,
+     0.449,
+     0.447,
+     0.185,
+     0.144
+    ],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 0.9,
+   "analyze_s": 0.4
+  },
+  {
+   "case": "re1ob_adservice_loss_1",
+   "fault": "loss",
+   "ground_truth": "adservice",
+   "label_matches_dir": true,
+   "inject_time": 1693322053,
+   "inject_iso": "2023-08-29T15:14:13.000Z",
+   "rows": 721,
+   "events": 41097,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_25f4dc7515",
+    "opened_at": "2023-08-29T15:09:54.000Z",
+    "status": "OPEN",
+    "n_services": 3,
+    "ranking": [
+     "adservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.573,
+     0.3,
+     0.015
+    ],
+    "confident": true,
+    "root": "adservice"
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 1.0,
+   "analyze_s": 0.4
+  },
+  {
+   "case": "re1ob_adservice_loss_2",
+   "fault": "loss",
+   "ground_truth": "adservice",
+   "label_matches_dir": true,
+   "inject_time": 1693316537,
+   "inject_iso": "2023-08-29T13:42:17.000Z",
+   "rows": 721,
+   "events": 41097,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 2,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_80b088ad33",
+    "opened_at": "2023-08-29T13:41:03.000Z",
+    "status": "RESOLVED",
+    "n_services": 4,
+    "ranking": [
+     "adservice",
+     "checkoutservice",
+     "frontend",
+     "frontend-external"
+    ],
+    "scores": [
+     0.454,
+     0.287,
+     0.267,
+     0.05
+    ],
+    "confident": true,
+    "root": "adservice"
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 0.9,
+   "analyze_s": 0.4
+  },
+  {
+   "case": "re1ob_adservice_loss_3",
+   "fault": "loss",
+   "ground_truth": "adservice",
+   "label_matches_dir": true,
+   "inject_time": 1693317308,
+   "inject_iso": "2023-08-29T13:55:08.000Z",
+   "rows": 721,
+   "events": 41097,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 3,
+   "n_incidents_after_inject": 2,
+   "blind": {
+    "incident": "inc_658027cf51",
+    "opened_at": "2023-08-29T13:58:08.000Z",
+    "status": "OPEN",
+    "n_services": 2,
+    "ranking": [
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.8,
+     0.021
+    ],
+    "confident": true,
+    "root": "checkoutservice"
+   },
+   "windowed": {
+    "incident": "inc_658027cf51",
+    "opened_at": "2023-08-29T13:58:08.000Z",
+    "status": "OPEN",
+    "n_services": 2,
+    "ranking": [
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.8,
+     0.021
+    ],
+    "confident": true,
+    "root": "checkoutservice"
+   },
+   "seconds": 0.9,
+   "analyze_s": 0.4
+  },
+  {
+   "case": "re1ob_adservice_mem_1",
+   "fault": "mem",
+   "ground_truth": "adservice",
+   "label_matches_dir": true,
+   "inject_time": 1685224742,
+   "inject_iso": "2023-05-27T21:59:02.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 28,
+   "n_incidents_after_inject": 12,
+   "blind": {
+    "incident": "inc_87561868a1",
+    "opened_at": "2023-05-27T21:24:07.000Z",
+    "status": "OPEN",
+    "n_services": 10,
+    "ranking": [
+     "paymentservice",
+     "emailservice",
+     "checkoutservice",
+     "recommendationservice",
+     "productcatalogservice"
+    ],
+    "scores": [
+     0.489,
+     0.261,
+     0.222,
+     0.212,
+     0.196
+    ],
+    "confident": true,
+    "root": "paymentservice"
+   },
+   "windowed": {
+    "incident": "inc_6d2fe540b3",
+    "opened_at": "2023-05-27T21:59:10.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "emailservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "emailservice"
+   },
+   "seconds": 6.0,
+   "analyze_s": 2.8
+  },
+  {
+   "case": "re1ob_adservice_mem_2",
+   "fault": "mem",
+   "ground_truth": "adservice",
+   "label_matches_dir": true,
+   "inject_time": 1685234046,
+   "inject_iso": "2023-05-28T00:34:06.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 32,
+   "n_incidents_after_inject": 15,
+   "blind": {
+    "incident": "inc_89a2ad214d",
+    "opened_at": "2023-05-27T23:59:18.000Z",
+    "status": "ABSTAINED",
+    "n_services": 11,
+    "ranking": [
+     "paymentservice",
+     "shippingservice",
+     "redis",
+     "checkoutservice",
+     "cartservice"
+    ],
+    "scores": [
+     0.499,
+     0.351,
+     0.252,
+     0.24,
+     0.21
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_1cf6c0ac72",
+    "opened_at": "2023-05-28T00:34:17.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "adservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "adservice"
+   },
+   "seconds": 6.1,
+   "analyze_s": 2.7
+  },
+  {
+   "case": "re1ob_adservice_mem_3",
+   "fault": "mem",
+   "ground_truth": "adservice",
+   "label_matches_dir": true,
+   "inject_time": 1685238391,
+   "inject_iso": "2023-05-28T01:46:31.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 36,
+   "n_incidents_after_inject": 17,
+   "blind": {
+    "incident": "inc_e95c799d76",
+    "opened_at": "2023-05-28T01:11:47.000Z",
+    "status": "ABSTAINED",
+    "n_services": 10,
+    "ranking": [
+     "productcatalogservice",
+     "paymentservice",
+     "currencyservice",
+     "emailservice",
+     "adservice"
+    ],
+    "scores": [
+     0.368,
+     0.321,
+     0.302,
+     0.269,
+     0.259
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_9ef1abc0c7",
+    "opened_at": "2023-05-28T01:46:31.000Z",
+    "status": "RESOLVED",
+    "n_services": 1,
+    "ranking": [
+     "frontend-external"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "frontend-external"
+   },
+   "seconds": 6.1,
+   "analyze_s": 2.7
+  },
+  {
+   "case": "re1ob_cartservice_cpu_1",
+   "fault": "cpu",
+   "ground_truth": "cartservice",
+   "label_matches_dir": true,
+   "inject_time": 1685251430,
+   "inject_iso": "2023-05-28T05:23:50.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 46,
+   "n_incidents_after_inject": 20,
+   "blind": {
+    "incident": "inc_eccefb73b5",
+    "opened_at": "2023-05-28T04:49:34.000Z",
+    "status": "ABSTAINED",
+    "n_services": 10,
+    "ranking": [
+     "paymentservice",
+     "productcatalogservice",
+     "redis",
+     "currencyservice",
+     "cartservice"
+    ],
+    "scores": [
+     0.481,
+     0.369,
+     0.276,
+     0.274,
+     0.267
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_32856a25aa",
+    "opened_at": "2023-05-28T05:25:08.000Z",
+    "status": "RESOLVED",
+    "n_services": 1,
+    "ranking": [
+     "emailservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "emailservice"
+   },
+   "seconds": 6.0,
+   "analyze_s": 2.9
+  },
+  {
+   "case": "re1ob_cartservice_cpu_2",
+   "fault": "cpu",
+   "ground_truth": "cartservice",
+   "label_matches_dir": true,
+   "inject_time": 1685255770,
+   "inject_iso": "2023-05-28T06:36:10.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 48,
+   "n_incidents_after_inject": 25,
+   "blind": {
+    "incident": "inc_ce6812ce61",
+    "opened_at": "2023-05-28T06:01:44.000Z",
+    "status": "ABSTAINED",
+    "n_services": 10,
+    "ranking": [
+     "paymentservice",
+     "productcatalogservice",
+     "redis",
+     "currencyservice",
+     "shippingservice"
+    ],
+    "scores": [
+     0.323,
+     0.174,
+     0.157,
+     0.138,
+     0.122
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_8edd5e73d3",
+    "opened_at": "2023-05-28T06:38:07.000Z",
+    "status": "RESOLVED",
+    "n_services": 1,
+    "ranking": [
+     "frontend-external"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "frontend-external"
+   },
+   "seconds": 5.7,
+   "analyze_s": 2.7
+  },
+  {
+   "case": "re1ob_cartservice_cpu_3",
+   "fault": "cpu",
+   "ground_truth": "cartservice",
+   "label_matches_dir": true,
+   "inject_time": 1685260110,
+   "inject_iso": "2023-05-28T07:48:30.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 24,
+   "n_incidents_after_inject": 13,
+   "blind": {
+    "incident": "inc_6694df0d70",
+    "opened_at": "2023-05-28T07:13:54.000Z",
+    "status": "ABSTAINED",
+    "n_services": 10,
+    "ranking": [
+     "checkoutservice",
+     "paymentservice",
+     "productcatalogservice",
+     "redis",
+     "currencyservice"
+    ],
+    "scores": [
+     0.222,
+     0.189,
+     0.166,
+     0.154,
+     0.136
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_9c34f3cc08",
+    "opened_at": "2023-05-28T07:50:28.000Z",
+    "status": "RESOLVED",
+    "n_services": 1,
+    "ranking": [
+     "redis"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "redis"
+   },
+   "seconds": 5.9,
+   "analyze_s": 2.9
+  },
+  {
+   "case": "re1ob_cartservice_delay_1",
+   "fault": "delay",
+   "ground_truth": "cartservice",
+   "label_matches_dir": true,
+   "inject_time": 1692628112,
+   "inject_iso": "2023-08-21T14:28:32.000Z",
+   "rows": 721,
+   "events": 40376,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_b338aa8da0",
+    "opened_at": "2023-08-21T14:25:08.000Z",
+    "status": "ABSTAINED",
+    "n_services": 6,
+    "ranking": [
+     "cartservice",
+     "emailservice",
+     "currencyservice",
+     "frontend",
+     "checkoutservice"
+    ],
+    "scores": [
+     0.44,
+     0.37,
+     0.248,
+     0.24,
+     0.205
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 0.9,
+   "analyze_s": 0.5
+  },
+  {
+   "case": "re1ob_cartservice_delay_2",
+   "fault": "delay",
+   "ground_truth": "cartservice",
+   "label_matches_dir": true,
+   "inject_time": 1692628881,
+   "inject_iso": "2023-08-21T14:41:21.000Z",
+   "rows": 721,
+   "events": 40376,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 3,
+   "n_incidents_after_inject": 1,
+   "blind": {
+    "incident": "inc_fc4f992aa1",
+    "opened_at": "2023-08-21T14:41:30.000Z",
+    "status": "OPEN",
+    "n_services": 4,
+    "ranking": [
+     "cartservice",
+     "emailservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.517,
+     0.287,
+     0.117,
+     0.05
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "windowed": {
+    "incident": "inc_fc4f992aa1",
+    "opened_at": "2023-08-21T14:41:30.000Z",
+    "status": "OPEN",
+    "n_services": 4,
+    "ranking": [
+     "cartservice",
+     "emailservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.517,
+     0.287,
+     0.117,
+     0.05
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "seconds": 1.2,
+   "analyze_s": 0.5
+  },
+  {
+   "case": "re1ob_cartservice_delay_3",
+   "fault": "delay",
+   "ground_truth": "cartservice",
+   "label_matches_dir": true,
+   "inject_time": 1692608348,
+   "inject_iso": "2023-08-21T08:59:08.000Z",
+   "rows": 721,
+   "events": 40376,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 2,
+   "n_incidents_after_inject": 1,
+   "blind": {
+    "incident": "inc_c6dfb66bc2",
+    "opened_at": "2023-08-21T08:55:20.000Z",
+    "status": "OPEN",
+    "n_services": 4,
+    "ranking": [
+     "cartservice",
+     "checkoutservice",
+     "frontend",
+     "frontend-external"
+    ],
+    "scores": [
+     0.6,
+     0.183,
+     0.117,
+     0.05
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "windowed": {
+    "incident": "inc_dc5138accf",
+    "opened_at": "2023-08-21T09:04:24.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "paymentservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "paymentservice"
+   },
+   "seconds": 1.0,
+   "analyze_s": 0.5
+  },
+  {
+   "case": "re1ob_cartservice_disk_1",
+   "fault": "disk",
+   "ground_truth": "cartservice",
+   "label_matches_dir": true,
+   "inject_time": 1702355592,
+   "inject_iso": "2023-12-12T04:33:12.000Z",
+   "rows": 721,
+   "events": 38934,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_1ffc7a2022",
+    "opened_at": "2023-12-12T04:32:38.000Z",
+    "status": "ABSTAINED",
+    "n_services": 6,
+    "ranking": [
+     "cartservice",
+     "paymentservice",
+     "frontend",
+     "recommendationservice",
+     "checkoutservice"
+    ],
+    "scores": [
+     0.44,
+     0.274,
+     0.203,
+     0.186,
+     0.17
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 0.8,
+   "analyze_s": 0.3
+  },
+  {
+   "case": "re1ob_cartservice_disk_2",
+   "fault": "disk",
+   "ground_truth": "cartservice",
+   "label_matches_dir": true,
+   "inject_time": 1702362131,
+   "inject_iso": "2023-12-12T06:22:11.000Z",
+   "rows": 721,
+   "events": 39655,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_d04acbf316",
+    "opened_at": "2023-12-12T06:17:02.000Z",
+    "status": "OPEN",
+    "n_services": 4,
+    "ranking": [
+     "cartservice",
+     "adservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.517,
+     0.148,
+     0.092,
+     0.029
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 1.0,
+   "analyze_s": 0.4
+  },
+  {
+   "case": "re1ob_cartservice_disk_3",
+   "fault": "disk",
+   "ground_truth": "cartservice",
+   "label_matches_dir": true,
+   "inject_time": 1702362925,
+   "inject_iso": "2023-12-12T06:35:25.000Z",
+   "rows": 721,
+   "events": 39655,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "frontend-check_mem",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 2,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_165ceb17e7",
+    "opened_at": "2023-12-12T06:34:46.000Z",
+    "status": "ABSTAINED",
+    "n_services": 5,
+    "ranking": [
+     "cartservice",
+     "emailservice",
+     "productcatalogservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.591,
+     0.53,
+     0.524,
+     0.067,
+     0.05
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 0.9,
+   "analyze_s": 0.4
+  },
+  {
+   "case": "re1ob_cartservice_loss_1",
+   "fault": "loss",
+   "ground_truth": "cartservice",
+   "label_matches_dir": true,
+   "inject_time": 1693313452,
+   "inject_iso": "2023-08-29T12:50:52.000Z",
+   "rows": 721,
+   "events": 41097,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_2952a12c92",
+    "opened_at": "2023-08-29T12:46:55.000Z",
+    "status": "ABSTAINED",
+    "n_services": 5,
+    "ranking": [
+     "emailservice",
+     "adservice",
+     "cartservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.526,
+     0.424,
+     0.42,
+     0.1,
+     0.047
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 1.3,
+   "analyze_s": 0.6
+  },
+  {
+   "case": "re1ob_cartservice_loss_2",
+   "fault": "loss",
+   "ground_truth": "cartservice",
+   "label_matches_dir": true,
+   "inject_time": 1692641016,
+   "inject_iso": "2023-08-21T18:03:36.000Z",
+   "rows": 721,
+   "events": 41097,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 8,
+   "n_incidents_after_inject": 4,
+   "blind": {
+    "incident": "inc_16eda17acf",
+    "opened_at": "2023-08-21T18:00:04.000Z",
+    "status": "RESOLVED",
+    "n_services": 1,
+    "ranking": [
+     "adservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "adservice"
+   },
+   "windowed": {
+    "incident": "inc_6195fd6346",
+    "opened_at": "2023-08-21T18:03:49.000Z",
+    "status": "RESOLVED",
+    "n_services": 1,
+    "ranking": [
+     "frontend-external"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "frontend-external"
+   },
+   "seconds": 1.3,
+   "analyze_s": 0.6
+  },
+  {
+   "case": "re1ob_cartservice_loss_3",
+   "fault": "loss",
+   "ground_truth": "cartservice",
+   "label_matches_dir": true,
+   "inject_time": 1692641787,
+   "inject_iso": "2023-08-21T18:16:27.000Z",
+   "rows": 721,
+   "events": 41097,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 4,
+   "n_incidents_after_inject": 2,
+   "blind": {
+    "incident": "inc_42a93cde8a",
+    "opened_at": "2023-08-21T18:11:26.000Z",
+    "status": "RESOLVED",
+    "n_services": 1,
+    "ranking": [
+     "recommendationservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "recommendationservice"
+   },
+   "windowed": {
+    "incident": "inc_297bebed00",
+    "opened_at": "2023-08-21T18:17:26.000Z",
+    "status": "RESOLVED",
+    "n_services": 1,
+    "ranking": [
+     "cartservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "seconds": 1.2,
+   "analyze_s": 0.5
+  },
+  {
+   "case": "re1ob_cartservice_mem_1",
+   "fault": "mem",
+   "ground_truth": "cartservice",
+   "label_matches_dir": true,
+   "inject_time": 1685273133,
+   "inject_iso": "2023-05-28T11:25:33.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 37,
+   "n_incidents_after_inject": 16,
+   "blind": {
+    "incident": "inc_cf12d44218",
+    "opened_at": "2023-05-28T10:51:44.000Z",
+    "status": "ABSTAINED",
+    "n_services": 8,
+    "ranking": [
+     "emailservice",
+     "recommendationservice",
+     "checkoutservice",
+     "productcatalogservice",
+     "paymentservice"
+    ],
+    "scores": [
+     0.275,
+     0.229,
+     0.229,
+     0.218,
+     0.198
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_700e524ce2",
+    "opened_at": "2023-05-28T11:26:52.000Z",
+    "status": "RESOLVED",
+    "n_services": 1,
+    "ranking": [
+     "adservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "adservice"
+   },
+   "seconds": 5.9,
+   "analyze_s": 2.3
+  },
+  {
+   "case": "re1ob_cartservice_mem_2",
+   "fault": "mem",
+   "ground_truth": "cartservice",
+   "label_matches_dir": true,
+   "inject_time": 1685277478,
+   "inject_iso": "2023-05-28T12:37:58.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 26,
+   "n_incidents_after_inject": 17,
+   "blind": {
+    "incident": "inc_3fb144dfd1",
+    "opened_at": "2023-05-28T12:03:05.000Z",
+    "status": "ABSTAINED",
+    "n_services": 11,
+    "ranking": [
+     "redis",
+     "currencyservice",
+     "cartservice",
+     "paymentservice",
+     "emailservice"
+    ],
+    "scores": [
+     0.334,
+     0.277,
+     0.26,
+     0.22,
+     0.22
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_023fe6a6d9",
+    "opened_at": "2023-05-28T12:38:43.000Z",
+    "status": "RESOLVED",
+    "n_services": 1,
+    "ranking": [
+     "frontend-external"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "frontend-external"
+   },
+   "seconds": 5.7,
+   "analyze_s": 2.2
+  },
+  {
+   "case": "re1ob_cartservice_mem_3",
+   "fault": "mem",
+   "ground_truth": "cartservice",
+   "label_matches_dir": true,
+   "inject_time": 1685281821,
+   "inject_iso": "2023-05-28T13:50:21.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 33,
+   "n_incidents_after_inject": 16,
+   "blind": {
+    "incident": "inc_365f090c9b",
+    "opened_at": "2023-05-28T13:15:56.000Z",
+    "status": "ABSTAINED",
+    "n_services": 10,
+    "ranking": [
+     "redis",
+     "productcatalogservice",
+     "currencyservice",
+     "cartservice",
+     "paymentservice"
+    ],
+    "scores": [
+     0.502,
+     0.444,
+     0.384,
+     0.217,
+     0.208
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_c617e47186",
+    "opened_at": "2023-05-28T13:55:09.000Z",
+    "status": "RESOLVED",
+    "n_services": 1,
+    "ranking": [
+     "shippingservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "shippingservice"
+   },
+   "seconds": 6.2,
+   "analyze_s": 2.5
+  },
+  {
+   "case": "re1ob_checkoutservice_cpu_1",
+   "fault": "cpu",
+   "ground_truth": "checkoutservice",
+   "label_matches_dir": true,
+   "inject_time": 1685294851,
+   "inject_iso": "2023-05-28T17:27:31.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 24,
+   "n_incidents_after_inject": 11,
+   "blind": {
+    "incident": "inc_13bc14bc1d",
+    "opened_at": "2023-05-28T16:53:07.000Z",
+    "status": "ABSTAINED",
+    "n_services": 8,
+    "ranking": [
+     "paymentservice",
+     "emailservice",
+     "productcatalogservice",
+     "currencyservice",
+     "checkoutservice"
+    ],
+    "scores": [
+     0.471,
+     0.431,
+     0.315,
+     0.308,
+     0.229
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_257654e04a",
+    "opened_at": "2023-05-28T17:35:41.000Z",
+    "status": "RESOLVED",
+    "n_services": 1,
+    "ranking": [
+     "redis"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "redis"
+   },
+   "seconds": 5.5,
+   "analyze_s": 2.5
+  },
+  {
+   "case": "re1ob_checkoutservice_cpu_2",
+   "fault": "cpu",
+   "ground_truth": "checkoutservice",
+   "label_matches_dir": true,
+   "inject_time": 1685551922,
+   "inject_iso": "2023-05-31T16:52:02.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 33,
+   "n_incidents_after_inject": 9,
+   "blind": {
+    "incident": "inc_87223e36b1",
+    "opened_at": "2023-05-31T16:17:49.000Z",
+    "status": "ABSTAINED",
+    "n_services": 10,
+    "ranking": [
+     "adservice",
+     "currencyservice",
+     "shippingservice",
+     "productcatalogservice",
+     "paymentservice"
+    ],
+    "scores": [
+     0.362,
+     0.293,
+     0.292,
+     0.285,
+     0.269
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_9e73895d21",
+    "opened_at": "2023-05-31T17:06:46.000Z",
+    "status": "ABSTAINED",
+    "n_services": 2,
+    "ranking": [
+     "redis",
+     "cartservice"
+    ],
+    "scores": [
+     0.412,
+     0.05
+    ],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 5.8,
+   "analyze_s": 2.3
+  },
+  {
+   "case": "re1ob_checkoutservice_cpu_3",
+   "fault": "cpu",
+   "ground_truth": "checkoutservice",
+   "label_matches_dir": true,
+   "inject_time": 1685303532,
+   "inject_iso": "2023-05-28T19:52:12.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 37,
+   "n_incidents_after_inject": 21,
+   "blind": {
+    "incident": "inc_178db6b0d0",
+    "opened_at": "2023-05-28T19:17:17.000Z",
+    "status": "ABSTAINED",
+    "n_services": 10,
+    "ranking": [
+     "adservice",
+     "paymentservice",
+     "checkoutservice",
+     "productcatalogservice",
+     "redis"
+    ],
+    "scores": [
+     0.354,
+     0.309,
+     0.222,
+     0.175,
+     0.148
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_0fe7347073",
+    "opened_at": "2023-05-28T19:53:31.000Z",
+    "status": "RESOLVED",
+    "n_services": 1,
+    "ranking": [
+     "frontend-external"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "frontend-external"
+   },
+   "seconds": 5.5,
+   "analyze_s": 2.5
+  },
+  {
+   "case": "re1ob_checkoutservice_delay_1",
+   "fault": "delay",
+   "ground_truth": "checkoutservice",
+   "label_matches_dir": true,
+   "inject_time": 1692602972,
+   "inject_iso": "2023-08-21T07:29:32.000Z",
+   "rows": 721,
+   "events": 39655,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_18e7548aa5",
+    "opened_at": "2023-08-21T07:26:11.000Z",
+    "status": "ABSTAINED",
+    "n_services": 7,
+    "ranking": [
+     "productcatalogservice",
+     "cartservice",
+     "emailservice",
+     "recommendationservice",
+     "checkoutservice"
+    ],
+    "scores": [
+     0.426,
+     0.211,
+     0.208,
+     0.146,
+     0.117
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 0.7,
+   "analyze_s": 0.2
+  },
+  {
+   "case": "re1ob_checkoutservice_delay_2",
+   "fault": "delay",
+   "ground_truth": "checkoutservice",
+   "label_matches_dir": true,
+   "inject_time": 1692603740,
+   "inject_iso": "2023-08-21T07:42:20.000Z",
+   "rows": 721,
+   "events": 39655,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 1,
+   "blind": {
+    "incident": "inc_2232aedcb6",
+    "opened_at": "2023-08-21T07:42:35.000Z",
+    "status": "OPEN",
+    "n_services": 4,
+    "ranking": [
+     "productcatalogservice",
+     "checkoutservice",
+     "frontend",
+     "frontend-external"
+    ],
+    "scores": [
+     0.509,
+     0.334,
+     0.246,
+     0.05
+    ],
+    "confident": true,
+    "root": "productcatalogservice"
+   },
+   "windowed": {
+    "incident": "inc_2232aedcb6",
+    "opened_at": "2023-08-21T07:42:35.000Z",
+    "status": "OPEN",
+    "n_services": 4,
+    "ranking": [
+     "productcatalogservice",
+     "checkoutservice",
+     "frontend",
+     "frontend-external"
+    ],
+    "scores": [
+     0.509,
+     0.334,
+     0.246,
+     0.05
+    ],
+    "confident": true,
+    "root": "productcatalogservice"
+   },
+   "seconds": 1.2,
+   "analyze_s": 0.4
+  },
+  {
+   "case": "re1ob_checkoutservice_delay_3",
+   "fault": "delay",
+   "ground_truth": "checkoutservice",
+   "label_matches_dir": true,
+   "inject_time": 1692604507,
+   "inject_iso": "2023-08-21T07:55:07.000Z",
+   "rows": 721,
+   "events": 39655,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_668da49d63",
+    "opened_at": "2023-08-21T07:53:57.000Z",
+    "status": "ABSTAINED",
+    "n_services": 5,
+    "ranking": [
+     "paymentservice",
+     "adservice",
+     "checkoutservice",
+     "frontend",
+     "frontend-external"
+    ],
+    "scores": [
+     0.309,
+     0.209,
+     0.15,
+     0.085,
+     0.05
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 1.0,
+   "analyze_s": 0.3
+  },
+  {
+   "case": "re1ob_checkoutservice_disk_1",
+   "fault": "disk",
+   "ground_truth": "checkoutservice",
+   "label_matches_dir": true,
+   "inject_time": 1702356364,
+   "inject_iso": "2023-12-12T04:46:04.000Z",
+   "rows": 721,
+   "events": 38934,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_ca5bcda049",
+    "opened_at": "2023-12-12T04:45:07.000Z",
+    "status": "ABSTAINED",
+    "n_services": 3,
+    "ranking": [
+     "cartservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.409,
+     0.3,
+     0.009
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 0.8,
+   "analyze_s": 0.3
+  },
+  {
+   "case": "re1ob_checkoutservice_disk_2",
+   "fault": "disk",
+   "ground_truth": "checkoutservice",
+   "label_matches_dir": true,
+   "inject_time": 1702365246,
+   "inject_iso": "2023-12-12T07:14:06.000Z",
+   "rows": 721,
+   "events": 40376,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 2,
+   "n_incidents_after_inject": 1,
+   "blind": {
+    "incident": "inc_6720a8870e",
+    "opened_at": "2023-12-12T07:10:42.000Z",
+    "status": "ABSTAINED",
+    "n_services": 6,
+    "ranking": [
+     "cartservice",
+     "paymentservice",
+     "adservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.373,
+     0.364,
+     0.323,
+     0.28,
+     0.199
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_ba94af18a2",
+    "opened_at": "2023-12-12T07:19:35.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "emailservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "emailservice"
+   },
+   "seconds": 1.3,
+   "analyze_s": 0.5
+  },
+  {
+   "case": "re1ob_checkoutservice_disk_3",
+   "fault": "disk",
+   "ground_truth": "checkoutservice",
+   "label_matches_dir": true,
+   "inject_time": 1702366022,
+   "inject_iso": "2023-12-12T07:27:02.000Z",
+   "rows": 721,
+   "events": 40376,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 2,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_66dab50295",
+    "opened_at": "2023-12-12T07:23:33.000Z",
+    "status": "ABSTAINED",
+    "n_services": 4,
+    "ranking": [
+     "cartservice",
+     "paymentservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.456,
+     0.425,
+     0.117,
+     0.014
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 1.3,
+   "analyze_s": 0.6
+  },
+  {
+   "case": "re1ob_checkoutservice_loss_1",
+   "fault": "loss",
+   "ground_truth": "checkoutservice",
+   "label_matches_dir": true,
+   "inject_time": 1692634363,
+   "inject_iso": "2023-08-21T16:12:43.000Z",
+   "rows": 721,
+   "events": 41097,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 2,
+   "n_incidents_after_inject": 1,
+   "blind": {
+    "incident": "inc_ff4941f775",
+    "opened_at": "2023-08-21T16:12:51.000Z",
+    "status": "ABSTAINED",
+    "n_services": 4,
+    "ranking": [
+     "cartservice",
+     "paymentservice",
+     "emailservice",
+     "checkoutservice"
+    ],
+    "scores": [
+     0.233,
+     0.206,
+     0.205,
+     0.048
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_ff4941f775",
+    "opened_at": "2023-08-21T16:12:51.000Z",
+    "status": "ABSTAINED",
+    "n_services": 4,
+    "ranking": [
+     "cartservice",
+     "paymentservice",
+     "emailservice",
+     "checkoutservice"
+    ],
+    "scores": [
+     0.233,
+     0.206,
+     0.205,
+     0.048
+    ],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 1.4,
+   "analyze_s": 0.4
+  },
+  {
+   "case": "re1ob_checkoutservice_loss_2",
+   "fault": "loss",
+   "ground_truth": "checkoutservice",
+   "label_matches_dir": true,
+   "inject_time": 1692635135,
+   "inject_iso": "2023-08-21T16:25:35.000Z",
+   "rows": 721,
+   "events": 41097,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 3,
+   "n_incidents_after_inject": 1,
+   "blind": {
+    "incident": "inc_4105f4ab3e",
+    "opened_at": "2023-08-21T16:25:44.000Z",
+    "status": "ABSTAINED",
+    "n_services": 3,
+    "ranking": [
+     "emailservice",
+     "paymentservice",
+     "checkoutservice"
+    ],
+    "scores": [
+     0.3,
+     0.273,
+     0.035
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_4105f4ab3e",
+    "opened_at": "2023-08-21T16:25:44.000Z",
+    "status": "ABSTAINED",
+    "n_services": 3,
+    "ranking": [
+     "emailservice",
+     "paymentservice",
+     "checkoutservice"
+    ],
+    "scores": [
+     0.3,
+     0.273,
+     0.035
+    ],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 1.3,
+   "analyze_s": 0.3
+  },
+  {
+   "case": "re1ob_checkoutservice_loss_3",
+   "fault": "loss",
+   "ground_truth": "checkoutservice",
+   "label_matches_dir": true,
+   "inject_time": 1692635905,
+   "inject_iso": "2023-08-21T16:38:25.000Z",
+   "rows": 721,
+   "events": 41097,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_c57eb5d2ef",
+    "opened_at": "2023-08-21T16:37:03.000Z",
+    "status": "RESOLVED",
+    "n_services": 4,
+    "ranking": [
+     "emailservice",
+     "checkoutservice",
+     "frontend",
+     "frontend-external"
+    ],
+    "scores": [
+     0.613,
+     0.29,
+     0.117,
+     0.05
+    ],
+    "confident": true,
+    "root": "emailservice"
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 1.1,
+   "analyze_s": 0.4
+  },
+  {
+   "case": "re1ob_checkoutservice_mem_1",
+   "fault": "mem",
+   "ground_truth": "checkoutservice",
+   "label_matches_dir": true,
+   "inject_time": 1685501112,
+   "inject_iso": "2023-05-31T02:45:12.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 20,
+   "n_incidents_after_inject": 15,
+   "blind": {
+    "incident": "inc_67635a58d4",
+    "opened_at": "2023-05-31T02:39:32.000Z",
+    "status": "OPEN",
+    "n_services": 6,
+    "ranking": [
+     "cartservice",
+     "paymentservice",
+     "emailservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.593,
+     0.252,
+     0.251,
+     0.13,
+     0.052
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "windowed": {
+    "incident": "inc_c870f71432",
+    "opened_at": "2023-05-31T03:05:36.000Z",
+    "status": "ABSTAINED",
+    "n_services": 4,
+    "ranking": [
+     "adservice",
+     "cartservice",
+     "frontend",
+     "frontend-external"
+    ],
+    "scores": [
+     0.467,
+     0.462,
+     0.267,
+     0.05
+    ],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 5.2,
+   "analyze_s": 1.9
+  },
+  {
+   "case": "re1ob_checkoutservice_mem_2",
+   "fault": "mem",
+   "ground_truth": "checkoutservice",
+   "label_matches_dir": true,
+   "inject_time": 1685505453,
+   "inject_iso": "2023-05-31T03:57:33.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 10,
+   "n_incidents_after_inject": 7,
+   "blind": {
+    "incident": "inc_f86cb30f93",
+    "opened_at": "2023-05-31T03:33:16.000Z",
+    "status": "OPEN",
+    "n_services": 6,
+    "ranking": [
+     "cartservice",
+     "paymentservice",
+     "checkoutservice",
+     "emailservice",
+     "adservice"
+    ],
+    "scores": [
+     0.546,
+     0.26,
+     0.206,
+     0.17,
+     0.098
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "windowed": {
+    "incident": "inc_19c2ffa393",
+    "opened_at": "2023-05-31T04:00:51.000Z",
+    "status": "RESOLVED",
+    "n_services": 2,
+    "ranking": [
+     "cartservice",
+     "frontend"
+    ],
+    "scores": [
+     0.5,
+     0.011
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "seconds": 5.2,
+   "analyze_s": 1.8
+  },
+  {
+   "case": "re1ob_checkoutservice_mem_3",
+   "fault": "mem",
+   "ground_truth": "checkoutservice",
+   "label_matches_dir": true,
+   "inject_time": 1685321879,
+   "inject_iso": "2023-05-29T00:57:59.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 20,
+   "n_incidents_after_inject": 15,
+   "blind": {
+    "incident": "inc_64a476d77b",
+    "opened_at": "2023-05-29T00:41:33.000Z",
+    "status": "ABSTAINED",
+    "n_services": 5,
+    "ranking": [
+     "cartservice",
+     "paymentservice",
+     "emailservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.406,
+     0.386,
+     0.373,
+     0.25,
+     0.05
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_b44aa968d5",
+    "opened_at": "2023-05-29T01:04:38.000Z",
+    "status": "RESOLVED",
+    "n_services": 1,
+    "ranking": [
+     "paymentservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "paymentservice"
+   },
+   "seconds": 5.1,
+   "analyze_s": 1.9
+  },
+  {
+   "case": "re1ob_currencyservice_cpu_1",
+   "fault": "cpu",
+   "ground_truth": "currencyservice",
+   "label_matches_dir": true,
+   "inject_time": 1685514134,
+   "inject_iso": "2023-05-31T06:22:14.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 15,
+   "n_incidents_after_inject": 9,
+   "blind": {
+    "incident": "inc_b337a02796",
+    "opened_at": "2023-05-31T06:30:59.000Z",
+    "status": "ABSTAINED",
+    "n_services": 10,
+    "ranking": [
+     "emailservice",
+     "paymentservice",
+     "shippingservice",
+     "checkoutservice",
+     "productcatalogservice"
+    ],
+    "scores": [
+     0.453,
+     0.353,
+     0.352,
+     0.244,
+     0.238
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_b337a02796",
+    "opened_at": "2023-05-31T06:30:59.000Z",
+    "status": "ABSTAINED",
+    "n_services": 10,
+    "ranking": [
+     "emailservice",
+     "paymentservice",
+     "shippingservice",
+     "checkoutservice",
+     "productcatalogservice"
+    ],
+    "scores": [
+     0.453,
+     0.353,
+     0.352,
+     0.244,
+     0.238
+    ],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 5.0,
+   "analyze_s": 1.8
+  },
+  {
+   "case": "re1ob_currencyservice_cpu_2",
+   "fault": "cpu",
+   "ground_truth": "currencyservice",
+   "label_matches_dir": true,
+   "inject_time": 1685518566,
+   "inject_iso": "2023-05-31T07:36:06.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 29,
+   "n_incidents_after_inject": 15,
+   "blind": {
+    "incident": "inc_de8c16e596",
+    "opened_at": "2023-05-31T07:01:40.000Z",
+    "status": "ABSTAINED",
+    "n_services": 9,
+    "ranking": [
+     "productcatalogservice",
+     "cartservice",
+     "emailservice",
+     "paymentservice",
+     "currencyservice"
+    ],
+    "scores": [
+     0.219,
+     0.2,
+     0.2,
+     0.2,
+     0.166
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_5b89d6d613",
+    "opened_at": "2023-05-31T07:39:56.000Z",
+    "status": "RESOLVED",
+    "n_services": 1,
+    "ranking": [
+     "shippingservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "shippingservice"
+   },
+   "seconds": 5.9,
+   "analyze_s": 2.5
+  },
+  {
+   "case": "re1ob_currencyservice_cpu_3",
+   "fault": "cpu",
+   "ground_truth": "currencyservice",
+   "label_matches_dir": true,
+   "inject_time": 1685523009,
+   "inject_iso": "2023-05-31T08:50:09.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 23,
+   "n_incidents_after_inject": 12,
+   "blind": {
+    "incident": "inc_b3db470222",
+    "opened_at": "2023-05-31T08:15:37.000Z",
+    "status": "ABSTAINED",
+    "n_services": 10,
+    "ranking": [
+     "currencyservice",
+     "productcatalogservice",
+     "recommendationservice",
+     "emailservice",
+     "paymentservice"
+    ],
+    "scores": [
+     0.424,
+     0.393,
+     0.214,
+     0.189,
+     0.189
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_cc595c9d9b",
+    "opened_at": "2023-05-31T08:50:19.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "currencyservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "currencyservice"
+   },
+   "seconds": 6.2,
+   "analyze_s": 2.7
+  },
+  {
+   "case": "re1ob_currencyservice_delay_1",
+   "fault": "delay",
+   "ground_truth": "currencyservice",
+   "label_matches_dir": true,
+   "inject_time": 1692576250,
+   "inject_iso": "2023-08-21T00:04:10.000Z",
+   "rows": 721,
+   "events": 39655,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_35d56d74b9",
+    "opened_at": "2023-08-21T00:01:42.000Z",
+    "status": "ABSTAINED",
+    "n_services": 4,
+    "ranking": [
+     "currencyservice",
+     "paymentservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.311,
+     0.277,
+     0.117,
+     0.05
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 0.8,
+   "analyze_s": 0.3
+  },
+  {
+   "case": "re1ob_currencyservice_delay_2",
+   "fault": "delay",
+   "ground_truth": "currencyservice",
+   "label_matches_dir": true,
+   "inject_time": 1692577020,
+   "inject_iso": "2023-08-21T00:17:00.000Z",
+   "rows": 721,
+   "events": 39655,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 1,
+   "blind": {
+    "incident": "inc_2bd07d6fa0",
+    "opened_at": "2023-08-21T00:17:08.000Z",
+    "status": "OPEN",
+    "n_services": 4,
+    "ranking": [
+     "currencyservice",
+     "frontend",
+     "checkoutservice",
+     "frontend-external"
+    ],
+    "scores": [
+     0.543,
+     0.267,
+     0.259,
+     0.05
+    ],
+    "confident": true,
+    "root": "currencyservice"
+   },
+   "windowed": {
+    "incident": "inc_2bd07d6fa0",
+    "opened_at": "2023-08-21T00:17:08.000Z",
+    "status": "OPEN",
+    "n_services": 4,
+    "ranking": [
+     "currencyservice",
+     "frontend",
+     "checkoutservice",
+     "frontend-external"
+    ],
+    "scores": [
+     0.543,
+     0.267,
+     0.259,
+     0.05
+    ],
+    "confident": true,
+    "root": "currencyservice"
+   },
+   "seconds": 1.3,
+   "analyze_s": 0.6
+  },
+  {
+   "case": "re1ob_currencyservice_delay_3",
+   "fault": "delay",
+   "ground_truth": "currencyservice",
+   "label_matches_dir": true,
+   "inject_time": 1692610652,
+   "inject_iso": "2023-08-21T09:37:32.000Z",
+   "rows": 721,
+   "events": 40376,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_c58ec9ea29",
+    "opened_at": "2023-08-21T09:35:40.000Z",
+    "status": "ABSTAINED",
+    "n_services": 5,
+    "ranking": [
+     "emailservice",
+     "checkoutservice",
+     "currencyservice",
+     "cartservice",
+     "frontend"
+    ],
+    "scores": [
+     0.375,
+     0.25,
+     0.243,
+     0.213,
+     0.05
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 1.0,
+   "analyze_s": 0.3
+  },
+  {
+   "case": "re1ob_currencyservice_disk_1",
+   "fault": "disk",
+   "ground_truth": "currencyservice",
+   "label_matches_dir": true,
+   "inject_time": 1702357134,
+   "inject_iso": "2023-12-12T04:58:54.000Z",
+   "rows": 721,
+   "events": 38934,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 4,
+   "n_incidents_after_inject": 4,
+   "blind": {
+    "incident": "inc_f82d07b50d",
+    "opened_at": "2023-12-12T04:59:12.000Z",
+    "status": "ABSTAINED",
+    "n_services": 4,
+    "ranking": [
+     "cartservice",
+     "currencyservice",
+     "emailservice",
+     "checkoutservice"
+    ],
+    "scores": [
+     0.152,
+     0.148,
+     0.145,
+     0.05
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_f82d07b50d",
+    "opened_at": "2023-12-12T04:59:12.000Z",
+    "status": "ABSTAINED",
+    "n_services": 4,
+    "ranking": [
+     "cartservice",
+     "currencyservice",
+     "emailservice",
+     "checkoutservice"
+    ],
+    "scores": [
+     0.152,
+     0.148,
+     0.145,
+     0.05
+    ],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 0.9,
+   "analyze_s": 0.4
+  },
+  {
+   "case": "re1ob_currencyservice_disk_2",
+   "fault": "disk",
+   "ground_truth": "currencyservice",
+   "label_matches_dir": true,
+   "inject_time": 1702368341,
+   "inject_iso": "2023-12-12T08:05:41.000Z",
+   "rows": 721,
+   "events": 40376,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 2,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_133183182e",
+    "opened_at": "2023-12-12T08:00:05.000Z",
+    "status": "OPEN",
+    "n_services": 2,
+    "ranking": [
+     "cartservice",
+     "checkoutservice"
+    ],
+    "scores": [
+     0.457,
+     0.05
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 1.4,
+   "analyze_s": 0.6
+  },
+  {
+   "case": "re1ob_currencyservice_disk_3",
+   "fault": "disk",
+   "ground_truth": "currencyservice",
+   "label_matches_dir": true,
+   "inject_time": 1702379974,
+   "inject_iso": "2023-12-12T11:19:34.000Z",
+   "rows": 721,
+   "events": 40376,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 1,
+   "blind": {
+    "incident": "inc_0a45a02816",
+    "opened_at": "2023-12-12T11:19:52.000Z",
+    "status": "ABSTAINED",
+    "n_services": 2,
+    "ranking": [
+     "currencyservice",
+     "checkoutservice"
+    ],
+    "scores": [
+     0.427,
+     0.05
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_0a45a02816",
+    "opened_at": "2023-12-12T11:19:52.000Z",
+    "status": "ABSTAINED",
+    "n_services": 2,
+    "ranking": [
+     "currencyservice",
+     "checkoutservice"
+    ],
+    "scores": [
+     0.427,
+     0.05
+    ],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 1.4,
+   "analyze_s": 0.6
+  },
+  {
+   "case": "re1ob_currencyservice_loss_1",
+   "fault": "loss",
+   "ground_truth": "currencyservice",
+   "label_matches_dir": true,
+   "inject_time": 16933142,
+   "inject_iso": "1970-07-15T23:39:02.000Z",
+   "rows": 721,
+   "events": 41097,
+   "inject_in_range": false,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 1,
+   "blind": {
+    "incident": "inc_5b3a576545",
+    "opened_at": "2023-08-29T12:59:18.000Z",
+    "status": "OPEN",
+    "n_services": 6,
+    "ranking": [
+     "cartservice",
+     "paymentservice",
+     "emailservice",
+     "frontend",
+     "checkoutservice"
+    ],
+    "scores": [
+     0.497,
+     0.253,
+     0.252,
+     0.24,
+     0.197
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "windowed": {
+    "incident": "inc_5b3a576545",
+    "opened_at": "2023-08-29T12:59:18.000Z",
+    "status": "OPEN",
+    "n_services": 6,
+    "ranking": [
+     "cartservice",
+     "paymentservice",
+     "emailservice",
+     "frontend",
+     "checkoutservice"
+    ],
+    "scores": [
+     0.497,
+     0.253,
+     0.252,
+     0.24,
+     0.197
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "seconds": 1.4,
+   "analyze_s": 0.5
+  },
+  {
+   "case": "re1ob_currencyservice_loss_2",
+   "fault": "loss",
+   "ground_truth": "currencyservice",
+   "label_matches_dir": true,
+   "inject_time": 1692646911,
+   "inject_iso": "2023-08-21T19:41:51.000Z",
+   "rows": 721,
+   "events": 41097,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 5,
+   "n_incidents_after_inject": 3,
+   "blind": {
+    "incident": "inc_fc630bb50c",
+    "opened_at": "2023-08-21T19:42:07.000Z",
+    "status": "RESOLVED",
+    "n_services": 3,
+    "ranking": [
+     "paymentservice",
+     "emailservice",
+     "checkoutservice"
+    ],
+    "scores": [
+     0.542,
+     0.3,
+     0.05
+    ],
+    "confident": true,
+    "root": "paymentservice"
+   },
+   "windowed": {
+    "incident": "inc_fc630bb50c",
+    "opened_at": "2023-08-21T19:42:07.000Z",
+    "status": "RESOLVED",
+    "n_services": 3,
+    "ranking": [
+     "paymentservice",
+     "emailservice",
+     "checkoutservice"
+    ],
+    "scores": [
+     0.542,
+     0.3,
+     0.05
+    ],
+    "confident": true,
+    "root": "paymentservice"
+   },
+   "seconds": 1.4,
+   "analyze_s": 0.6
+  },
+  {
+   "case": "re1ob_currencyservice_loss_3",
+   "fault": "loss",
+   "ground_truth": "currencyservice",
+   "label_matches_dir": true,
+   "inject_time": 1692647685,
+   "inject_iso": "2023-08-21T19:54:45.000Z",
+   "rows": 721,
+   "events": 41097,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 5,
+   "n_incidents_after_inject": 2,
+   "blind": {
+    "incident": "inc_49e0c68b8f",
+    "opened_at": "2023-08-21T19:49:55.000Z",
+    "status": "RESOLVED",
+    "n_services": 3,
+    "ranking": [
+     "emailservice",
+     "paymentservice",
+     "checkoutservice"
+    ],
+    "scores": [
+     0.3,
+     0.249,
+     0.037
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_9e85a9075c",
+    "opened_at": "2023-08-21T19:55:11.000Z",
+    "status": "OPEN",
+    "n_services": 2,
+    "ranking": [
+     "productcatalogservice",
+     "recommendationservice"
+    ],
+    "scores": [
+     0.467,
+     0.05
+    ],
+    "confident": true,
+    "root": "productcatalogservice"
+   },
+   "seconds": 1.3,
+   "analyze_s": 0.5
+  },
+  {
+   "case": "re1ob_currencyservice_mem_1",
+   "fault": "mem",
+   "ground_truth": "currencyservice",
+   "label_matches_dir": true,
+   "inject_time": 1685347082,
+   "inject_iso": "2023-05-29T07:58:02.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 16,
+   "n_incidents_after_inject": 12,
+   "blind": {
+    "incident": "inc_7a33de64a6",
+    "opened_at": "2023-05-29T07:58:09.000Z",
+    "status": "OPEN",
+    "n_services": 5,
+    "ranking": [
+     "currencyservice",
+     "cartservice",
+     "paymentservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.6,
+     0.228,
+     0.217,
+     0.1,
+     0.05
+    ],
+    "confident": true,
+    "root": "currencyservice"
+   },
+   "windowed": {
+    "incident": "inc_7a33de64a6",
+    "opened_at": "2023-05-29T07:58:09.000Z",
+    "status": "OPEN",
+    "n_services": 5,
+    "ranking": [
+     "currencyservice",
+     "cartservice",
+     "paymentservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.6,
+     0.228,
+     0.217,
+     0.1,
+     0.05
+    ],
+    "confident": true,
+    "root": "currencyservice"
+   },
+   "seconds": 6.2,
+   "analyze_s": 2.3
+  },
+  {
+   "case": "re1ob_currencyservice_mem_2",
+   "fault": "mem",
+   "ground_truth": "currencyservice",
+   "label_matches_dir": true,
+   "inject_time": 1685351423,
+   "inject_iso": "2023-05-29T09:10:23.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 18,
+   "n_incidents_after_inject": 15,
+   "blind": {
+    "incident": "inc_62d1c8f0a2",
+    "opened_at": "2023-05-29T08:40:01.000Z",
+    "status": "RESOLVED",
+    "n_services": 4,
+    "ranking": [
+     "cartservice",
+     "adservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.298,
+     0.156,
+     0.109,
+     0.05
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_7a7e51d4cd",
+    "opened_at": "2023-05-29T09:10:24.000Z",
+    "status": "OPEN",
+    "n_services": 4,
+    "ranking": [
+     "paymentservice",
+     "currencyservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.588,
+     0.367,
+     0.117,
+     0.05
+    ],
+    "confident": true,
+    "root": "paymentservice"
+   },
+   "seconds": 6.0,
+   "analyze_s": 2.1
+  },
+  {
+   "case": "re1ob_currencyservice_mem_3",
+   "fault": "mem",
+   "ground_truth": "currencyservice",
+   "label_matches_dir": true,
+   "inject_time": 1685355763,
+   "inject_iso": "2023-05-29T10:22:43.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 20,
+   "n_incidents_after_inject": 16,
+   "blind": {
+    "incident": "inc_1828f0ebfe",
+    "opened_at": "2023-05-29T10:22:49.000Z",
+    "status": "OPEN",
+    "n_services": 5,
+    "ranking": [
+     "currencyservice",
+     "emailservice",
+     "adservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.6,
+     0.209,
+     0.113,
+     0.1,
+     0.05
+    ],
+    "confident": true,
+    "root": "currencyservice"
+   },
+   "windowed": {
+    "incident": "inc_1828f0ebfe",
+    "opened_at": "2023-05-29T10:22:49.000Z",
+    "status": "OPEN",
+    "n_services": 5,
+    "ranking": [
+     "currencyservice",
+     "emailservice",
+     "adservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.6,
+     0.209,
+     0.113,
+     0.1,
+     0.05
+    ],
+    "confident": true,
+    "root": "currencyservice"
+   },
+   "seconds": 5.8,
+   "analyze_s": 2.0
+  },
+  {
+   "case": "re1ob_productcatalogservice_cpu_1",
+   "fault": "cpu",
+   "ground_truth": "productcatalogservice",
+   "label_matches_dir": true,
+   "inject_time": 1685364577,
+   "inject_iso": "2023-05-29T12:49:37.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 7,
+   "n_incidents_after_inject": 5,
+   "blind": {
+    "incident": "inc_80bb11c6d3",
+    "opened_at": "2023-05-29T12:46:42.000Z",
+    "status": "OPEN",
+    "n_services": 3,
+    "ranking": [
+     "productcatalogservice",
+     "frontend",
+     "frontend-external"
+    ],
+    "scores": [
+     0.5,
+     0.3,
+     0.05
+    ],
+    "confident": true,
+    "root": "productcatalogservice"
+   },
+   "windowed": {
+    "incident": "inc_9770067e82",
+    "opened_at": "2023-05-29T12:56:52.000Z",
+    "status": "RESOLVED",
+    "n_services": 3,
+    "ranking": [
+     "cartservice",
+     "frontend",
+     "frontend-external"
+    ],
+    "scores": [
+     0.721,
+     0.257,
+     0.05
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "seconds": 5.5,
+   "analyze_s": 1.9
+  },
+  {
+   "case": "re1ob_productcatalogservice_cpu_2",
+   "fault": "cpu",
+   "ground_truth": "productcatalogservice",
+   "label_matches_dir": true,
+   "inject_time": 1685368916,
+   "inject_iso": "2023-05-29T14:01:56.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 10,
+   "n_incidents_after_inject": 4,
+   "blind": {
+    "incident": "inc_049e149afe",
+    "opened_at": "2023-05-29T14:19:54.000Z",
+    "status": "RESOLVED",
+    "n_services": 3,
+    "ranking": [
+     "cartservice",
+     "frontend",
+     "frontend-external"
+    ],
+    "scores": [
+     0.41,
+     0.105,
+     0.05
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_049e149afe",
+    "opened_at": "2023-05-29T14:19:54.000Z",
+    "status": "RESOLVED",
+    "n_services": 3,
+    "ranking": [
+     "cartservice",
+     "frontend",
+     "frontend-external"
+    ],
+    "scores": [
+     0.41,
+     0.105,
+     0.05
+    ],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 6.1,
+   "analyze_s": 2.1
+  },
+  {
+   "case": "re1ob_productcatalogservice_cpu_3",
+   "fault": "cpu",
+   "ground_truth": "productcatalogservice",
+   "label_matches_dir": true,
+   "inject_time": 1685373255,
+   "inject_iso": "2023-05-29T15:14:15.000Z",
+   "rows": 63,
+   "events": 2835,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "InboundPassthroughClusterIpv4_error",
+    "InboundPassthroughClusterIpv4_load",
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "carts_error",
+    "carts_load",
+    "catalogue_error",
+    "catalogue_load",
+    "front-end_load",
+    "main_cpu",
+    "main_mem",
+    "orders_error",
+    "orders_load"
+   ],
+   "null_values": 0,
+   "n_incidents": 0,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 0.1,
+   "analyze_s": 0.0
+  },
+  {
+   "case": "re1ob_productcatalogservice_delay_1",
+   "fault": "delay",
+   "ground_truth": "productcatalogservice",
+   "label_matches_dir": true,
+   "inject_time": 1692589306,
+   "inject_iso": "2023-08-21T03:41:46.000Z",
+   "rows": 721,
+   "events": 39655,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_27a48825ff",
+    "opened_at": "2023-08-21T03:37:52.000Z",
+    "status": "ABSTAINED",
+    "n_services": 5,
+    "ranking": [
+     "productcatalogservice",
+     "cartservice",
+     "checkoutservice",
+     "recommendationservice",
+     "frontend"
+    ],
+    "scores": [
+     0.343,
+     0.209,
+     0.1,
+     0.091,
+     0.05
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 1.4,
+   "analyze_s": 0.5
+  },
+  {
+   "case": "re1ob_productcatalogservice_delay_2",
+   "fault": "delay",
+   "ground_truth": "productcatalogservice",
+   "label_matches_dir": true,
+   "inject_time": 1692624019,
+   "inject_iso": "2023-08-21T13:20:19.000Z",
+   "rows": 721,
+   "events": 40376,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_06a43131c9",
+    "opened_at": "2023-08-21T13:16:21.000Z",
+    "status": "ABSTAINED",
+    "n_services": 6,
+    "ranking": [
+     "productcatalogservice",
+     "shippingservice",
+     "checkoutservice",
+     "recommendationservice",
+     "frontend"
+    ],
+    "scores": [
+     0.366,
+     0.249,
+     0.13,
+     0.107,
+     0.09
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 1.3,
+   "analyze_s": 0.6
+  },
+  {
+   "case": "re1ob_productcatalogservice_delay_3",
+   "fault": "delay",
+   "ground_truth": "productcatalogservice",
+   "label_matches_dir": true,
+   "inject_time": 1692614494,
+   "inject_iso": "2023-08-21T10:41:34.000Z",
+   "rows": 721,
+   "events": 40376,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 2,
+   "n_incidents_after_inject": 1,
+   "blind": {
+    "incident": "inc_2598ea2a12",
+    "opened_at": "2023-08-21T10:41:48.000Z",
+    "status": "ABSTAINED",
+    "n_services": 4,
+    "ranking": [
+     "productcatalogservice",
+     "recommendationservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.446,
+     0.256,
+     0.117,
+     0.05
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_2598ea2a12",
+    "opened_at": "2023-08-21T10:41:48.000Z",
+    "status": "ABSTAINED",
+    "n_services": 4,
+    "ranking": [
+     "productcatalogservice",
+     "recommendationservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.446,
+     0.256,
+     0.117,
+     0.05
+    ],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 1.4,
+   "analyze_s": 0.6
+  },
+  {
+   "case": "re1ob_productcatalogservice_disk_1",
+   "fault": "disk",
+   "ground_truth": "productcatalogservice",
+   "label_matches_dir": true,
+   "inject_time": 1702357908,
+   "inject_iso": "2023-12-12T05:11:48.000Z",
+   "rows": 721,
+   "events": 39463,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 192,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_661ab693ea",
+    "opened_at": "2023-12-12T05:07:42.000Z",
+    "status": "ABSTAINED",
+    "n_services": 4,
+    "ranking": [
+     "productcatalogservice",
+     "cartservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.435,
+     0.31,
+     0.267,
+     0.013
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 1.4,
+   "analyze_s": 0.5
+  },
+  {
+   "case": "re1ob_productcatalogservice_disk_2",
+   "fault": "disk",
+   "ground_truth": "productcatalogservice",
+   "label_matches_dir": true,
+   "inject_time": 1702374697,
+   "inject_iso": "2023-12-12T09:51:37.000Z",
+   "rows": 721,
+   "events": 39473,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 182,
+   "n_incidents": 2,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_a965ab3b05",
+    "opened_at": "2023-12-12T09:49:22.000Z",
+    "status": "ABSTAINED",
+    "n_services": 5,
+    "ranking": [
+     "cartservice",
+     "productcatalogservice",
+     "shippingservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.405,
+     0.382,
+     0.216,
+     0.1,
+     0.017
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 0.8,
+   "analyze_s": 0.4
+  },
+  {
+   "case": "re1ob_productcatalogservice_disk_3",
+   "fault": "disk",
+   "ground_truth": "productcatalogservice",
+   "label_matches_dir": true,
+   "inject_time": 1702375470,
+   "inject_iso": "2023-12-12T10:04:30.000Z",
+   "rows": 721,
+   "events": 39655,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 3,
+   "n_incidents_after_inject": 3,
+   "blind": {
+    "incident": "inc_6d14297183",
+    "opened_at": "2023-12-12T10:04:53.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "productcatalogservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "productcatalogservice"
+   },
+   "windowed": {
+    "incident": "inc_6d14297183",
+    "opened_at": "2023-12-12T10:04:53.000Z",
+    "status": "OPEN",
+    "n_services": 1,
+    "ranking": [
+     "productcatalogservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "productcatalogservice"
+   },
+   "seconds": 0.8,
+   "analyze_s": 0.3
+  },
+  {
+   "case": "re1ob_productcatalogservice_loss_1",
+   "fault": "loss",
+   "ground_truth": "productcatalogservice",
+   "label_matches_dir": true,
+   "inject_time": 1692665535,
+   "inject_iso": "2023-08-22T00:52:15.000Z",
+   "rows": 721,
+   "events": 41097,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_ea9aa4a366",
+    "opened_at": "2023-08-22T00:47:52.000Z",
+    "status": "ABSTAINED",
+    "n_services": 5,
+    "ranking": [
+     "emailservice",
+     "cartservice",
+     "frontend",
+     "checkoutservice",
+     "frontend-external"
+    ],
+    "scores": [
+     0.409,
+     0.342,
+     0.214,
+     0.209,
+     0.05
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 0.8,
+   "analyze_s": 0.3
+  },
+  {
+   "case": "re1ob_productcatalogservice_loss_2",
+   "fault": "loss",
+   "ground_truth": "productcatalogservice",
+   "label_matches_dir": true,
+   "inject_time": 1692666311,
+   "inject_iso": "2023-08-22T01:05:11.000Z",
+   "rows": 721,
+   "events": 41097,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_6cfc75865c",
+    "opened_at": "2023-08-22T00:59:16.000Z",
+    "status": "OPEN",
+    "n_services": 5,
+    "ranking": [
+     "emailservice",
+     "paymentservice",
+     "checkoutservice",
+     "frontend",
+     "frontend-external"
+    ],
+    "scores": [
+     0.614,
+     0.313,
+     0.275,
+     0.1,
+     0.05
+    ],
+    "confident": true,
+    "root": "emailservice"
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 0.9,
+   "analyze_s": 0.4
+  },
+  {
+   "case": "re1ob_productcatalogservice_loss_3",
+   "fault": "loss",
+   "ground_truth": "productcatalogservice",
+   "label_matches_dir": true,
+   "inject_time": 1692667087,
+   "inject_iso": "2023-08-22T01:18:07.000Z",
+   "rows": 721,
+   "events": 41097,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 1,
+   "n_incidents_after_inject": 0,
+   "blind": {
+    "incident": "inc_3defc7c271",
+    "opened_at": "2023-08-22T01:13:57.000Z",
+    "status": "OPEN",
+    "n_services": 4,
+    "ranking": [
+     "emailservice",
+     "frontend",
+     "checkoutservice",
+     "frontend-external"
+    ],
+    "scores": [
+     0.53,
+     0.26,
+     0.259,
+     0.05
+    ],
+    "confident": true,
+    "root": "emailservice"
+   },
+   "windowed": {
+    "incident": null,
+    "ranking": [],
+    "confident": false,
+    "root": null
+   },
+   "seconds": 1.4,
+   "analyze_s": 0.6
+  },
+  {
+   "case": "re1ob_productcatalogservice_mem_1",
+   "fault": "mem",
+   "ground_truth": "productcatalogservice",
+   "label_matches_dir": true,
+   "inject_time": 1685383134,
+   "inject_iso": "2023-05-29T17:58:54.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 28,
+   "n_incidents_after_inject": 19,
+   "blind": {
+    "incident": "inc_cc3dc4b110",
+    "opened_at": "2023-05-29T17:58:27.000Z",
+    "status": "ABSTAINED",
+    "n_services": 9,
+    "ranking": [
+     "productcatalogservice",
+     "emailservice",
+     "cartservice",
+     "paymentservice",
+     "frontend"
+    ],
+    "scores": [
+     0.525,
+     0.45,
+     0.363,
+     0.25,
+     0.225
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_eebec23f95",
+    "opened_at": "2023-05-29T18:04:15.000Z",
+    "status": "RESOLVED",
+    "n_services": 1,
+    "ranking": [
+     "cartservice"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "cartservice"
+   },
+   "seconds": 4.1,
+   "analyze_s": 1.0
+  },
+  {
+   "case": "re1ob_productcatalogservice_mem_2",
+   "fault": "mem",
+   "ground_truth": "productcatalogservice",
+   "label_matches_dir": true,
+   "inject_time": 1685387474,
+   "inject_iso": "2023-05-29T19:11:14.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 16,
+   "n_incidents_after_inject": 11,
+   "blind": {
+    "incident": "inc_8b87079369",
+    "opened_at": "2023-05-29T19:02:40.000Z",
+    "status": "OPEN",
+    "n_services": 7,
+    "ranking": [
+     "paymentservice",
+     "productcatalogservice",
+     "emailservice",
+     "checkoutservice",
+     "frontend"
+    ],
+    "scores": [
+     0.6,
+     0.442,
+     0.3,
+     0.267,
+     0.084
+    ],
+    "confident": true,
+    "root": "paymentservice"
+   },
+   "windowed": {
+    "incident": "inc_61eb0e7794",
+    "opened_at": "2023-05-29T19:17:54.000Z",
+    "status": "RESOLVED",
+    "n_services": 1,
+    "ranking": [
+     "frontend-external"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "frontend-external"
+   },
+   "seconds": 3.6,
+   "analyze_s": 1.1
+  },
+  {
+   "case": "re1ob_productcatalogservice_mem_3",
+   "fault": "mem",
+   "ground_truth": "productcatalogservice",
+   "label_matches_dir": true,
+   "inject_time": 1685391813,
+   "inject_iso": "2023-05-29T20:23:33.000Z",
+   "rows": 4201,
+   "events": 189045,
+   "inject_in_range": true,
+   "dropped_columns": [
+    "PassthroughCluster_error",
+    "PassthroughCluster_load",
+    "main_cpu",
+    "main_mem"
+   ],
+   "null_values": 0,
+   "n_incidents": 20,
+   "n_incidents_after_inject": 13,
+   "blind": {
+    "incident": "inc_de4168a953",
+    "opened_at": "2023-05-29T19:54:12.000Z",
+    "status": "RESOLVED",
+    "n_services": 7,
+    "ranking": [
+     "paymentservice",
+     "emailservice",
+     "currencyservice",
+     "cartservice",
+     "checkoutservice"
+    ],
+    "scores": [
+     0.518,
+     0.514,
+     0.512,
+     0.443,
+     0.222
+    ],
+    "confident": false,
+    "root": null
+   },
+   "windowed": {
+    "incident": "inc_c3d4ea4a93",
+    "opened_at": "2023-05-29T20:36:13.000Z",
+    "status": "RESOLVED",
+    "n_services": 1,
+    "ranking": [
+     "frontend-external"
+    ],
+    "scores": [
+     0.5
+    ],
+    "confident": true,
+    "root": "frontend-external"
+   },
+   "seconds": 3.3,
+   "analyze_s": 1.0
+  }
+ ]
+}

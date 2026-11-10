@@ -239,8 +239,8 @@ function SpecRows({ spec }: { spec: FaultSpec }) {
 function Verdict({ r }: { r: RunReveal }) {
   if (r.abstained)
     return (
-      <div className="rounded-lg bg-warn-soft px-4 py-3 text-center ring-2 ring-warn">
-        <div className="text-4xl font-black tracking-widest text-warn">ABSTAINED</div>
+      <div className="rounded-lg bg-warn-soft px-3 py-2 text-center ring-2 ring-warn">
+        <div className="text-3xl font-black tracking-widest text-warn">ABSTAINED</div>
         <div className="mt-1 text-sm text-warn">
           The engine declined to name one cause{r.our_top1 ? ` (top candidate ${r.our_top1})` : ""}. Injected: {r.expected_root}.
         </div>
@@ -248,16 +248,16 @@ function Verdict({ r }: { r: RunReveal }) {
     );
   if (r.matched)
     return (
-      <div className="rounded-lg bg-safe-soft px-4 py-3 text-center ring-2 ring-safe">
-        <div className="text-5xl font-black tracking-widest text-safe">MATCH</div>
+      <div className="rounded-lg bg-safe-soft px-3 py-2 text-center ring-2 ring-safe">
+        <div className="text-3xl font-black tracking-widest text-safe">MATCH</div>
         <div className="mt-1 text-sm text-safe">
           Engine said <b>{r.our_top1}</b>, injected fault was on <b>{r.expected_root}</b>.
         </div>
       </div>
     );
   return (
-    <div className="rounded-lg bg-danger-soft px-4 py-3 text-center ring-2 ring-danger">
-      <div className="text-5xl font-black tracking-widest text-danger">NO MATCH</div>
+    <div className="rounded-lg bg-danger-soft px-3 py-2 text-center ring-2 ring-danger">
+      <div className="text-3xl font-black tracking-widest text-danger">NO MATCH</div>
       <div className="mt-1 text-sm text-danger">
         Engine said <b>{r.our_top1 ?? "nothing"}</b>, injected fault was on <b>{r.expected_root}</b>.
       </div>
@@ -285,7 +285,7 @@ export function RevealCard() {
     );
   const spec = sb.reveal?.spec ?? run?.spec ?? null;
   return (
-    <div className="fade-up absolute right-4 top-14 z-20 w-[min(380px,calc(100%-32px))] rounded-lg border border-accent/50 bg-sheet p-4">
+    <div className="fade-up absolute right-4 top-14 z-20 max-h-[calc(100%-4.5rem)] w-[min(380px,calc(100%-32px))] overflow-y-auto overscroll-contain rounded-lg border border-accent/50 bg-sheet p-4">
       <div className="flex items-center justify-between">
         <span className="panel-title text-accent">{run?.mode === "designed" ? "Designed outage" : "Judge's Chaos"}</span>
         {run ? (
@@ -311,7 +311,7 @@ export function RevealCard() {
       {sb.status === "answered" && run && (
         <div className="mt-2 space-y-3">
           {run.incidents.length === 0 && <div className="text-sm text-warn">The engine opened no incident for this run.</div>}
-          {sb.signalStorm && run.incidents.length > 0 && (
+          {sb.signalStorm && !sb.reveal && run.incidents.length > 0 && (
             <div className="text-xs text-subtle">Storm shows the incident&apos;s evidence signals; runs return no raw alert stream.</div>
           )}
           {spec ? (

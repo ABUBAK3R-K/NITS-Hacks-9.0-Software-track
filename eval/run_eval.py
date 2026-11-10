@@ -73,11 +73,12 @@ class Answer:
 
 
 def primary_incident(incs: list[Incident]) -> Incident | None:
-    """The incident a responder would open first: most services, then most alerts, then earliest.
-    Never uses the ground truth."""
+    """The incident a responder would open first: one still active (not RESOLVED) at the end of
+    the data, then most services, then most alerts, then earliest. Never uses the ground truth."""
     if not incs:
         return None
-    return max(incs, key=lambda i: (len(i.services), i.alert_count, [-ord(ch) for ch in i.opened_at]))
+    return max(incs, key=lambda i: (i.status != "RESOLVED", len(i.services), i.alert_count,
+                                    [-ord(ch) for ch in i.opened_at]))
 
 
 def jarvis(events: list[Event], topo, config: dict | None = None) -> Answer:
@@ -302,7 +303,7 @@ def markdown(r: EvalResults, extra: dict) -> str:
           "excluded), else the most alerts; `most_alerts` blames the service with the most alert or "
           "error-severity events; `llm_only` asks the frozen naive prompt (app.narrate.naive.ask_naive) for one "
           "service, so its top-3 equals its top-1 and a missing answer counts as an abstain.",
-          "- J.A.R.V.I.S. is scored on the incident a responder would open first (most services, then most "
+          "- J.A.R.V.I.S. is scored on the incident a responder would open first (still active, then most services, then most "
           "alerts); ground truth is never used to pick it. ABSTAINED counts as not top-1 and not a false blame.",
           "- Flags: `--no-llm`, `--llm-n N` (LLM on the first N seeds of the list, reported as its own n), "
           "`--seeds a-b`, `--no-sensitivity`.",

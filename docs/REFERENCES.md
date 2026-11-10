@@ -19,6 +19,7 @@ Every number in the README, the PPT and the demo video is either from an externa
 |---|---|---|
 | R5 | RCAEval: **735 failure cases from 3 microservice systems** (our final-round accuracy target) | [Pham et al., RCAEval, WWW 2025 (arXiv 2412.17015)](https://arxiv.org/abs/2412.17015) |
 | R6 | Event correlation tools group alerts by topology, timing and change data | [BigPanda: What is event correlation?](https://www.bigpanda.io/glossary/event-correlation/) |
+| R7 | Published Avg@5 on Online Boutique (125 cases), given the failure time (tΔ=0): BARO cpu 0.97, mem 1.00, disk 0.91, delay 0.98, loss 0.67; NSigma 0.94, 1.00, 0.90, 0.98, 0.67; RCD 0.91, 0.74, 0.67, 0.38, 0.47; Dummy about 0.25. Columns were mapped from the table's header order, and two independent extractions agree. | [Pham, Ha, Zhang, ASE 2024, arXiv 2408.13729, Table 5](https://arxiv.org/html/2408.13729v1) |
 
 ## Our own numbers
 
@@ -38,7 +39,7 @@ Every number in the README, the PPT and the demo video is either from an externa
 
 ### Evaluation
 
-The evaluation runs on our own simulator with randomized blind faults. RCAEval real-data numbers (R5) are a final-round item.
+The evaluation runs on our own simulator with randomized blind faults. Real-data numbers on RCAEval are in E12 and E13 below.
 
 | Id | Number | Where it lives / how to regenerate |
 |---|---|---|
@@ -54,8 +55,15 @@ The evaluation runs on our own simulator with randomized blind faults. RCAEval r
 | E9 | Live sandbox checks: MTTD **3 s** and **9 s**, MTTR **121 s** and **118 s** (postgres pool exhaustion and payments-svc bad deploy). Every run measures its own values. | `DECISIONS.md` (Tier 2 live check entry); reproduce with `POST /api/runs/designed`, then `POST /api/incidents/{id}/apply_fix` |
 | E10 | Groq `openai/gpt-oss-120b`: warm calls **2.1 to 2.4 s** on the hero incident. The key's limit is **8,000 tokens/min** (read from the `x-ratelimit-limit-tokens` response header). | `DECISIONS.md` (Groq model entries), `FAILURES.md` (rate limit entry) |
 
+### Real data: RCAEval RE1-OB
+
+| Id | Number | Where it lives / how to regenerate |
+|---|---|---|
+| E12 | RE1-OB, 125 cases, split by repetition before any tuning: DEV = repetitions 1-3 (75), TEST = 4-5 (50), and TEST was run once after the engine changes were frozen. TEST blind: AC@1 **24.0% -> 48.0%**, AC@3 52.0% -> 60.0%, Avg@5 44.4% -> 59.2%, false blame 34.0% -> 20.0%. TEST windowed (given inject_time, like-for-like with R7): Avg@5 26.8% -> 41.6%. All 125 cases, blind (includes DEV): AC@1 29.6% -> 54.4%. | `eval/rcaeval/RESULTS.md`, `eval/rcaeval/results.json`, `eval/rcaeval/runs/*.json`: `python -I eval/rcaeval/run_rcaeval.py --data D:/rcaeval-data --split test` |
+| E13 | The data download is 252 files, about 32 MB (RE1-OB metrics plus inject times, from Hugging Face `phamquiluan/RCAEval`, MIT). It is kept outside the repo. | `eval/rcaeval/RESULTS.md` (download command) |
+
 ### Project progress
 
 | Id | Number | Where it lives |
 |---|---|---|
-| E11 | **13 of 14 planned items built (93%).** Built: TASKS.md lanes A-D (4), UPGRADES.md U1-U7 (7), and 2 of the 3 TASKS.md final-round backlog items (OpenTelemetry ingest, incident similarity). In progress: RCAEval. The demo video (recorded 9 Nov) shows the earlier 11 of 14. | `TASKS.md`, `UPGRADES.md`, `backend/app/ingest/otlp.py`, `backend/app/similar.py` |
+| E11 | **14 of 14 planned items built (100%).** Built: TASKS.md lanes A-D (4), UPGRADES.md U1-U7 (7), and the 3 TASKS.md final-round backlog items (OpenTelemetry ingest, incident similarity, RCAEval). The demo video (recorded 9 Nov) shows the earlier 11 of 14. | `TASKS.md`, `UPGRADES.md`, `backend/app/ingest/otlp.py`, `backend/app/similar.py`, `eval/rcaeval/` |

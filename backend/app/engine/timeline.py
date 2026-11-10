@@ -29,7 +29,10 @@ def main_point(ep: Episode, sig: str | None) -> Point:
     pool = pref or metrics
     if not pool:
         return ep.peak_point
-    return max(pool, key=lambda p: (p.value if p.kind == "metric" and p in pref else 0.0, p.magnitude, -p.ts))
+    # Every point of pool is in pref exactly when pool is pref (pref non-empty),
+    # so one boolean replaces the old `p in pref` list scan (quadratic on long episodes).
+    in_pref = bool(pref)
+    return max(pool, key=lambda p: (p.value if p.kind == "metric" and in_pref else 0.0, p.magnitude, -p.ts))
 
 
 def describe(ep: Episode, sig: str | None = None) -> str:

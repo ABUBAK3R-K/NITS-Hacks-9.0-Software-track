@@ -1,0 +1,4 @@
+# Eval-only dependencies for eval/rcaeval (not needed by the backend).
+pandas>=2.2
+pyarrow>=15
+huggingface_hub>=0.23

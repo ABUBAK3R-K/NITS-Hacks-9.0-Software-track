@@ -70,7 +70,18 @@ In the hero scenario postgres scores **0.80**, and its victims score 0.30, 0.25 
 | Blame the noisiest service | 47% | 53% |
 | Plain LLM, same events (n=40) | 78% | 0% |
 
-The plain LLM was right every time it answered; its 9 missing answers were API rate limits [[E6]](docs/REFERENCES.md#evaluation). So the honest pitch is: **the same accuracy as the LLM where it answers, but every claim is auditable, and it abstains on purpose.** These results come from our own simulator, which spreads faults cleanly from cause to symptoms. RCAEval real-world data (735 labelled failures) is the final-round target [[R5]](docs/REFERENCES.md#benchmark-and-industry-practice). The full table and the weight sensitivity are in `eval/RESULTS.md` [[E5]](docs/REFERENCES.md#evaluation) [[E7]](docs/REFERENCES.md#evaluation).
+The plain LLM was right every time it answered; its 9 missing answers were API rate limits [[E6]](docs/REFERENCES.md#evaluation). So the honest pitch is: **the same accuracy as the LLM where it answers, but every claim is auditable, and it abstains on purpose.** These results come from our own simulator, which spreads faults cleanly from cause to symptoms. Real labelled failures are harder; see the RCAEval section below. The full table and the weight sensitivity are in `eval/RESULTS.md` [[E5]](docs/REFERENCES.md#evaluation) [[E7]](docs/REFERENCES.md#evaluation).
+
+### Real data: RCAEval RE1-OB (125 labelled failures)
+
+Our own simulator spreads faults cleanly, so we also ran the engine on real labelled failures from the Online Boutique microservice system [[R5]](docs/REFERENCES.md#benchmark-and-industry-practice). It is metrics only, with cpu, mem, disk, delay and loss faults. We tuned on 75 cases and report 50 held-out cases, measured once after the changes were frozen [[E12]](docs/REFERENCES.md#real-data-rcaeval-re1-ob):
+
+| Held-out TEST (50 cases) | AC@1 | AC@3 | Avg@5 | False blame |
+|---|---|---|---|---|
+| Engine before | 24.0% | 52.0% | 44.4% | 34.0% |
+| Engine after (two anomaly-detection changes) | **48.0%** | 60.0% | 59.2% | **20.0%** |
+
+Chance is about 8% (1 of 12 services). For context, methods built only for metrics, such as BARO and NSigma, report higher Avg@5 on the same 125 cases when they are given the failure time [[R7]](docs/REFERENCES.md#benchmark-and-industry-practice); on that same given-time protocol our TEST Avg@5 is 41.6%. J.A.R.V.I.S. is built for a different job: one live pipeline across alerts, logs, metrics and deploys, every claim tied to evidence ids, and abstaining instead of guessing. RCAEval RE1 is metrics only, so our change signal (20% of the score) is always zero here and there are no alerts or logs to correlate. Closing the metrics-only gap, starting with cpu faults (0% on TEST), is our next step. The full protocol, per-fault tables and the reproduce command are in `eval/rcaeval/RESULTS.md`.
 
 ### What it looks like
 
@@ -216,7 +227,7 @@ Shapes are defined once in `contracts/schemas.py` (pydantic) and mirrored in `co
 
 ## Progress
 
-**13 of 14 planned items built (93%)** [[E11]](docs/REFERENCES.md#project-progress). Built: simulator and ingest, deterministic engine, live dashboard, grounded narrator, upgrades U1 to U7, and for the final round OpenTelemetry (OTLP) ingest and incident similarity ("seen this before"). In progress: the RCAEval real-world benchmark.
+**14 of 14 planned items built (100%)** [[E11]](docs/REFERENCES.md#project-progress). Built: simulator and ingest, deterministic engine, live dashboard, grounded narrator, upgrades U1 to U7, and for the final round OpenTelemetry (OTLP) ingest and incident similarity ("seen this before"), plus the RCAEval real-data benchmark (125 Online Boutique failures, held-out split).
 
 ## Repo layout
 

@@ -4,7 +4,9 @@ Signals per service, all turned into time-stamped `Point`s:
   * metrics: EWMA mean/variance baseline per (service, metric name) and a
     z-score per sample. Anomalous samples never update the baseline, so a
     sustained fault cannot poison it. A sample counts when z >= z_threshold
-    and its neighbour sample is also anomalous (or z >= z_strong).
+    and it sits in a run of 2+ anomalous samples (or z >= z_strong: one critical-level
+    sample is enough on its own). On high-frequency signals (sampled every second or
+    faster) the run must also last hf_confirm_s seconds.
   * alerts (kind=alert) count directly.
   * logs: 1 critical log counts directly; error logs count as a burst
     (2+ within 10 s) or when a strong signal is within 5 s.
@@ -129,16 +131,37 @@ def detect(evs: list[Event], ts: list[float], cfg: dict) -> AnomalyResult:
 
     # ---- metrics
     thr, strong_z, cap = cfg["z_threshold"], cfg["z_strong"], cfg["z_cap"]
+    hf_interval, hf_confirm_s = cfg["hf_interval_s"], cfg["hf_confirm_s"]
     for (svc, name), idxs in sig_idx.items():
         vals = [evs[i].value for i in idxs]
         zs, means = _score_signal(vals, name, cfg)
         flag = [z >= thr for z in zs]
         m = len(idxs)
+        # A run of consecutive flagged samples j..k is confirmed when it has 2+ samples. On a
+        # high-frequency signal (median sample gap <= hf_interval_s) it must also last
+        # hf_confirm_s, so a blip on a 1 s series (often one slower scrape forward-filled
+        # for a few seconds) does not page. Slower signals keep the plain 2-sample rule.
+        sig_ts = [ts[i] for i in idxs]
+        gaps = sorted(b - a for a, b in zip(sig_ts, sig_ts[1:]))
+        need_s = hf_confirm_s if gaps and gaps[len(gaps) // 2] <= hf_interval else 0.0
+        confirmed = [False] * m
+        j = 0
+        while j < m:
+            if not flag[j]:
+                j += 1
+                continue
+            k = j
+            while k + 1 < m and flag[k + 1]:
+                k += 1
+            if k > j and sig_ts[k] - sig_ts[j] >= need_s:
+                for q in range(j, k + 1):
+                    confirmed[q] = True
+            j = k + 1
         for j in range(m):
             if not flag[j]:
                 continue
             z = zs[j]
-            if z >= strong_z or (j > 0 and flag[j - 1]) or (j + 1 < m and flag[j + 1]):
+            if z >= strong_z or confirmed[j]:
                 e = evs[idxs[j]]
                 sev = max(SEV_RANK.get(e.severity, 0), _z_sev(z))
                 add_strong(Point(ts[idxs[j]], e.id, "metric", name, min(z, cap), sev, vals[j], means[j],

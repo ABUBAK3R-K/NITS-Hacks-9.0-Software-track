@@ -13,7 +13,9 @@ CONFIG = {
     "ewma_alpha": 0.1,                 # effective alpha is max(alpha, 1/(n+1)), so warmup is a plain mean
     "warmup_samples": 5,               # no z-scoring before this many baseline samples
     "z_threshold": 4.0,                # z at or above this is an anomaly candidate
-    "z_strong": 10.0,                  # a single sample this far out needs no confirmation
+    "z_strong": 20.0,                  # a single scrape this far out (critical level) needs no confirmation
+    "hf_interval_s": 1.0,              # a metric sampled this often or faster is high-frequency ...
+    "hf_confirm_s": 5.0,               # ... and its anomalies must last 5 s (otherwise 2 samples suffice)
     "z_update_gate": 3.0,              # samples at or above this never update the baseline
     "z_cap": 50.0,                     # magnitude cap for the severity component
     "std_rel_floor": 0.10,             # std >= 10% of |mean| (absorbs +-10% multiplicative noise)

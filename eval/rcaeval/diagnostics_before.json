@@ -1,0 +1,2403 @@
+{
+ "what": "app.engine.anomaly.detect with engine defaults on every RE1-OB case; explains, does not score",
+ "summary": {
+  "overall": {
+   "n": 125,
+   "mean_services_anomalous_before_inject": 4.78,
+   "gt_anomalous_after_inject": 0.896,
+   "gt_first_after_inject": 0.496,
+   "gt_episode_started_before_inject": 0.216,
+   "no_episode_starts_after_inject": 0.016
+  },
+  "by_fault": {
+   "cpu": {
+    "n": 25,
+    "mean_services_anomalous_before_inject": 9.64,
+    "gt_anomalous_after_inject": 0.96,
+    "gt_first_after_inject": 0.72,
+    "gt_episode_started_before_inject": 0.56,
+    "no_episode_starts_after_inject": 0.04
+   },
+   "delay": {
+    "n": 25,
+    "mean_services_anomalous_before_inject": 1.68,
+    "gt_anomalous_after_inject": 1.0,
+    "gt_first_after_inject": 0.16,
+    "gt_episode_started_before_inject": 0.0,
+    "no_episode_starts_after_inject": 0.0
+   },
+   "disk": {
+    "n": 25,
+    "mean_services_anomalous_before_inject": 1.96,
+    "gt_anomalous_after_inject": 0.88,
+    "gt_first_after_inject": 0.6,
+    "gt_episode_started_before_inject": 0.04,
+    "no_episode_starts_after_inject": 0.0
+   },
+   "loss": {
+    "n": 25,
+    "mean_services_anomalous_before_inject": 1.92,
+    "gt_anomalous_after_inject": 0.64,
+    "gt_first_after_inject": 0.48,
+    "gt_episode_started_before_inject": 0.04,
+    "no_episode_starts_after_inject": 0.04
+   },
+   "mem": {
+    "n": 25,
+    "mean_services_anomalous_before_inject": 8.72,
+    "gt_anomalous_after_inject": 1.0,
+    "gt_first_after_inject": 0.52,
+    "gt_episode_started_before_inject": 0.44,
+    "no_episode_starts_after_inject": 0.0
+   }
+  }
+ },
+ "cases": [
+  {
+   "case": "re1ob_adservice_cpu_1",
+   "fault": "cpu",
+   "ground_truth": "adservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 4,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "adservice",
+    "frontend-external",
+    "checkoutservice"
+   ],
+   "gt_first_signal": "adservice_cpu",
+   "gt_delay_s": 15.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 8
+  },
+  {
+   "case": "re1ob_adservice_cpu_2",
+   "fault": "cpu",
+   "ground_truth": "adservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 5,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "adservice",
+    "frontend",
+    "checkoutservice"
+   ],
+   "gt_first_signal": "adservice_cpu",
+   "gt_delay_s": 13.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 10
+  },
+  {
+   "case": "re1ob_adservice_cpu_3",
+   "fault": "cpu",
+   "ground_truth": "adservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 6,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "adservice",
+    "paymentservice",
+    "emailservice"
+   ],
+   "gt_first_signal": "adservice_cpu",
+   "gt_delay_s": 2.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 13
+  },
+  {
+   "case": "re1ob_adservice_cpu_4",
+   "fault": "cpu",
+   "ground_truth": "adservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 12,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "checkoutservice",
+    "emailservice",
+    "frontend"
+   ],
+   "gt_first_signal": "adservice_cpu",
+   "gt_delay_s": 8.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 15
+  },
+  {
+   "case": "re1ob_adservice_cpu_5",
+   "fault": "cpu",
+   "ground_truth": "adservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 12,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "cartservice",
+    "checkoutservice",
+    "currencyservice"
+   ],
+   "gt_first_signal": "adservice_cpu",
+   "gt_delay_s": 5.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 13
+  },
+  {
+   "case": "re1ob_adservice_delay_1",
+   "fault": "delay",
+   "ground_truth": "adservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 5,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "frontend",
+    "checkoutservice",
+    "adservice"
+   ],
+   "gt_first_signal": "adservice_latency-90",
+   "gt_delay_s": 20.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 3
+  },
+  {
+   "case": "re1ob_adservice_delay_2",
+   "fault": "delay",
+   "ground_truth": "adservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 1,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "checkoutservice",
+    "adservice",
+    "frontend"
+   ],
+   "gt_first_signal": "adservice_latency-90",
+   "gt_delay_s": 17.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 5
+  },
+  {
+   "case": "re1ob_adservice_delay_3",
+   "fault": "delay",
+   "ground_truth": "adservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 2,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "checkoutservice",
+    "adservice",
+    "frontend"
+   ],
+   "gt_first_signal": "adservice_latency-90",
+   "gt_delay_s": 15.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 6
+  },
+  {
+   "case": "re1ob_adservice_delay_4",
+   "fault": "delay",
+   "ground_truth": "adservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 3,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "checkoutservice",
+    "adservice",
+    "emailservice"
+   ],
+   "gt_first_signal": "adservice_latency-90",
+   "gt_delay_s": 18.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 4
+  },
+  {
+   "case": "re1ob_adservice_delay_5",
+   "fault": "delay",
+   "ground_truth": "adservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 2,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "checkoutservice",
+    "adservice",
+    "frontend-external"
+   ],
+   "gt_first_signal": "adservice_latency-90",
+   "gt_delay_s": 22.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 3
+  },
+  {
+   "case": "re1ob_adservice_disk_1",
+   "fault": "disk",
+   "ground_truth": "adservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 1,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "adservice",
+    "frontend",
+    "checkoutservice"
+   ],
+   "gt_first_signal": "adservice_cpu",
+   "gt_delay_s": 2.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 4
+  },
+  {
+   "case": "re1ob_adservice_disk_2",
+   "fault": "disk",
+   "ground_truth": "adservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 0,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "adservice"
+   ],
+   "gt_first_signal": "adservice_cpu",
+   "gt_delay_s": 3.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 1
+  },
+  {
+   "case": "re1ob_adservice_disk_3",
+   "fault": "disk",
+   "ground_truth": "adservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 2,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "adservice",
+    "emailservice",
+    "shippingservice"
+   ],
+   "gt_first_signal": "adservice_cpu",
+   "gt_delay_s": 17.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 7
+  },
+  {
+   "case": "re1ob_adservice_disk_4",
+   "fault": "disk",
+   "ground_truth": "adservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 1,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "adservice",
+    "paymentservice",
+    "frontend-external"
+   ],
+   "gt_first_signal": "adservice_cpu",
+   "gt_delay_s": 9.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 3
+  },
+  {
+   "case": "re1ob_adservice_disk_5",
+   "fault": "disk",
+   "ground_truth": "adservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 4,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "adservice"
+   ],
+   "gt_first_signal": "adservice_cpu",
+   "gt_delay_s": 20.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 1
+  },
+  {
+   "case": "re1ob_adservice_loss_1",
+   "fault": "loss",
+   "ground_truth": "adservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 3,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "adservice",
+    "checkoutservice",
+    "frontend"
+   ],
+   "gt_first_signal": "adservice_cpu",
+   "gt_delay_s": 15.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 3
+  },
+  {
+   "case": "re1ob_adservice_loss_2",
+   "fault": "loss",
+   "ground_truth": "adservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 1,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "adservice",
+    "frontend-external",
+    "checkoutservice"
+   ],
+   "gt_first_signal": "adservice_cpu",
+   "gt_delay_s": 14.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 5
+  },
+  {
+   "case": "re1ob_adservice_loss_3",
+   "fault": "loss",
+   "ground_truth": "adservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 1,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "adservice",
+    "checkoutservice",
+    "frontend"
+   ],
+   "gt_first_signal": "adservice_cpu",
+   "gt_delay_s": 13.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 3
+  },
+  {
+   "case": "re1ob_adservice_loss_4",
+   "fault": "loss",
+   "ground_truth": "adservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 3,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "adservice",
+    "productcatalogservice"
+   ],
+   "gt_first_signal": "adservice_cpu",
+   "gt_delay_s": 3.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 4
+  },
+  {
+   "case": "re1ob_adservice_loss_5",
+   "fault": "loss",
+   "ground_truth": "adservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 0,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "adservice",
+    "frontend",
+    "checkoutservice"
+   ],
+   "gt_first_signal": "adservice_cpu",
+   "gt_delay_s": 11.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 4
+  },
+  {
+   "case": "re1ob_adservice_mem_1",
+   "fault": "mem",
+   "ground_truth": "adservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 12,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "cartservice",
+    "checkoutservice",
+    "currencyservice"
+   ],
+   "gt_first_signal": "adservice_cpu",
+   "gt_delay_s": 16.0,
+   "gt_episode_started_before_inject": true,
+   "episodes_starting_after_inject": 12
+  },
+  {
+   "case": "re1ob_adservice_mem_2",
+   "fault": "mem",
+   "ground_truth": "adservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 12,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "cartservice",
+    "checkoutservice",
+    "currencyservice"
+   ],
+   "gt_first_signal": "adservice_cpu",
+   "gt_delay_s": 11.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 15
+  },
+  {
+   "case": "re1ob_adservice_mem_3",
+   "fault": "mem",
+   "ground_truth": "adservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 12,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "emailservice",
+    "frontend-external",
+    "adservice"
+   ],
+   "gt_first_signal": "adservice_cpu",
+   "gt_delay_s": 11.0,
+   "gt_episode_started_before_inject": true,
+   "episodes_starting_after_inject": 17
+  },
+  {
+   "case": "re1ob_adservice_mem_4",
+   "fault": "mem",
+   "ground_truth": "adservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 11,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "cartservice",
+    "checkoutservice",
+    "currencyservice"
+   ],
+   "gt_first_signal": "adservice_cpu",
+   "gt_delay_s": 12.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 13
+  },
+  {
+   "case": "re1ob_adservice_mem_5",
+   "fault": "mem",
+   "ground_truth": "adservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 12,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "redis",
+    "emailservice",
+    "paymentservice"
+   ],
+   "gt_first_signal": "adservice_cpu",
+   "gt_delay_s": 12.0,
+   "gt_episode_started_before_inject": true,
+   "episodes_starting_after_inject": 11
+  },
+  {
+   "case": "re1ob_cartservice_cpu_1",
+   "fault": "cpu",
+   "ground_truth": "cartservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 12,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "adservice",
+    "cartservice",
+    "checkoutservice"
+   ],
+   "gt_first_signal": "cartservice_latency",
+   "gt_delay_s": 0.0,
+   "gt_episode_started_before_inject": true,
+   "episodes_starting_after_inject": 20
+  },
+  {
+   "case": "re1ob_cartservice_cpu_2",
+   "fault": "cpu",
+   "ground_truth": "cartservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 12,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "cartservice",
+    "frontend",
+    "recommendationservice"
+   ],
+   "gt_first_signal": "cartservice_cpu",
+   "gt_delay_s": 15.0,
+   "gt_episode_started_before_inject": true,
+   "episodes_starting_after_inject": 25
+  },
+  {
+   "case": "re1ob_cartservice_cpu_3",
+   "fault": "cpu",
+   "ground_truth": "cartservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 12,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "adservice",
+    "cartservice",
+    "checkoutservice"
+   ],
+   "gt_first_signal": "cartservice_latency",
+   "gt_delay_s": 0.0,
+   "gt_episode_started_before_inject": true,
+   "episodes_starting_after_inject": 13
+  },
+  {
+   "case": "re1ob_cartservice_cpu_4",
+   "fault": "cpu",
+   "ground_truth": "cartservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 12,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "checkoutservice",
+    "currencyservice",
+    "frontend"
+   ],
+   "gt_first_signal": "cartservice_cpu",
+   "gt_delay_s": 14.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 22
+  },
+  {
+   "case": "re1ob_cartservice_cpu_5",
+   "fault": "cpu",
+   "ground_truth": "cartservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 12,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "cartservice",
+    "checkoutservice",
+    "currencyservice"
+   ],
+   "gt_first_signal": "cartservice_latency",
+   "gt_delay_s": 0.0,
+   "gt_episode_started_before_inject": true,
+   "episodes_starting_after_inject": 16
+  },
+  {
+   "case": "re1ob_cartservice_delay_1",
+   "fault": "delay",
+   "ground_truth": "cartservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 3,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "frontend",
+    "cartservice",
+    "checkoutservice"
+   ],
+   "gt_first_signal": "cartservice_latency-90",
+   "gt_delay_s": 8.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 6
+  },
+  {
+   "case": "re1ob_cartservice_delay_2",
+   "fault": "delay",
+   "ground_truth": "cartservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 2,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "frontend",
+    "cartservice",
+    "checkoutservice"
+   ],
+   "gt_first_signal": "cartservice_latency-90",
+   "gt_delay_s": 10.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 4
+  },
+  {
+   "case": "re1ob_cartservice_delay_3",
+   "fault": "delay",
+   "ground_truth": "cartservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 1,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "frontend",
+    "cartservice",
+    "checkoutservice"
+   ],
+   "gt_first_signal": "cartservice_latency-90",
+   "gt_delay_s": 11.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 4
+  },
+  {
+   "case": "re1ob_cartservice_delay_4",
+   "fault": "delay",
+   "ground_truth": "cartservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 0,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "frontend",
+    "cartservice",
+    "checkoutservice"
+   ],
+   "gt_first_signal": "cartservice_latency-90",
+   "gt_delay_s": 10.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 5
+  },
+  {
+   "case": "re1ob_cartservice_delay_5",
+   "fault": "delay",
+   "ground_truth": "cartservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 1,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "frontend",
+    "cartservice",
+    "checkoutservice"
+   ],
+   "gt_first_signal": "cartservice_latency-90",
+   "gt_delay_s": 14.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 6
+  },
+  {
+   "case": "re1ob_cartservice_disk_1",
+   "fault": "disk",
+   "ground_truth": "cartservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 1,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "frontend",
+    "checkoutservice",
+    "cartservice"
+   ],
+   "gt_first_signal": "cartservice_cpu",
+   "gt_delay_s": 12.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 5
+  },
+  {
+   "case": "re1ob_cartservice_disk_2",
+   "fault": "disk",
+   "ground_truth": "cartservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 3,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "cartservice",
+    "checkoutservice",
+    "frontend"
+   ],
+   "gt_first_signal": "cartservice_cpu",
+   "gt_delay_s": 9.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 4
+  },
+  {
+   "case": "re1ob_cartservice_disk_3",
+   "fault": "disk",
+   "ground_truth": "cartservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 3,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "paymentservice",
+    "productcatalogservice",
+    "cartservice"
+   ],
+   "gt_first_signal": "cartservice_cpu",
+   "gt_delay_s": 7.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 3
+  },
+  {
+   "case": "re1ob_cartservice_disk_4",
+   "fault": "disk",
+   "ground_truth": "cartservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 1,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "cartservice",
+    "frontend"
+   ],
+   "gt_first_signal": "cartservice_cpu",
+   "gt_delay_s": 12.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 2
+  },
+  {
+   "case": "re1ob_cartservice_disk_5",
+   "fault": "disk",
+   "ground_truth": "cartservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 1,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "cartservice",
+    "checkoutservice"
+   ],
+   "gt_first_signal": "cartservice_cpu",
+   "gt_delay_s": 15.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 2
+  },
+  {
+   "case": "re1ob_cartservice_loss_1",
+   "fault": "loss",
+   "ground_truth": "cartservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 3,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "frontend",
+    "cartservice",
+    "checkoutservice"
+   ],
+   "gt_first_signal": "cartservice_latency-90",
+   "gt_delay_s": 25.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 3
+  },
+  {
+   "case": "re1ob_cartservice_loss_2",
+   "fault": "loss",
+   "ground_truth": "cartservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 4,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "recommendationservice",
+    "cartservice",
+    "frontend-external"
+   ],
+   "gt_first_signal": "cartservice_latency-90",
+   "gt_delay_s": 4.0,
+   "gt_episode_started_before_inject": true,
+   "episodes_starting_after_inject": 4
+  },
+  {
+   "case": "re1ob_cartservice_loss_3",
+   "fault": "loss",
+   "ground_truth": "cartservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 2,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "cartservice"
+   ],
+   "gt_first_signal": "cartservice_latency-90",
+   "gt_delay_s": 59.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 2
+  },
+  {
+   "case": "re1ob_cartservice_loss_4",
+   "fault": "loss",
+   "ground_truth": "cartservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 5,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": false,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "checkoutservice",
+    "emailservice"
+   ],
+   "gt_first_signal": null,
+   "gt_delay_s": null,
+   "gt_episode_started_before_inject": null,
+   "episodes_starting_after_inject": 0
+  },
+  {
+   "case": "re1ob_cartservice_loss_5",
+   "fault": "loss",
+   "ground_truth": "cartservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 2,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "cartservice",
+    "adservice",
+    "productcatalogservice"
+   ],
+   "gt_first_signal": "cartservice_workload",
+   "gt_delay_s": 9.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 6
+  },
+  {
+   "case": "re1ob_cartservice_mem_1",
+   "fault": "mem",
+   "ground_truth": "cartservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 12,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "adservice",
+    "checkoutservice",
+    "currencyservice"
+   ],
+   "gt_first_signal": "cartservice_cpu",
+   "gt_delay_s": 7.0,
+   "gt_episode_started_before_inject": true,
+   "episodes_starting_after_inject": 16
+  },
+  {
+   "case": "re1ob_cartservice_mem_2",
+   "fault": "mem",
+   "ground_truth": "cartservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 11,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "cartservice",
+    "checkoutservice",
+    "currencyservice"
+   ],
+   "gt_first_signal": "cartservice_latency",
+   "gt_delay_s": 0.0,
+   "gt_episode_started_before_inject": true,
+   "episodes_starting_after_inject": 17
+  },
+  {
+   "case": "re1ob_cartservice_mem_3",
+   "fault": "mem",
+   "ground_truth": "cartservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 12,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "cartservice",
+    "checkoutservice",
+    "currencyservice"
+   ],
+   "gt_first_signal": "cartservice_latency",
+   "gt_delay_s": 0.0,
+   "gt_episode_started_before_inject": true,
+   "episodes_starting_after_inject": 16
+  },
+  {
+   "case": "re1ob_cartservice_mem_4",
+   "fault": "mem",
+   "ground_truth": "cartservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 12,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "cartservice",
+    "checkoutservice",
+    "currencyservice"
+   ],
+   "gt_first_signal": "cartservice_latency",
+   "gt_delay_s": 0.0,
+   "gt_episode_started_before_inject": true,
+   "episodes_starting_after_inject": 15
+  },
+  {
+   "case": "re1ob_cartservice_mem_5",
+   "fault": "mem",
+   "ground_truth": "cartservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 12,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "cartservice",
+    "checkoutservice",
+    "currencyservice"
+   ],
+   "gt_first_signal": "cartservice_latency",
+   "gt_delay_s": 0.0,
+   "gt_episode_started_before_inject": true,
+   "episodes_starting_after_inject": 13
+  },
+  {
+   "case": "re1ob_checkoutservice_cpu_1",
+   "fault": "cpu",
+   "ground_truth": "checkoutservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 10,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "cartservice",
+    "checkoutservice",
+    "currencyservice"
+   ],
+   "gt_first_signal": "checkoutservice_load",
+   "gt_delay_s": 0.0,
+   "gt_episode_started_before_inject": true,
+   "episodes_starting_after_inject": 11
+  },
+  {
+   "case": "re1ob_checkoutservice_cpu_2",
+   "fault": "cpu",
+   "ground_truth": "checkoutservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 12,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "cartservice",
+    "checkoutservice",
+    "currencyservice"
+   ],
+   "gt_first_signal": "checkoutservice_load",
+   "gt_delay_s": 0.0,
+   "gt_episode_started_before_inject": true,
+   "episodes_starting_after_inject": 10
+  },
+  {
+   "case": "re1ob_checkoutservice_cpu_3",
+   "fault": "cpu",
+   "ground_truth": "checkoutservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 12,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "cartservice",
+    "checkoutservice",
+    "currencyservice"
+   ],
+   "gt_first_signal": "checkoutservice_load",
+   "gt_delay_s": 0.0,
+   "gt_episode_started_before_inject": true,
+   "episodes_starting_after_inject": 21
+  },
+  {
+   "case": "re1ob_checkoutservice_cpu_4",
+   "fault": "cpu",
+   "ground_truth": "checkoutservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 12,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "checkoutservice",
+    "paymentservice",
+    "cartservice"
+   ],
+   "gt_first_signal": "checkoutservice_load",
+   "gt_delay_s": 0.0,
+   "gt_episode_started_before_inject": true,
+   "episodes_starting_after_inject": 4
+  },
+  {
+   "case": "re1ob_checkoutservice_cpu_5",
+   "fault": "cpu",
+   "ground_truth": "checkoutservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 11,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "checkoutservice",
+    "frontend",
+    "cartservice"
+   ],
+   "gt_first_signal": "checkoutservice_latency",
+   "gt_delay_s": 0.0,
+   "gt_episode_started_before_inject": true,
+   "episodes_starting_after_inject": 26
+  },
+  {
+   "case": "re1ob_checkoutservice_delay_1",
+   "fault": "delay",
+   "ground_truth": "checkoutservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 4,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "checkoutservice",
+    "emailservice",
+    "frontend"
+   ],
+   "gt_first_signal": "checkoutservice_latency-90",
+   "gt_delay_s": 13.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 4
+  },
+  {
+   "case": "re1ob_checkoutservice_delay_2",
+   "fault": "delay",
+   "ground_truth": "checkoutservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 0,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "checkoutservice",
+    "frontend",
+    "productcatalogservice"
+   ],
+   "gt_first_signal": "checkoutservice_latency-90",
+   "gt_delay_s": 15.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 5
+  },
+  {
+   "case": "re1ob_checkoutservice_delay_3",
+   "fault": "delay",
+   "ground_truth": "checkoutservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 1,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "frontend",
+    "checkoutservice",
+    "paymentservice"
+   ],
+   "gt_first_signal": "checkoutservice_latency-90",
+   "gt_delay_s": 19.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 5
+  },
+  {
+   "case": "re1ob_checkoutservice_delay_4",
+   "fault": "delay",
+   "ground_truth": "checkoutservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 3,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "checkoutservice",
+    "frontend",
+    "frontend-external"
+   ],
+   "gt_first_signal": "checkoutservice_latency-90",
+   "gt_delay_s": 11.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 6
+  },
+  {
+   "case": "re1ob_checkoutservice_delay_5",
+   "fault": "delay",
+   "ground_truth": "checkoutservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 2,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "checkoutservice",
+    "frontend"
+   ],
+   "gt_first_signal": "checkoutservice_latency-90",
+   "gt_delay_s": 15.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 2
+  },
+  {
+   "case": "re1ob_checkoutservice_disk_1",
+   "fault": "disk",
+   "ground_truth": "checkoutservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 2,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "frontend",
+    "cartservice",
+    "checkoutservice"
+   ],
+   "gt_first_signal": "checkoutservice_cpu",
+   "gt_delay_s": 5.0,
+   "gt_episode_started_before_inject": true,
+   "episodes_starting_after_inject": 1
+  },
+  {
+   "case": "re1ob_checkoutservice_disk_2",
+   "fault": "disk",
+   "ground_truth": "checkoutservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 4,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "adservice",
+    "checkoutservice",
+    "frontend-external"
+   ],
+   "gt_first_signal": "checkoutservice_cpu",
+   "gt_delay_s": 9.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 4
+  },
+  {
+   "case": "re1ob_checkoutservice_disk_3",
+   "fault": "disk",
+   "ground_truth": "checkoutservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 4,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "checkoutservice",
+    "frontend",
+    "cartservice"
+   ],
+   "gt_first_signal": "checkoutservice_cpu",
+   "gt_delay_s": 5.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 5
+  },
+  {
+   "case": "re1ob_checkoutservice_disk_4",
+   "fault": "disk",
+   "ground_truth": "checkoutservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 2,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "checkoutservice"
+   ],
+   "gt_first_signal": "checkoutservice_cpu",
+   "gt_delay_s": 7.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 1
+  },
+  {
+   "case": "re1ob_checkoutservice_disk_5",
+   "fault": "disk",
+   "ground_truth": "checkoutservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 0,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "checkoutservice",
+    "adservice"
+   ],
+   "gt_first_signal": "checkoutservice_cpu",
+   "gt_delay_s": 17.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 2
+  },
+  {
+   "case": "re1ob_checkoutservice_loss_1",
+   "fault": "loss",
+   "ground_truth": "checkoutservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 1,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "checkoutservice",
+    "emailservice",
+    "cartservice"
+   ],
+   "gt_first_signal": "checkoutservice_cpu",
+   "gt_delay_s": 8.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 8
+  },
+  {
+   "case": "re1ob_checkoutservice_loss_2",
+   "fault": "loss",
+   "ground_truth": "checkoutservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 1,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "checkoutservice",
+    "emailservice",
+    "paymentservice"
+   ],
+   "gt_first_signal": "checkoutservice_cpu",
+   "gt_delay_s": 9.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 5
+  },
+  {
+   "case": "re1ob_checkoutservice_loss_3",
+   "fault": "loss",
+   "ground_truth": "checkoutservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 2,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "checkoutservice",
+    "frontend-external",
+    "frontend"
+   ],
+   "gt_first_signal": "checkoutservice_cpu",
+   "gt_delay_s": 10.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 3
+  },
+  {
+   "case": "re1ob_checkoutservice_loss_4",
+   "fault": "loss",
+   "ground_truth": "checkoutservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 0,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "checkoutservice",
+    "emailservice"
+   ],
+   "gt_first_signal": "checkoutservice_cpu",
+   "gt_delay_s": 7.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 2
+  },
+  {
+   "case": "re1ob_checkoutservice_loss_5",
+   "fault": "loss",
+   "ground_truth": "checkoutservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 1,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "checkoutservice",
+    "emailservice",
+    "recommendationservice"
+   ],
+   "gt_first_signal": "checkoutservice_cpu",
+   "gt_delay_s": 19.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 4
+  },
+  {
+   "case": "re1ob_checkoutservice_mem_1",
+   "fault": "mem",
+   "ground_truth": "checkoutservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 7,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "checkoutservice",
+    "frontend",
+    "paymentservice"
+   ],
+   "gt_first_signal": "checkoutservice_latency",
+   "gt_delay_s": 10.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 29
+  },
+  {
+   "case": "re1ob_checkoutservice_mem_2",
+   "fault": "mem",
+   "ground_truth": "checkoutservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 9,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "checkoutservice",
+    "paymentservice",
+    "frontend"
+   ],
+   "gt_first_signal": "checkoutservice_load",
+   "gt_delay_s": 0.0,
+   "gt_episode_started_before_inject": true,
+   "episodes_starting_after_inject": 9
+  },
+  {
+   "case": "re1ob_checkoutservice_mem_3",
+   "fault": "mem",
+   "ground_truth": "checkoutservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 5,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "checkoutservice",
+    "paymentservice",
+    "emailservice"
+   ],
+   "gt_first_signal": "checkoutservice_cpu",
+   "gt_delay_s": 17.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 20
+  },
+  {
+   "case": "re1ob_checkoutservice_mem_4",
+   "fault": "mem",
+   "ground_truth": "checkoutservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 3,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "checkoutservice",
+    "frontend-external",
+    "frontend"
+   ],
+   "gt_first_signal": "checkoutservice_cpu",
+   "gt_delay_s": 4.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 16
+  },
+  {
+   "case": "re1ob_checkoutservice_mem_5",
+   "fault": "mem",
+   "ground_truth": "checkoutservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 4,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "adservice",
+    "emailservice",
+    "checkoutservice"
+   ],
+   "gt_first_signal": "checkoutservice_latency",
+   "gt_delay_s": 14.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 12
+  },
+  {
+   "case": "re1ob_currencyservice_cpu_1",
+   "fault": "cpu",
+   "ground_truth": "currencyservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 7,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "checkoutservice",
+    "paymentservice",
+    "currencyservice"
+   ],
+   "gt_first_signal": "currencyservice_cpu",
+   "gt_delay_s": 19.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 27
+  },
+  {
+   "case": "re1ob_currencyservice_cpu_2",
+   "fault": "cpu",
+   "ground_truth": "currencyservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 12,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "checkoutservice",
+    "currencyservice",
+    "emailservice"
+   ],
+   "gt_first_signal": "currencyservice_cpu",
+   "gt_delay_s": 0.0,
+   "gt_episode_started_before_inject": true,
+   "episodes_starting_after_inject": 15
+  },
+  {
+   "case": "re1ob_currencyservice_cpu_3",
+   "fault": "cpu",
+   "ground_truth": "currencyservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 12,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "adservice",
+    "cartservice",
+    "checkoutservice"
+   ],
+   "gt_first_signal": "currencyservice_cpu",
+   "gt_delay_s": 10.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 12
+  },
+  {
+   "case": "re1ob_currencyservice_cpu_4",
+   "fault": "cpu",
+   "ground_truth": "currencyservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 11,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "cartservice",
+    "checkoutservice",
+    "currencyservice"
+   ],
+   "gt_first_signal": "currencyservice_latency",
+   "gt_delay_s": 0.0,
+   "gt_episode_started_before_inject": true,
+   "episodes_starting_after_inject": 18
+  },
+  {
+   "case": "re1ob_currencyservice_cpu_5",
+   "fault": "cpu",
+   "ground_truth": "currencyservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 12,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "checkoutservice",
+    "currencyservice",
+    "emailservice"
+   ],
+   "gt_first_signal": "currencyservice_cpu",
+   "gt_delay_s": 0.0,
+   "gt_episode_started_before_inject": true,
+   "episodes_starting_after_inject": 15
+  },
+  {
+   "case": "re1ob_currencyservice_delay_1",
+   "fault": "delay",
+   "ground_truth": "currencyservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 1,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "frontend",
+    "checkoutservice",
+    "currencyservice"
+   ],
+   "gt_first_signal": "currencyservice_latency-90",
+   "gt_delay_s": 18.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 4
+  },
+  {
+   "case": "re1ob_currencyservice_delay_2",
+   "fault": "delay",
+   "ground_truth": "currencyservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 0,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "checkoutservice",
+    "frontend",
+    "currencyservice"
+   ],
+   "gt_first_signal": "currencyservice_latency-90",
+   "gt_delay_s": 18.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 4
+  },
+  {
+   "case": "re1ob_currencyservice_delay_3",
+   "fault": "delay",
+   "ground_truth": "currencyservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 3,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "checkoutservice",
+    "frontend",
+    "currencyservice"
+   ],
+   "gt_first_signal": "currencyservice_latency-90",
+   "gt_delay_s": 19.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 4
+  },
+  {
+   "case": "re1ob_currencyservice_delay_4",
+   "fault": "delay",
+   "ground_truth": "currencyservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 0,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "frontend",
+    "checkoutservice",
+    "currencyservice"
+   ],
+   "gt_first_signal": "currencyservice_latency-90",
+   "gt_delay_s": 21.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 5
+  },
+  {
+   "case": "re1ob_currencyservice_delay_5",
+   "fault": "delay",
+   "ground_truth": "currencyservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 2,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "checkoutservice",
+    "frontend",
+    "currencyservice"
+   ],
+   "gt_first_signal": "currencyservice_latency-90",
+   "gt_delay_s": 16.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 4
+  },
+  {
+   "case": "re1ob_currencyservice_disk_1",
+   "fault": "disk",
+   "ground_truth": "currencyservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 0,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "checkoutservice",
+    "currencyservice",
+    "emailservice"
+   ],
+   "gt_first_signal": "currencyservice_latency-90",
+   "gt_delay_s": 26.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 9
+  },
+  {
+   "case": "re1ob_currencyservice_disk_2",
+   "fault": "disk",
+   "ground_truth": "currencyservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 3,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": false,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "checkoutservice"
+   ],
+   "gt_first_signal": null,
+   "gt_delay_s": null,
+   "gt_episode_started_before_inject": null,
+   "episodes_starting_after_inject": 1
+  },
+  {
+   "case": "re1ob_currencyservice_disk_3",
+   "fault": "disk",
+   "ground_truth": "currencyservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 0,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "checkoutservice",
+    "currencyservice"
+   ],
+   "gt_first_signal": "currencyservice_cpu",
+   "gt_delay_s": 48.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 2
+  },
+  {
+   "case": "re1ob_currencyservice_disk_4",
+   "fault": "disk",
+   "ground_truth": "currencyservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 3,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": false,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "checkoutservice",
+    "frontend"
+   ],
+   "gt_first_signal": null,
+   "gt_delay_s": null,
+   "gt_episode_started_before_inject": null,
+   "episodes_starting_after_inject": 2
+  },
+  {
+   "case": "re1ob_currencyservice_disk_5",
+   "fault": "disk",
+   "ground_truth": "currencyservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 2,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": false,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "checkoutservice"
+   ],
+   "gt_first_signal": null,
+   "gt_delay_s": null,
+   "gt_episode_started_before_inject": null,
+   "episodes_starting_after_inject": 1
+  },
+  {
+   "case": "re1ob_currencyservice_loss_1",
+   "fault": "loss",
+   "ground_truth": "currencyservice",
+   "has_fault_period": false,
+   "services_anomalous_before_inject": 0,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": false,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "frontend",
+    "cartservice",
+    "checkoutservice"
+   ],
+   "gt_first_signal": null,
+   "gt_delay_s": null,
+   "gt_episode_started_before_inject": null,
+   "episodes_starting_after_inject": 9
+  },
+  {
+   "case": "re1ob_currencyservice_loss_2",
+   "fault": "loss",
+   "ground_truth": "currencyservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 2,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": false,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "productcatalogservice",
+    "paymentservice",
+    "checkoutservice"
+   ],
+   "gt_first_signal": null,
+   "gt_delay_s": null,
+   "gt_episode_started_before_inject": null,
+   "episodes_starting_after_inject": 7
+  },
+  {
+   "case": "re1ob_currencyservice_loss_3",
+   "fault": "loss",
+   "ground_truth": "currencyservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 4,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": false,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "recommendationservice",
+    "productcatalogservice",
+    "cartservice"
+   ],
+   "gt_first_signal": null,
+   "gt_delay_s": null,
+   "gt_episode_started_before_inject": null,
+   "episodes_starting_after_inject": 3
+  },
+  {
+   "case": "re1ob_currencyservice_loss_4",
+   "fault": "loss",
+   "ground_truth": "currencyservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 0,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": false,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "productcatalogservice"
+   ],
+   "gt_first_signal": null,
+   "gt_delay_s": null,
+   "gt_episode_started_before_inject": null,
+   "episodes_starting_after_inject": 1
+  },
+  {
+   "case": "re1ob_currencyservice_loss_5",
+   "fault": "loss",
+   "ground_truth": "currencyservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 1,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "productcatalogservice",
+    "frontend-external",
+    "recommendationservice"
+   ],
+   "gt_first_signal": "currencyservice_workload",
+   "gt_delay_s": 197.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 3
+  },
+  {
+   "case": "re1ob_currencyservice_mem_1",
+   "fault": "mem",
+   "ground_truth": "currencyservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 1,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "currencyservice",
+    "frontend",
+    "checkoutservice"
+   ],
+   "gt_first_signal": "currencyservice_cpu",
+   "gt_delay_s": 7.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 17
+  },
+  {
+   "case": "re1ob_currencyservice_mem_2",
+   "fault": "mem",
+   "ground_truth": "currencyservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 6,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "paymentservice",
+    "frontend",
+    "checkoutservice"
+   ],
+   "gt_first_signal": "currencyservice_cpu",
+   "gt_delay_s": 15.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 18
+  },
+  {
+   "case": "re1ob_currencyservice_mem_3",
+   "fault": "mem",
+   "ground_truth": "currencyservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 4,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "currencyservice",
+    "frontend",
+    "checkoutservice"
+   ],
+   "gt_first_signal": "currencyservice_cpu",
+   "gt_delay_s": 6.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 20
+  },
+  {
+   "case": "re1ob_currencyservice_mem_4",
+   "fault": "mem",
+   "ground_truth": "currencyservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 12,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "cartservice",
+    "checkoutservice",
+    "frontend"
+   ],
+   "gt_first_signal": "currencyservice_cpu",
+   "gt_delay_s": 10.0,
+   "gt_episode_started_before_inject": true,
+   "episodes_starting_after_inject": 27
+  },
+  {
+   "case": "re1ob_currencyservice_mem_5",
+   "fault": "mem",
+   "ground_truth": "currencyservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 12,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "adservice",
+    "cartservice",
+    "checkoutservice"
+   ],
+   "gt_first_signal": "currencyservice_cpu",
+   "gt_delay_s": 3.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 22
+  },
+  {
+   "case": "re1ob_productcatalogservice_cpu_1",
+   "fault": "cpu",
+   "ground_truth": "productcatalogservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 3,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "frontend-external",
+    "productcatalogservice",
+    "paymentservice"
+   ],
+   "gt_first_signal": "productcatalogservice_cpu",
+   "gt_delay_s": 10.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 9
+  },
+  {
+   "case": "re1ob_productcatalogservice_cpu_2",
+   "fault": "cpu",
+   "ground_truth": "productcatalogservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 5,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "productcatalogservice",
+    "checkoutservice",
+    "cartservice"
+   ],
+   "gt_first_signal": "productcatalogservice_cpu",
+   "gt_delay_s": 6.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 7
+  },
+  {
+   "case": "re1ob_productcatalogservice_cpu_3",
+   "fault": "cpu",
+   "ground_truth": "productcatalogservice",
+   "has_fault_period": false,
+   "services_anomalous_before_inject": 0,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": false,
+   "gt_first_after_inject": false,
+   "first_after_inject": [],
+   "gt_first_signal": null,
+   "gt_delay_s": null,
+   "gt_episode_started_before_inject": null,
+   "episodes_starting_after_inject": 0
+  },
+  {
+   "case": "re1ob_productcatalogservice_cpu_4",
+   "fault": "cpu",
+   "ground_truth": "productcatalogservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 12,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "checkoutservice",
+    "currencyservice",
+    "shippingservice"
+   ],
+   "gt_first_signal": "productcatalogservice_cpu",
+   "gt_delay_s": 18.0,
+   "gt_episode_started_before_inject": true,
+   "episodes_starting_after_inject": 26
+  },
+  {
+   "case": "re1ob_productcatalogservice_cpu_5",
+   "fault": "cpu",
+   "ground_truth": "productcatalogservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 11,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "cartservice",
+    "checkoutservice",
+    "currencyservice"
+   ],
+   "gt_first_signal": "productcatalogservice_latency",
+   "gt_delay_s": 0.0,
+   "gt_episode_started_before_inject": true,
+   "episodes_starting_after_inject": 25
+  },
+  {
+   "case": "re1ob_productcatalogservice_delay_1",
+   "fault": "delay",
+   "ground_truth": "productcatalogservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 1,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "frontend",
+    "recommendationservice",
+    "checkoutservice"
+   ],
+   "gt_first_signal": "productcatalogservice_latency-90",
+   "gt_delay_s": 22.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 5
+  },
+  {
+   "case": "re1ob_productcatalogservice_delay_2",
+   "fault": "delay",
+   "ground_truth": "productcatalogservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 1,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "checkoutservice",
+    "frontend",
+    "recommendationservice"
+   ],
+   "gt_first_signal": "productcatalogservice_latency-90",
+   "gt_delay_s": 19.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 5
+  },
+  {
+   "case": "re1ob_productcatalogservice_delay_3",
+   "fault": "delay",
+   "ground_truth": "productcatalogservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 1,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "recommendationservice",
+    "frontend",
+    "checkoutservice"
+   ],
+   "gt_first_signal": "productcatalogservice_latency-90",
+   "gt_delay_s": 20.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 4
+  },
+  {
+   "case": "re1ob_productcatalogservice_delay_4",
+   "fault": "delay",
+   "ground_truth": "productcatalogservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 1,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "frontend",
+    "recommendationservice",
+    "checkoutservice"
+   ],
+   "gt_first_signal": "productcatalogservice_latency-90",
+   "gt_delay_s": 19.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 5
+  },
+  {
+   "case": "re1ob_productcatalogservice_delay_5",
+   "fault": "delay",
+   "ground_truth": "productcatalogservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 2,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "frontend",
+    "recommendationservice",
+    "checkoutservice"
+   ],
+   "gt_first_signal": "productcatalogservice_latency-90",
+   "gt_delay_s": 18.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 8
+  },
+  {
+   "case": "re1ob_productcatalogservice_disk_1",
+   "fault": "disk",
+   "ground_truth": "productcatalogservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 1,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "checkoutservice",
+    "productcatalogservice",
+    "frontend"
+   ],
+   "gt_first_signal": "productcatalogservice_cpu",
+   "gt_delay_s": 28.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 4
+  },
+  {
+   "case": "re1ob_productcatalogservice_disk_2",
+   "fault": "disk",
+   "ground_truth": "productcatalogservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 3,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "productcatalogservice",
+    "checkoutservice",
+    "frontend"
+   ],
+   "gt_first_signal": "productcatalogservice_cpu",
+   "gt_delay_s": 18.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 5
+  },
+  {
+   "case": "re1ob_productcatalogservice_disk_3",
+   "fault": "disk",
+   "ground_truth": "productcatalogservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 0,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "productcatalogservice",
+    "cartservice",
+    "adservice"
+   ],
+   "gt_first_signal": "productcatalogservice_cpu",
+   "gt_delay_s": 23.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 3
+  },
+  {
+   "case": "re1ob_productcatalogservice_disk_4",
+   "fault": "disk",
+   "ground_truth": "productcatalogservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 4,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "productcatalogservice"
+   ],
+   "gt_first_signal": "productcatalogservice_cpu",
+   "gt_delay_s": 22.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 1
+  },
+  {
+   "case": "re1ob_productcatalogservice_disk_5",
+   "fault": "disk",
+   "ground_truth": "productcatalogservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 4,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "productcatalogservice",
+    "checkoutservice",
+    "emailservice"
+   ],
+   "gt_first_signal": "productcatalogservice_cpu",
+   "gt_delay_s": 23.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 4
+  },
+  {
+   "case": "re1ob_productcatalogservice_loss_1",
+   "fault": "loss",
+   "ground_truth": "productcatalogservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 1,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": false,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "checkoutservice",
+    "emailservice",
+    "frontend-external"
+   ],
+   "gt_first_signal": null,
+   "gt_delay_s": null,
+   "gt_episode_started_before_inject": null,
+   "episodes_starting_after_inject": 5
+  },
+  {
+   "case": "re1ob_productcatalogservice_loss_2",
+   "fault": "loss",
+   "ground_truth": "productcatalogservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 4,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": false,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "frontend",
+    "checkoutservice",
+    "frontend-external"
+   ],
+   "gt_first_signal": null,
+   "gt_delay_s": null,
+   "gt_episode_started_before_inject": null,
+   "episodes_starting_after_inject": 4
+  },
+  {
+   "case": "re1ob_productcatalogservice_loss_3",
+   "fault": "loss",
+   "ground_truth": "productcatalogservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 1,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": false,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "frontend",
+    "checkoutservice",
+    "emailservice"
+   ],
+   "gt_first_signal": null,
+   "gt_delay_s": null,
+   "gt_episode_started_before_inject": null,
+   "episodes_starting_after_inject": 5
+  },
+  {
+   "case": "re1ob_productcatalogservice_loss_4",
+   "fault": "loss",
+   "ground_truth": "productcatalogservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 4,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "frontend",
+    "productcatalogservice",
+    "checkoutservice"
+   ],
+   "gt_first_signal": "productcatalogservice_mem",
+   "gt_delay_s": 3.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 3
+  },
+  {
+   "case": "re1ob_productcatalogservice_loss_5",
+   "fault": "loss",
+   "ground_truth": "productcatalogservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 2,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": false,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "frontend",
+    "checkoutservice",
+    "cartservice"
+   ],
+   "gt_first_signal": null,
+   "gt_delay_s": null,
+   "gt_episode_started_before_inject": null,
+   "episodes_starting_after_inject": 4
+  },
+  {
+   "case": "re1ob_productcatalogservice_mem_1",
+   "fault": "mem",
+   "ground_truth": "productcatalogservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 6,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "frontend",
+    "cartservice",
+    "productcatalogservice"
+   ],
+   "gt_first_signal": "productcatalogservice_cpu",
+   "gt_delay_s": 6.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 27
+  },
+  {
+   "case": "re1ob_productcatalogservice_mem_2",
+   "fault": "mem",
+   "ground_truth": "productcatalogservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 7,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": false,
+   "first_after_inject": [
+    "frontend",
+    "checkoutservice",
+    "productcatalogservice"
+   ],
+   "gt_first_signal": "productcatalogservice_cpu",
+   "gt_delay_s": 17.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 18
+  },
+  {
+   "case": "re1ob_productcatalogservice_mem_3",
+   "fault": "mem",
+   "ground_truth": "productcatalogservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 8,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "productcatalogservice",
+    "checkoutservice",
+    "frontend"
+   ],
+   "gt_first_signal": "productcatalogservice_cpu",
+   "gt_delay_s": 6.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 20
+  },
+  {
+   "case": "re1ob_productcatalogservice_mem_4",
+   "fault": "mem",
+   "ground_truth": "productcatalogservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 4,
+   "gt_anomalous_before_inject": false,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "frontend",
+    "productcatalogservice",
+    "recommendationservice"
+   ],
+   "gt_first_signal": "productcatalogservice_cpu",
+   "gt_delay_s": 11.0,
+   "gt_episode_started_before_inject": false,
+   "episodes_starting_after_inject": 17
+  },
+  {
+   "case": "re1ob_productcatalogservice_mem_5",
+   "fault": "mem",
+   "ground_truth": "productcatalogservice",
+   "has_fault_period": true,
+   "services_anomalous_before_inject": 12,
+   "gt_anomalous_before_inject": true,
+   "gt_anomalous_after_inject": true,
+   "gt_first_after_inject": true,
+   "first_after_inject": [
+    "checkoutservice",
+    "emailservice",
+    "frontend"
+   ],
+   "gt_first_signal": "productcatalogservice_latency",
+   "gt_delay_s": 0.0,
+   "gt_episode_started_before_inject": true,
+   "episodes_starting_after_inject": 36
+  }
+ ]
+}
