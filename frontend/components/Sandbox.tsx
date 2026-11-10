@@ -2,7 +2,7 @@
 // U1 judge controls: "Judge's Chaos" (blind run, spec hidden), "Design your own outage"
 // (designed run), and the Reveal card with the backend's match verdict. Runs execute in an
 // isolated backend sandbox; the dashboard panels switch to the run's own state meanwhile.
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SERVICE_IDS, type FaultKind, type FaultSpec, type RunReveal } from "@/lib/contracts/types";
 import { useLiveData } from "@/lib/live";
 import { AbstainCaseButton, VerdictCard } from "./Guide";
@@ -161,6 +161,14 @@ export function JudgeBar() {
   const sb = live.sandbox;
   const [designOpen, setDesignOpen] = useState(false);
   const busy = sb.status === "running" || sb.status === "playing";
+
+  // the "Next up" card after the checklist opens the same design form
+  useEffect(() => {
+    const open = () => setDesignOpen(true);
+    window.addEventListener("jarvis:open-design", open);
+    return () => window.removeEventListener("jarvis:open-design", open);
+  }, []);
+
   return (
     <div data-tour="judge" className="relative flex shrink-0 flex-wrap items-center gap-2 border-b md:flex-nowrap md:gap-4 border-rule bg-paper px-3 py-2 md:h-[50px] md:px-5 md:py-0">
       <div

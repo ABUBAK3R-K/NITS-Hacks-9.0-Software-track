@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { FAULT_TYPES, type FaultType, type IngestResult } from "@/lib/contracts/types";
 import { useLiveData } from "@/lib/live";
 import { FAULT_LABELS, istTime } from "@/lib/format";
+import { loadSampleLog } from "@/lib/sample";
 import { Logo } from "@/components/doc/Logo";
 
 const FAULT_HINT: Record<FaultType, string> = {
@@ -46,6 +47,7 @@ export function TopBar() {
 
   const onFile = async (f: File | undefined) => {
     if (!f) return;
+    if (live.sandbox.active) live.exitSandbox();
     setUpload({ name: f.name });
     try {
       const res = await live.upload(f);
@@ -61,18 +63,7 @@ export function TopBar() {
     try {
       // start clean so the sample forms its own incident instead of merging with live faults
       await live.reset();
-      const text = await (await fetch("/samples/payment_outage.log")).text();
-      const lines = text.split("\n").filter((l) => l.trim());
-      const first = Date.parse(lines[0].split(" ")[0]);
-      const shift = Date.now() - 60_000 - first;
-      const moved = lines
-        .map((l) => {
-          const sp = l.indexOf(" ");
-          const t = Date.parse(l.slice(0, sp));
-          return Number.isNaN(t) ? l : new Date(t + shift).toISOString() + l.slice(sp);
-        })
-        .join("\n");
-      onFile(new File([moved], "payment_outage.log", { type: "text/plain" }));
+      onFile(await loadSampleLog());
     } catch {
       setUpload({ name: "payment_outage.log", err: "Could not load the sample log." });
     }

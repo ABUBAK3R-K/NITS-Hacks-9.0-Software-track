@@ -79,7 +79,7 @@ export function EvidenceChips({ ids, max = 8 }: { ids: string[]; max?: number })
 function Drawer({ id, event, onClose }: { id: string; event?: Event; onClose: () => void }) {
   return (
     <div className="fixed inset-0 z-50 flex justify-end" role="dialog" aria-modal="true">
-      <button type="button" aria-label="Close" className="absolute inset-0 bg-paper" onClick={onClose} />
+      <button type="button" aria-label="Close" className="absolute inset-0 bg-paper/60 backdrop-blur-[1px]" onClick={onClose} />
       <aside className="drawer-in relative flex h-full w-[560px] flex-col border-l border-rule-strong bg-sheet">
         <header className="flex items-start justify-between border-b border-rule p-5">
           <div>

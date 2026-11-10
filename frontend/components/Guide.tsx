@@ -2,13 +2,14 @@
 // Self-serve helpers for visitors exploring alone: the "Your verdict" scoreboard, the recorded
 // abstain case file, and the "Try it in 60 seconds" checklist. Every tick and tally comes from
 // real app state (see lib/progress.ts); every number comes from a reveal, the eval, or a fixture.
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import type { EvalResults, Incident } from "@/lib/contracts/types";
 import ambiguousFx from "@/lib/contracts/fixtures/incident_ambiguous.json";
 import { api } from "@/lib/api";
 import { useLiveData } from "@/lib/live";
 import { int, istDateTime, pct } from "@/lib/format";
+import { loadSampleLog } from "@/lib/sample";
 import { markStep, recordVerdict, updateProgress, useProgress, useTourDone, type StepId } from "@/lib/progress";
 import { EvidenceProvider } from "./Evidence";
 import { AbstainedView } from "./RootCausePanel";
@@ -182,19 +183,122 @@ const STEPS: { id: StepId; label: string; how: string }[] = [
   { id: "report", label: "Open the report and Naive AI mode", how: "Press Report on the incident card, then switch on Naive AI mode." },
 ];
 
+function NextUpCard({
+  variant,
+  onCollapse,
+  onDismiss,
+}: {
+  variant: "floating" | "inline";
+  onCollapse: () => void;
+  onDismiss: () => void;
+}) {
+  const live = useLiveData();
+  const fileRef = useRef<HTMLInputElement>(null);
+  const [busy, setBusy] = useState<string | null>(null);
+  const [note, setNote] = useState<string | null>(null);
+  const [err, setErr] = useState<string | null>(null);
+
+  const sample = async () => {
+    setBusy("sample");
+    setNote(null);
+    setErr(null);
+    try {
+      if (live.sandbox.active) live.exitSandbox();
+      await live.reset();
+      const res = await live.upload(await loadSampleLog());
+      setNote(`${res.accepted} events accepted from the sample log.${res.errors.length ? ` ${res.errors[0]}` : ""}`);
+    } catch (e) {
+      setErr((e as Error).message);
+    } finally {
+      setBusy(null);
+    }
+  };
+
+  const upload = async (f: File | undefined) => {
+    if (!f) return;
+    setBusy("upload");
+    setNote(null);
+    setErr(null);
+    try {
+      if (live.sandbox.active) live.exitSandbox();
+      const res = await live.upload(f);
+      setNote(
+        `${res.accepted} events accepted${res.rejected ? `, ${res.rejected} rejected` : ""}.${res.errors.length ? ` ${res.errors[0]}` : ""}`,
+      );
+    } catch (e) {
+      setErr((e as Error).message);
+    } finally {
+      setBusy(null);
+      if (fileRef.current) fileRef.current.value = "";
+    }
+  };
+
+  const design = () => {
+    setErr(null);
+    setNote("Design form opened in the Judge bar above.");
+    window.dispatchEvent(new Event("jarvis:open-design"));
+  };
+
+  const box = variant === "floating" ? "fixed bottom-5 left-5 z-[80] w-[300px] shadow-2xl" : "w-full";
+  const action =
+    "w-full rounded-md bg-paper px-2.5 py-2 text-left ring-1 ring-rule-strong transition hover:bg-raised disabled:opacity-50";
+
+  return (
+    <div className={`fade-up rounded-xl border border-safe/40 bg-sheet p-3 ${box}`}>
+      <div className="flex items-center gap-2">
+        <span className="panel-title text-safe">Congo!</span>
+        <button type="button" onClick={onCollapse} className="ml-auto text-xs text-subtle hover:text-ink" aria-label="Collapse next steps">
+          hide
+        </button>
+        <button type="button" onClick={onDismiss} className="text-xs text-subtle hover:text-ink" aria-label="Dismiss next steps">
+          x
+        </button>
+      </div>
+      <p className="mt-2 text-sm font-semibold leading-snug text-ink">
+        You have debugged a prod issue, identified it, flagged it, and fixed it, documented it without disrupting other 5 teams.
+      </p>
+      <div className="panel-title mt-3 text-accent">Next up: explore on your own</div>
+      <div className="mt-2 space-y-1.5">
+        <button type="button" disabled={busy !== null} onClick={() => void sample()} className={action}>
+          <span className="block text-sm font-semibold text-ink">{busy === "sample" ? "Loading sample..." : "Try sample logs"}</span>
+          <span className="block text-xs text-muted">One click replay of a recorded payments outage.</span>
+        </button>
+        <button type="button" disabled={busy !== null} onClick={() => fileRef.current?.click()} className={action}>
+          <span className="block text-sm font-semibold text-ink">{busy === "upload" ? "Uploading..." : "Use your own logs"}</span>
+          <span className="block text-xs text-muted">Upload .jsonl, .csv or plain log lines.</span>
+        </button>
+        <button type="button" disabled={busy !== null} onClick={design} className={action}>
+          <span className="block text-sm font-semibold text-ink">Design your own outage</span>
+          <span className="block text-xs text-muted">Pick a service, a fault and an optional decoy.</span>
+        </button>
+      </div>
+      <input
+        ref={fileRef}
+        type="file"
+        accept=".jsonl,.json,.csv,.log,.txt"
+        className="hidden"
+        onChange={(e) => void upload(e.target.files?.[0])}
+      />
+      {note && <div className="mt-2 text-xs font-semibold text-safe">{note}</div>}
+      {err && <div className="mt-2 text-xs text-danger">{err}</div>}
+    </div>
+  );
+}
+
 export function Checklist({ variant }: { variant: "floating" | "inline" }) {
   const tourDone = useTourDone();
   const p = useProgress();
   if (!tourDone || p.checklistDismissed) return null;
   const done = STEPS.filter((s) => p.steps[s.id]).length;
   const next = STEPS.find((s) => !p.steps[s.id]);
+  const allDone = !next;
   const collapsed = p.checklistCollapsed;
   const setCollapsed = (v: boolean) => updateProgress((x) => ({ ...x, checklistCollapsed: v }));
   const dismiss = () => updateProgress((x) => ({ ...x, checklistDismissed: true }));
 
   const box =
     variant === "floating"
-      ? "fixed bottom-5 left-5 z-[80] w-[260px] shadow-2xl"
+      ? "fixed bottom-5 left-5 z-[80] w-[300px] shadow-2xl"
       : "w-full";
 
   if (collapsed)
@@ -205,10 +309,12 @@ export function Checklist({ variant }: { variant: "floating" | "inline" }) {
           onClick={() => setCollapsed(false)}
           className="fade-up rounded-full bg-sheet px-3 py-1.5 text-xs font-semibold text-ink ring-1 ring-accent/50 hover:bg-raised"
         >
-          Try it in 60 seconds <span className="font-mono text-accent">{done}/{STEPS.length}</span>
+          {allDone ? "Next up" : "Try it in 60 seconds"} <span className="font-mono text-accent">{done}/{STEPS.length}</span>
         </button>
       </div>
     );
+
+  if (allDone) return <NextUpCard variant={variant} onCollapse={() => setCollapsed(true)} onDismiss={dismiss} />;
 
   return (
     <div className={`fade-up rounded-xl border border-accent/40 bg-sheet p-3 ${box}`}>
@@ -248,7 +354,6 @@ export function Checklist({ variant }: { variant: "floating" | "inline" }) {
           );
         })}
       </ol>
-      {!next && <div className="mt-2 text-xs font-semibold text-safe">All five done. That is the whole loop.</div>}
     </div>
   );
 }

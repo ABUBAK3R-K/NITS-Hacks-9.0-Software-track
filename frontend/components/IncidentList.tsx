@@ -188,9 +188,9 @@ export function IncidentList({
                   <Link
                     href={`/incident/${i.id}`}
                     onClick={(e) => e.stopPropagation()}
-                    className="rounded-md px-2 py-0.5 text-xs font-semibold text-accent ring-1 ring-accent/40 hover:bg-accent-soft"
+                    className="rounded-md px-3 py-1.5 text-sm font-bold text-accent ring-1 ring-accent/40 transition hover:bg-accent-soft hover:ring-accent/70"
                   >
-                    Report
+                    Report &rarr;
                   </Link>
                 </div>
               </div>
