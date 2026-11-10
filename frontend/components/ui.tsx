@@ -84,3 +84,15 @@ export function ConfidenceBar({ value, tone = "red" }: { value: number; tone?: "
 export function Empty({ children }: { children: ReactNode }) {
   return <div className="flex h-full items-center justify-center p-6 text-center text-subtle">{children}</div>;
 }
+
+/** Neutral note when the narration did not come from the primary LLM. A fallback is not an error. */
+export function FallbackNote({ provider, className = "" }: { provider: Provider; className?: string }) {
+  if (provider === "groq") return null;
+  const text = provider === "gemini" ? "Groq was busy, answered by Gemini fallback" : "Narrated by the deterministic template";
+  return (
+    <span className={`inline-flex items-center gap-1.5 rounded-md bg-raised px-2 py-0.5 text-xs text-muted ring-1 ring-rule-strong ${className}`}>
+      <span className="h-1.5 w-1.5 rounded-full bg-subtle" aria-hidden="true" />
+      {text}
+    </span>
+  );
+}

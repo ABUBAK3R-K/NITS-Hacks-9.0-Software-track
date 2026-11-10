@@ -21,6 +21,7 @@ def client(monkeypatch):
     monkeypatch.setattr(engine_run, "analyze", lambda events, topo: [inc])
     store.running = False
     store.reset()
+    store.history.clear()  # "seen before" history survives reset by design; tests start clean
     with TestClient(app) as c:
         yield c
     store.running = False

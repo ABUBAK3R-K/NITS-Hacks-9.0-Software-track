@@ -4,6 +4,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useLiveData } from "@/lib/live";
 import { signatureLabel } from "@/lib/format";
+import { TOUR_DONE_EVENT } from "@/lib/progress";
+import { AbstainCaseButton } from "./Guide";
 
 const SEEN_KEY = "jarvis_tour_seen_v1";
 
@@ -178,6 +180,11 @@ function HelpPanel({ onStart, onClose }: { onStart: (at: number) => void; onClos
         </div>
       </div>
 
+      <div className="mt-3 flex items-center gap-2 border-t border-rule pt-3 text-sm text-ink-2">
+        <span className="min-w-0 flex-1">Curious what happens when the engine is unsure?</span>
+        <AbstainCaseButton />
+      </div>
+
       <button
         type="button"
         onClick={() => onStart(0)}
@@ -217,6 +224,8 @@ export function Tour() {
     } catch {
       /* storage unavailable, the tour simply shows again next visit */
     }
+    // Lane M hook: the "Try it in 60 seconds" checklist appears once the tour is done
+    window.dispatchEvent(new Event(TOUR_DONE_EVENT));
   }, []);
 
   // first visit: open the tour once the dashboard has painted

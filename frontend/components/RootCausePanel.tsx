@@ -1,9 +1,11 @@
 "use client";
 import { useState } from "react";
-import type { Candidate, Incident, Recommendation } from "@/lib/contracts/types";
+import type { Candidate, Incident, Recommendation, SimilarIncident } from "@/lib/contracts/types";
 import { ABSTAIN_MIN_MARGIN, ABSTAIN_MIN_SCORE } from "@/lib/contracts/types";
-import { istTimeMs, signatureLabel } from "@/lib/format";
+import { istDateTime, istTimeMs, pct, signatureLabel } from "@/lib/format";
+import { useLiveData } from "@/lib/live";
 import { EvidenceChips } from "./Evidence";
+import { HINTS, Hint } from "./Hint";
 import { ApplyFixButton, LifecycleStrip } from "./Lifecycle";
 import { COMPONENT_COLORS, COMPONENT_LABELS, ConfidenceBar, Empty, StatusBadge } from "./ui";
 
@@ -11,7 +13,8 @@ const KEYS = ["upstream", "precedence", "change", "severity"] as const;
 
 function Legend() {
   return (
-    <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-muted">
+    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted">
+      <Hint text={HINTS.score} label="What do the score terms mean?" />
       {KEYS.map((k) => (
         <span key={k} className="flex items-center gap-1.5">
           <span className="h-2.5 w-2.5 rounded-sm" style={{ background: COMPONENT_COLORS[k] }} />
@@ -222,9 +225,9 @@ function AbstainCard({ c, rank }: { c: Candidate; rank: number }) {
     <div className="rounded-lg border border-warn/50 bg-warn-soft p-3">
       <div className="flex items-baseline justify-between">
         <span className="font-mono text-xs text-warn">#{rank}</span>
-        <span className="font-mono text-2xl font-black text-ink">{c.score.toFixed(3)}</span>
+        <span className="font-mono text-xl font-black text-ink md:text-2xl">{c.score.toFixed(3)}</span>
       </div>
-      <div className="text-2xl font-black text-ink">{c.service}</div>
+      <div className="text-xl font-black text-ink md:text-2xl">{c.service}</div>
       <div className="text-sm text-warn">{signatureLabel(c.signature)}</div>
       <div className="mt-1 font-mono text-xs text-muted">onset {istTimeMs(c.onset)}</div>
       <div className="mt-2">
@@ -253,7 +256,7 @@ function AbstainCard({ c, rank }: { c: Candidate; rank: number }) {
   );
 }
 
-function AbstainedView({ inc }: { inc: Incident }) {
+export function AbstainedView({ inc, readOnly = false }: { inc: Incident; readOnly?: boolean }) {
   const [a, b] = inc.candidates;
   return (
     <>
@@ -262,10 +265,10 @@ function AbstainedView({ inc }: { inc: Incident }) {
           <span className="panel-title text-warn">Verdict</span>
           <StatusBadge status="ABSTAINED" big />
         </div>
-        <div className="mt-1 text-3xl font-black leading-tight text-ink">Not enough evidence to name one cause</div>
+        <div className="mt-1 text-2xl font-black leading-tight text-ink md:text-3xl">Not enough evidence to name one cause</div>
         <div className="mt-1 text-sm text-warn">{inc.abstain_reason}</div>
       </div>
-      <div className="mt-3 grid grid-cols-2 gap-3">
+      <div className="mt-3 grid grid-cols-2 gap-2 md:gap-3">
         {a && <AbstainCard c={a} rank={1} />}
         {b && <AbstainCard c={b} rank={2} />}
       </div>
@@ -284,8 +287,53 @@ function AbstainedView({ inc }: { inc: Incident }) {
       )}
       <WhyNot inc={inc} />
       <Ranked inc={inc} skip={2} />
-      <Recommendations inc={inc} recs={inc.recommendations} />
+      {!readOnly && <Recommendations inc={inc} recs={inc.recommendations} />}
     </>
+  );
+}
+
+/** "Seen before": past incidents the store found similar. Selects one if it is still listed. */
+function SeenBefore({ similar }: { similar: SimilarIncident[] }) {
+  const live = useLiveData();
+  const view = live.sandbox.active ? live.sandbox.view : live;
+  const [shown, setShown] = useState<string | null>(null);
+  if (!similar.length) return null;
+  const listed = new Set(view.incidents.map((i) => i.id));
+  return (
+    <div className="mt-4">
+      <div className="panel-title mb-2">Seen before</div>
+      <ul className="space-y-1.5">
+        {similar.map((s) => {
+          const here = listed.has(s.incident_id);
+          const open = shown === s.incident_id;
+          return (
+            <li key={s.incident_id}>
+              <button
+                type="button"
+                onClick={() => (here ? view.select(s.incident_id) : setShown(open ? null : s.incident_id))}
+                title={here ? "Select this incident" : "No longer in the incident list; showing what was recorded"}
+                className="w-full rounded-lg bg-sheet px-2.5 py-2 text-left ring-1 ring-rule transition hover:ring-rule-strong"
+              >
+                <div className="flex items-baseline gap-2">
+                  <span className="font-mono text-xs text-subtle">{s.incident_id}</span>
+                  <span className="ml-auto font-mono text-sm font-bold text-accent">{pct(s.similarity)}</span>
+                </div>
+                <div className="text-sm text-ink">
+                  <b>{s.root_service ?? "no single root"}</b>{" "}
+                  <span className="text-muted">{s.signature ? signatureLabel(s.signature) : s.status.toLowerCase()}</span>
+                </div>
+                <div className="text-xs text-subtle">opened {istDateTime(s.opened_at)}</div>
+                {open && (
+                  <div className="mt-1 text-xs text-ink-2">
+                    {s.status} · services: {s.services.join(", ") || "none recorded"}
+                  </div>
+                )}
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
   );
 }
 
@@ -308,6 +356,7 @@ export function RootCausePanel({ incident }: { incident: Incident | null }) {
           <div key={incident.id} className="fade-up">
             <LifecycleStrip inc={incident} />
             {incident.status === "ABSTAINED" ? <AbstainedView inc={incident} /> : incident.root_cause ? <OpenView inc={incident} /> : <Ranked inc={incident} />}
+            <SeenBefore similar={incident.similar ?? []} />
           </div>
         )}
       </div>

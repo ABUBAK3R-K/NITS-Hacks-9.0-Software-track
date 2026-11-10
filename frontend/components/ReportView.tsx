@@ -7,7 +7,9 @@ import { inr, int, istDateTime, istTimeMs, pct, signatureLabel } from "@/lib/for
 import { EvidenceChips, EvidenceProvider } from "./Evidence";
 import { NaiveCompare } from "./NaiveCompare";
 import { ShieldIcon } from "./Sandbox";
-import { ProviderBadge, StatusBadge } from "./ui";
+import { HINTS, Hint } from "./Hint";
+import { FallbackNote, ProviderBadge, StatusBadge } from "./ui";
+import { markStep } from "@/lib/progress";
 
 function toMarkdown(inc: Incident | null, r: Report): string {
   const lines: string[] = [];
@@ -85,6 +87,9 @@ export function ReportView({ id }: { id: string }) {
   const [nonce, setNonce] = useState(0);
   const [naiveMode, setNaiveMode] = useState(false);
 
+  // "Try it in 60 seconds" step 5: the visitor opened a report page
+  useEffect(() => markStep("report"), []);
+
   useEffect(() => {
     let alive = true;
     api
@@ -108,7 +113,7 @@ export function ReportView({ id }: { id: string }) {
 
   return (
     <EvidenceProvider events={incident?.evidence_events ?? []}>
-      <div className="mx-auto w-full max-w-[1280px] px-8 py-8">
+      <div className="mx-auto w-full max-w-[1280px] px-4 py-6 md:px-8 md:py-8">
         <div className="flex items-center justify-between">
           <Link href="/dashboard" className="text-sm font-semibold text-accent hover:text-accent">
             &larr; Back to dashboard
@@ -121,7 +126,7 @@ export function ReportView({ id }: { id: string }) {
         <header className="mt-6 flex flex-wrap items-end justify-between gap-4 border-b border-rule pb-5">
           <div>
             <div className="panel-title">Incident report · {id}</div>
-            <h1 className="mt-1 text-4xl font-black text-ink">{incident?.title ?? id}</h1>
+            <h1 className="mt-1 text-2xl font-black text-ink md:text-4xl">{incident?.title ?? id}</h1>
             {incident && (
               <div className="mt-2 flex flex-wrap items-center gap-3 text-ink-2">
                 <StatusBadge status={incident.status} big />
@@ -135,7 +140,7 @@ export function ReportView({ id }: { id: string }) {
               </div>
             )}
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             <button
               type="button"
               role="switch"
@@ -151,6 +156,7 @@ export function ReportView({ id }: { id: string }) {
               </span>
               Naive AI mode
             </button>
+            <Hint text={HINTS.naive} label="What is Naive AI mode?" />
             {report && <ProviderBadge provider={report.provider} />}
             <button
               type="button"
@@ -182,11 +188,13 @@ export function ReportView({ id }: { id: string }) {
         )}
 
         {!naiveMode && report && (
-          <div className="fade-up mt-6 grid grid-cols-[minmax(0,1fr)_340px] gap-8">
+          <div className="fade-up mt-6 grid grid-cols-1 gap-8 md:grid-cols-[minmax(0,1fr)_340px]">
             <article>
-              <p className="text-2xl font-semibold leading-relaxed text-ink">{report.summary}</p>
+              <p className="text-xl font-semibold leading-relaxed text-ink md:text-2xl">{report.summary}</p>
 
-              <div className="mt-5 flex items-center gap-3">
+              <FallbackNote provider={report.provider} className="mt-3" />
+
+              <div className="mt-5 flex flex-wrap items-center gap-3">
                 <span className="inline-flex items-center gap-1.5 rounded-md bg-safe-soft px-3 py-1 text-sm font-bold text-safe ring-1 ring-safe/50">
                   <ShieldIcon />
                   Guardrail blocked {report.dropped} uncited sentence{report.dropped === 1 ? "" : "s"}
@@ -198,10 +206,10 @@ export function ReportView({ id }: { id: string }) {
 
               <ol className="mt-6 space-y-4">
                 {report.sentences.map((s, i) => (
-                  <li key={i} className="flex gap-4 rounded-lg bg-sheet p-4 ring-1 ring-rule">
+                  <li key={i} className="flex gap-3 rounded-lg bg-sheet p-3 ring-1 ring-rule md:gap-4 md:p-4">
                     <span className="font-mono text-lg font-bold text-accent">{i + 1}</span>
-                    <div>
-                      <p className="text-lg leading-relaxed text-ink">{s.text}</p>
+                    <div className="min-w-0">
+                      <p className="text-base leading-relaxed text-ink md:text-lg">{s.text}</p>
                       <div className="mt-2">
                         <EvidenceChips ids={s.cites} max={10} />
                       </div>

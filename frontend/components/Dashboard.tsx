@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useLiveData } from "@/lib/live";
 import { EvidenceProvider } from "./Evidence";
+import { Checklist, ProgressWatcher } from "./Guide";
 import { ImpactStrip } from "./ImpactStrip";
 import { IncidentList } from "./IncidentList";
 import { RootCausePanel } from "./RootCausePanel";
@@ -156,6 +157,7 @@ function Screen() {
           <TopBar />
           <JudgeBar />
           <main className="flex flex-col gap-3 p-3">
+            <Checklist variant="inline" />
             {incidentList}
             <RootCausePanel incident={graphIncident} />
             <ImpactStrip incident={graphIncident} />
@@ -171,6 +173,7 @@ function Screen() {
           </main>
         </div>
         <Tour />
+        <ProgressWatcher />
       </EvidenceProvider>
     );
   }
@@ -196,7 +199,9 @@ function Screen() {
           <RootCausePanel incident={graphIncident} />
         </main>
       </div>
+      <Checklist variant="floating" />
       <Tour />
+      <ProgressWatcher />
     </EvidenceProvider>
   );
 }

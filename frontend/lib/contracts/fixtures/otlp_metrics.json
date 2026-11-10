@@ -1,0 +1,197 @@
+{
+  "resourceMetrics": [
+    {
+      "resource": {
+        "attributes": [
+          {
+            "key": "service.name",
+            "value": {
+              "stringValue": "postgres"
+            }
+          },
+          {
+            "key": "service.version",
+            "value": {
+              "stringValue": "16.4"
+            }
+          },
+          {
+            "key": "deployment.environment",
+            "value": {
+              "stringValue": "prod"
+            }
+          }
+        ]
+      },
+      "scopeMetrics": [
+        {
+          "scope": {
+            "name": "io.opentelemetry.contrib.otlp",
+            "version": "1.38.0"
+          },
+          "metrics": [
+            {
+              "name": "db_pool_in_use_pct",
+              "unit": "%",
+              "gauge": {
+                "dataPoints": [
+                  {
+                    "timeUnixNano": "1794299400000000000",
+                    "attributes": [],
+                    "asDouble": 44.0
+                  },
+                  {
+                    "timeUnixNano": "1794299402000000000",
+                    "attributes": [],
+                    "asDouble": 100.0
+                  },
+                  {
+                    "timeUnixNano": "1794299404000000000",
+                    "attributes": [],
+                    "asDouble": 100.0
+                  }
+                ]
+              }
+            },
+            {
+              "name": "pg_lock_wait_ms",
+              "unit": "ms",
+              "gauge": {
+                "dataPoints": [
+                  {
+                    "timeUnixNano": "1794299402000000000",
+                    "attributes": [],
+                    "asDouble": 870.5
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "resource": {
+        "attributes": [
+          {
+            "key": "service.name",
+            "value": {
+              "stringValue": "api-gateway"
+            }
+          },
+          {
+            "key": "service.version",
+            "value": {
+              "stringValue": "v4.0.3"
+            }
+          },
+          {
+            "key": "deployment.environment",
+            "value": {
+              "stringValue": "prod"
+            }
+          }
+        ]
+      },
+      "scopeMetrics": [
+        {
+          "scope": {
+            "name": "io.opentelemetry.contrib.otlp",
+            "version": "1.38.0"
+          },
+          "metrics": [
+            {
+              "name": "latency_p95_ms",
+              "unit": "ms",
+              "gauge": {
+                "dataPoints": [
+                  {
+                    "timeUnixNano": "1794299402000000000",
+                    "attributes": [
+                      {
+                        "key": "http.route",
+                        "value": {
+                          "stringValue": "/v1/login"
+                        }
+                      }
+                    ],
+                    "asDouble": 2140.0
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "resource": {
+        "attributes": [
+          {
+            "key": "service.name",
+            "value": {
+              "stringValue": "payments-svc"
+            }
+          },
+          {
+            "key": "service.version",
+            "value": {
+              "stringValue": "v2.3.0"
+            }
+          },
+          {
+            "key": "deployment.environment",
+            "value": {
+              "stringValue": "prod"
+            }
+          }
+        ]
+      },
+      "scopeMetrics": [
+        {
+          "scope": {
+            "name": "io.opentelemetry.contrib.otlp",
+            "version": "1.38.0"
+          },
+          "metrics": [
+            {
+              "name": "error_rate",
+              "unit": "1",
+              "gauge": {
+                "dataPoints": [
+                  {
+                    "timeUnixNano": "1794299403000000000",
+                    "attributes": [],
+                    "asDouble": 0.31
+                  }
+                ]
+              }
+            },
+            {
+              "name": "http_server_requests_total",
+              "unit": "1",
+              "sum": {
+                "aggregationTemporality": 2,
+                "isMonotonic": true,
+                "dataPoints": [
+                  {
+                    "timeUnixNano": "1794299403000000000",
+                    "attributes": [
+                      {
+                        "key": "http.route",
+                        "value": {
+                          "stringValue": "/v1/payments"
+                        }
+                      }
+                    ],
+                    "asInt": "1842"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

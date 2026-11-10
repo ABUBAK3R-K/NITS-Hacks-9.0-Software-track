@@ -20,7 +20,7 @@ from datetime import datetime, timedelta, timezone
 
 from app.schemas import Event, FaultSpec, FaultType
 from app.sim.faults import (
-    ActiveFault, apply_fix, build_fault, build_spec_fault, draft, failure, fault_drafts, metric_override,
+    ActiveFault, apply_fix, build_fault, expire_fault, build_spec_fault, draft, failure, fault_drafts, metric_override,
 )
 from app.sim.topology import service_ids
 
@@ -80,6 +80,10 @@ class Simulator:
     def apply_fix(self, f: ActiveFault, fix_id: str, at: datetime | None = None) -> None:
         """Remediate an active fault at `at` (default: now in sim time)."""
         apply_fix(f, fix_id, max(at or self.t, self.t), self.rng)
+
+    def expire(self, f: ActiveFault, at: datetime | None = None) -> None:
+        """End an active fault without a fix (live TTL). Recovery as for a fix, no fix_applied."""
+        expire_fault(f, max(at or self.t, self.t), self.rng)
 
     def inject(self, ftype: FaultType, at: datetime | None = None) -> None:
         at = max(at or self.t, self.t)

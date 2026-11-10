@@ -417,5 +417,6 @@
     "alerts": 6,
     "incidents": 1,
     "ratio": 6.0
-  }
+  },
+  "similar": []
 }

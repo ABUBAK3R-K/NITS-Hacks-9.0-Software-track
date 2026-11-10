@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import asyncio
 import logging
+import os
 import threading
 import time
 import uuid
@@ -23,6 +24,7 @@ from app.schemas import (
     ApplyFixResult, Event, FaultSpec, FaultType, Incident, IncidentSummary, Run, RunReveal, ServiceHealth, SimStatus,
     Topology, TopologyState,
 )
+from app.similar import IncidentHistory
 from app.sim.generator import Simulator, iso, utcnow
 from app.sim.faults import ActiveFault, fix_matches
 from app.sim.runner import first_detection, first_resolution, is_resolved, mttd_seconds, start_spec
@@ -39,6 +41,10 @@ QUEUE_MAX = 2000
 MAX_RUNS = 50
 INCIDENT_LOOKBACK_S = 300.0  # events_for_incident: window starts this long before opened_at
 RUN_AFTER_FIX_S = 90.0  # sandbox: simulated time generated after a fix, so the engine can see recovery
+# Live Chaos Lab hygiene (final round): a fault ends on its own after FAULT_TTL_S, and the live
+# sim resets after IDLE_RESET_S without any API request. Both env-overridable.
+FAULT_TTL_S = float(os.getenv("FAULT_TTL_S", "180"))
+IDLE_RESET_S = float(os.getenv("IDLE_RESET_S", "600"))
 
 AnalyzeFn = Callable[[list[Event], Topology], list[Incident]]
 
@@ -148,10 +154,12 @@ class RunStore:
     """Isolated sandbox runs keyed by run_id, LRU-capped at MAX_RUNS. Each run owns its
     event list; nothing here touches the live store, so judges never collide."""
 
-    def __init__(self, analyze_fn: AnalyzeFn, topology: Topology, max_runs: int = MAX_RUNS):
+    def __init__(self, analyze_fn: AnalyzeFn, topology: Topology, max_runs: int = MAX_RUNS,
+                 history: Optional[IncidentHistory] = None):
         self.analyze_fn = analyze_fn
         self.topology = topology
         self.max_runs = max_runs
+        self.history = history if history is not None else IncidentHistory()
         self._runs: OrderedDict[str, RunRecord] = OrderedDict()
         self._lock = threading.Lock()
 
@@ -170,7 +178,10 @@ class RunStore:
             if mttd is not None:
                 incidents = [i.model_copy(update={"mttd_s": mttd}) for i in incidents]
         hidden = mode == "blind"
-        run = Run(run_id=f"run_{uuid.uuid4().hex[:10]}", mode=mode, created_at=iso(now),
+        run_id = f"run_{uuid.uuid4().hex[:10]}"
+        incidents = self.history.with_similar(run_id, incidents)
+        self.history.record_all(run_id, incidents)
+        run = Run(run_id=run_id, mode=mode, created_at=iso(now),
                   spec_hidden=hidden, spec=None if hidden else spec, incidents=incidents)
         with self._lock:
             self._runs[run.run_id] = RunRecord(run=run, spec=spec, events=events, injected_at=injected_at,
@@ -231,6 +242,8 @@ class RunStore:
             if inc.id == incident_id and resolved is not None and is_resolved(inc):
                 upd["mttr_s"] = mttd_seconds(resolved, rec.injected_at)
             out.append(inc.model_copy(update=upd) if upd else inc)
+        out = self.history.with_similar(rec.run.run_id, out)
+        self.history.record_all(rec.run.run_id, out)
         with self._lock:
             rec.events = events
             rec.run = rec.run.model_copy(update={"incidents": out})
@@ -252,7 +265,9 @@ class RunStore:
 
 class Store:
     def __init__(self, analyze_fn: Optional[AnalyzeFn] = None, topology: Optional[Topology] = None,
-                 max_events: int = MAX_EVENTS, window_s: float = WINDOW_S, seed: int = 7):
+                 max_events: int = MAX_EVENTS, window_s: float = WINDOW_S, seed: int = 7,
+                 clock: Optional[Callable[[], datetime]] = None, fault_ttl_s: Optional[float] = None,
+                 idle_reset_s: Optional[float] = None):
         self.analyze_fn = analyze_fn or _default_analyze
         self.topology = topology or load_topology()
         self.max_events = max_events
@@ -278,7 +293,15 @@ class Store:
         # recompute that produced an incident opening at or after it.
         self._injections: list[list[Optional[datetime]]] = []  # [injected_at, detected_at]
         self._resolved_at: dict[str, datetime] = {}  # incident id -> first recompute showing RESOLVED
-        self.runs = RunStore(lambda ev, topo: self.analyze_fn(ev, topo), self.topology)
+        # Injectable clock (tests): sim start, fault TTL and idle reset all read it.
+        self.clock: Callable[[], datetime] = clock or utcnow
+        self.fault_ttl_s = FAULT_TTL_S if fault_ttl_s is None else fault_ttl_s
+        self.idle_reset_s = IDLE_RESET_S if idle_reset_s is None else idle_reset_s
+        self._last_touch = self.clock()
+        self._external = False  # events from uploads / API in the live store (cleared by reset)
+        # Ended incidents for "seen this before". Shared with sandbox runs, kept across reset.
+        self.history = IncidentHistory()
+        self.runs = RunStore(lambda ev, topo: self.analyze_fn(ev, topo), self.topology, history=self.history)
 
     # ------------------------------------------------------------ events
     def add_events(self, events: Iterable[Event]) -> tuple[int, list[str]]:
@@ -290,6 +313,8 @@ class Store:
                 continue
             self.events.append(e)
             self.ids.add(e.id)
+            if e.source != "sim":
+                self._external = True
             fresh.append(e)
             accepted += 1
         self._evict()
@@ -392,9 +417,20 @@ class Store:
             out.append(inc)
         return out
 
+    @property
+    def _ns(self) -> str:
+        """History namespace of the live store; a new one after each reset, since incident
+        ids can repeat across resets."""
+        return f"live{self._gen}"
+
     def _apply(self, result: Optional[list[Incident]]) -> None:
         if result is not None:
             result = self._fill_mttd(result)
+            # History: incidents that ended (RESOLVED) or left the live list (replaced).
+            ids = {i.id for i in result}
+            self.history.record_all(self._ns, [i for i in self.incidents.values() if i.id not in ids])
+            self.history.record_all(self._ns, [i for i in result if i.status == "RESOLVED"])
+            result = self.history.with_similar(self._ns, result)
             new = {i.id: i for i in result}
             new_json = {i.id: incident_json(i) for i in result}
             changed = [k for k in new if self._inc_json.get(k) != new_json[k]]
@@ -493,7 +529,7 @@ class Store:
     def start(self) -> None:
         if self.running:
             return
-        now = utcnow()
+        now = self.clock()
         self.sim = Simulator(now - timedelta(seconds=BACKFILL_S), seed=self.seed, id_start=self._next_sim_id)
         self.running = True
         self.add_events(self.sim.advance(now))
@@ -509,18 +545,64 @@ class Store:
             self._injections.append([f.injected_at or f.start, None])
 
     def tick(self, now: Optional[datetime] = None) -> int:
-        """Advance the live simulator to `now` (real clock). Returns events added."""
+        """Advance the live simulator to `now` (default: the store clock). Faults past their
+        TTL are expired first, so the events after the expiry already show the recovery."""
         if not self.running or self.sim is None:
             return 0
-        evs = self.sim.advance(now or utcnow())
+        now = now or self.clock()
+        self.expire_faults(now)
+        evs = self.sim.advance(now)
         self._next_sim_id = self.sim.next_id
         accepted, _ = self.add_events(evs)
         return accepted
 
+    def expire_faults(self, now: Optional[datetime] = None) -> list[str]:
+        """End every live fault older than fault_ttl_s (Chaos Lab only; sandbox runs have
+        their own simulators). Recovery is the fix path without a fix_applied event, so the
+        engine sees metrics heal but never an operator fix. Returns the expired fault types."""
+        if self.sim is None or self.fault_ttl_s <= 0:
+            return []
+        now = now or self.clock()
+        out = []
+        for f in self.sim.faults:
+            if f.fixed_at is not None:
+                continue
+            ends = f.start + timedelta(seconds=self.fault_ttl_s)
+            if now >= ends:
+                self.sim.expire(f, ends)
+                out.append(f.type)
+                self.history.record_all(self._ns, [i for i in self.incidents.values()
+                                                   if f.spec.root in i.services])
+        if out:
+            log.info("live faults expired after %.0f s: %s", self.fault_ttl_s, ", ".join(out))
+        return out
+
+    def touch(self) -> None:
+        """Any API request: the live sim is in use, postpone the idle reset."""
+        self._last_touch = self.clock()
+
+    def maybe_idle_reset(self) -> bool:
+        """Reset the live store if no API request touched it for idle_reset_s and there is
+        something to clear (incidents, active faults or uploaded events)."""
+        if self.idle_reset_s <= 0:
+            return False
+        now = self.clock()
+        if (now - self._last_touch).total_seconds() < self.idle_reset_s:
+            return False
+        if not (self.incidents or (self.sim and self.sim.active_faults) or self._external):
+            return False
+        log.info("live sim idle for %.0f s, resetting", self.idle_reset_s)
+        self.reset()
+        self._last_touch = now
+        return True
+
     def reset(self) -> None:
-        """Clear faults, events and incidents. A running sim keeps running on a fresh baseline."""
+        """Clear faults, events and incidents. A running sim keeps running on a fresh baseline.
+        Current incidents go to the history first; the history itself is kept."""
         was_running = self.running
+        self.history.record_all(self._ns, self.incidents.values())
         self._gen += 1
+        self._external = False
         self.events.clear()
         self.ids.clear()
         self.incidents.clear()
@@ -545,6 +627,7 @@ async def run_loop(st: Store, tick_s: float = 0.5, heartbeat_s: float = 2.0) -> 
     while True:
         await asyncio.sleep(tick_s)
         try:
+            st.maybe_idle_reset()
             st.tick()
             recomputed = await st.recompute_async()
             now = time.monotonic()

@@ -195,6 +195,7 @@ class ActiveFault:
     fixed_at: datetime | None = None
     heal_start: dict[str, datetime] = field(default_factory=dict)
     heal_end: dict[str, datetime] = field(default_factory=dict)
+    expired: bool = False  # ended by the live TTL (expire_fault), not by an operator fix
 
     def heal_frac(self, svc: str, t: datetime) -> float:
         """0 while fully degraded, rising to 1 when svc is back at baseline."""
@@ -511,10 +512,12 @@ ROOT_HEAL_S = 10.0  # root metrics ease back to baseline over this long
 CALLER_HEAL_S = 2.0
 
 
-def apply_fix(f: ActiveFault, fix_id: str, at: datetime, rng: random.Random) -> None:
+def apply_fix(f: ActiveFault, fix_id: str | None, at: datetime, rng: random.Random,
+              emit: bool = True) -> None:
     """Remediate f at `at`: emit a `fix_applied` change on the root, ease the root back to
     baseline over ROOT_HEAL_S, then each caller after a hop lag. Pending one-shot fault
-    drafts (late alerts, onset logs) of a service that is already healing are dropped."""
+    drafts (late alerts, onset logs) of a service that is already healing are dropped.
+    emit=False heals the same way but writes no fix_applied event (TTL expiry)."""
     root = f.spec.root
     f.fix_id, f.fixed_at = fix_id, at
     f.heal_start[root] = at
@@ -534,10 +537,20 @@ def apply_fix(f: ActiveFault, fix_id: str, at: datetime, rng: random.Random) -> 
         frontier = nxt
     f.scheduled = [(t, d) for t, d in f.scheduled
                    if d["kind"] == "change" or t < f.heal_start.get(d["service"], t + timedelta(days=1))]
-    f.scheduled.append((at, draft(root, "change", "info", "fix_applied",
-                                  message=f"remediation {fix_id} applied to {root}", fix_id=fix_id,
-                                  actor="jarvis-operator")))
+    if emit:
+        f.scheduled.append((at, draft(root, "change", "info", "fix_applied",
+                                      message=f"remediation {fix_id} applied to {root}", fix_id=fix_id,
+                                      actor="jarvis-operator")))
     f.scheduled.sort(key=lambda x: x[0])
+
+
+def expire_fault(f: ActiveFault, at: datetime, rng: random.Random) -> None:
+    """End a live fault on its own (FAULT_TTL_S): the same recovery path as a fix, but no
+    fix_applied event, so the engine never thinks an operator fixed it. Decoy and deploy
+    changes still pending are dropped too: the fault is over."""
+    apply_fix(f, None, at, rng, emit=False)
+    f.scheduled = [(t, d) for t, d in f.scheduled if t < at]
+    f.expired = True
 
 
 def metric_override(faults: list[ActiveFault], svc: str, metric: str, t: datetime):

@@ -1,7 +1,8 @@
 """POST /api/events and POST /api/upload.
 
-POST /api/events takes either a JSON list of Event, or an Alertmanager or
-Grafana webhook body sent as-is (detected by shape, see ingest/webhooks.py).
+POST /api/events takes either a JSON list of Event, an Alertmanager or Grafana
+webhook body sent as-is (detected by shape, see ingest/webhooks.py), or an
+OpenTelemetry OTLP/JSON logs or metrics export (ingest/otlp.py).
 """
 from __future__ import annotations
 
@@ -11,6 +12,7 @@ from fastapi import APIRouter, Body, File, UploadFile
 from fastapi.exceptions import RequestValidationError
 from pydantic import TypeAdapter, ValidationError
 
+from app.ingest.otlp import parse_otlp
 from app.ingest.parsers import MAX_ERRORS, parse_upload
 from app.ingest.webhooks import parse_webhook
 from app.schemas import Event, IngestResult
@@ -31,9 +33,12 @@ async def ingest_events(body: Any = Body(...)) -> IngestResult:
         return IngestResult(accepted=accepted, rejected=len(errors), errors=errors[:MAX_ERRORS])
     parsed = parse_webhook(body)
     if parsed is None:
+        parsed = parse_otlp(body)
+    if parsed is None:
         raise RequestValidationError([{
             "type": "value_error", "loc": ("body",), "input": None,
-            "msg": "expected a list of Event, an Alertmanager webhook or a Grafana webhook",
+            "msg": ("expected a list of Event, an Alertmanager or Grafana webhook, "
+                    "or OTLP/JSON resourceLogs or resourceMetrics"),
         }])
     events, bad = parsed
     accepted, dup_errors = store.add_events(events)

@@ -5,6 +5,7 @@
 import { useState } from "react";
 import { SERVICE_IDS, type FaultKind, type FaultSpec, type RunReveal } from "@/lib/contracts/types";
 import { useLiveData } from "@/lib/live";
+import { AbstainCaseButton, VerdictCard } from "./Guide";
 
 export const KIND_LABEL: Record<FaultKind, string> = {
   pool_exhaustion: "connection pool exhaustion",
@@ -161,7 +162,7 @@ export function JudgeBar() {
   const [designOpen, setDesignOpen] = useState(false);
   const busy = sb.status === "running" || sb.status === "playing";
   return (
-    <div data-tour="judge" className="relative flex shrink-0 items-center gap-4 border-b border-rule bg-paper px-3 py-2 md:h-[50px] md:px-5 md:py-0">
+    <div data-tour="judge" className="relative flex shrink-0 flex-wrap items-center gap-2 border-b md:flex-nowrap md:gap-4 border-rule bg-paper px-3 py-2 md:h-[50px] md:px-5 md:py-0">
       <div
         className="hidden min-w-0 items-center gap-2 text-[15px] text-ink-2 md:flex"
         title="Our AI is not allowed to decide anything. It can only explain what the math proved."
@@ -169,6 +170,7 @@ export function JudgeBar() {
         <ShieldIcon className="h-5 w-5 shrink-0 text-safe" />
         <span className="truncate">Our AI is not allowed to decide anything. It can only explain what the math proved.</span>
       </div>
+      <VerdictCard className="order-last w-full md:order-none md:w-auto md:shrink-0" />
       <div className="flex min-w-0 flex-wrap items-center gap-2 md:ml-auto md:shrink-0">
         {sb.active && (
           <span
@@ -199,6 +201,7 @@ export function JudgeBar() {
           </button>
           {designOpen && <DesignForm onClose={() => setDesignOpen(false)} />}
         </div>
+        <AbstainCaseButton />
         {sb.active && (
           <button
             type="button"

@@ -179,6 +179,19 @@ class Recommendation(_Model):
     fix_id: Optional[str] = None
 
 
+class SimilarIncident(_Model):
+    """A past incident that looks like this one ("seen this before"). Computed by the store
+    from its incident history, never by the engine, which stays pure."""
+
+    incident_id: str
+    opened_at: str
+    status: IncidentStatus
+    root_service: Optional[str] = None
+    signature: Optional[str] = None
+    services: list[str] = Field(default_factory=list)
+    similarity: float  # 0..1, documented formula in the store; 2 dp
+
+
 class LifecycleEntry(_Model):
     state: Lifecycle
     ts: str
@@ -236,6 +249,8 @@ class Incident(_Model):
     mttd_s: Optional[float] = None  # fault injection -> DETECTED; None when injection time is unknown
     mttr_s: Optional[float] = None  # fault injection -> RESOLVED
     noise: Optional[Noise] = None
+    # Final round: past incidents that look like this one, most similar first (max 3).
+    similar: list[SimilarIncident] = Field(default_factory=list)
 
 
 # ---------------------------------------------------------------- report

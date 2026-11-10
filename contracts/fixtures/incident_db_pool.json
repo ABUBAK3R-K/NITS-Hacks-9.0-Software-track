@@ -511,5 +511,6 @@
     "alerts": 14,
     "incidents": 1,
     "ratio": 14.0
-  }
+  },
+  "similar": []
 }

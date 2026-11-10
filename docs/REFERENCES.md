@@ -58,4 +58,4 @@ The evaluation runs on our own simulator with randomized blind faults. RCAEval r
 
 | Id | Number | Where it lives |
 |---|---|---|
-| E11 | **11 of 14 planned items built (79%).** Built: TASKS.md lanes A-D (4) and UPGRADES.md U1-U7 (7). Not started: TASKS.md final-round backlog (RCAEval, OpenTelemetry ingest, incident similarity; 3). | `TASKS.md`, `UPGRADES.md` |
+| E11 | **13 of 14 planned items built (93%).** Built: TASKS.md lanes A-D (4), UPGRADES.md U1-U7 (7), and 2 of the 3 TASKS.md final-round backlog items (OpenTelemetry ingest, incident similarity). In progress: RCAEval. The demo video (recorded 9 Nov) shows the earlier 11 of 14. | `TASKS.md`, `UPGRADES.md`, `backend/app/ingest/otlp.py`, `backend/app/similar.py` |

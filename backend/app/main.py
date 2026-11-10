@@ -47,6 +47,22 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+class TouchLiveStore:
+    """Plain ASGI middleware (safe for the SSE stream): every /api request, including
+    opening the stream, postpones the live store's idle reset."""
+
+    def __init__(self, app):
+        self.inner = app
+
+    async def __call__(self, scope, receive, send):
+        if scope.get("type") == "http" and str(scope.get("path", "")).startswith("/api/"):
+            store.touch()
+        await self.inner(scope, receive, send)
+
+
+app.add_middleware(TouchLiveStore)
+
+
 app.include_router(ingest.router)
 app.include_router(sim.router)
 app.include_router(incidents.router)

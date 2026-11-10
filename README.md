@@ -155,12 +155,44 @@ curl -X POST http://localhost:8000/api/events \
 
 To point a real Alertmanager at it, add a receiver with `webhook_configs: [{url: "https://<backend>/api/events"}]`. For Grafana, create a webhook contact point with the same URL.
 
+## OpenTelemetry ingest (OTLP/JSON logs and metrics)
+
+`POST /api/events` also takes an OTLP/JSON export as-is, detected by shape. `resourceLogs[].scopeLogs[].logRecords[]` become `kind="log"` events: service from the resource attribute `service.name`, time from `timeUnixNano`, severity from `severityText` (else `severityNumber`), message from `body.stringValue`. `resourceMetrics[].scopeMetrics[].metrics[]` gauge and sum data points become `kind="metric"` events named after the metric, value from `asDouble` or `asInt`. Ids hash the content, so a re-sent export is deduplicated. Other shapes still return 422.
+
+```
+curl -X POST http://localhost:8000/api/events \
+  -H "Content-Type: application/json" \
+  --data @contracts/fixtures/otlp_logs.json
+# {"accepted":5,"rejected":0,"errors":[]}
+
+curl -X POST http://localhost:8000/api/events \
+  -H "Content-Type: application/json" \
+  --data @contracts/fixtures/otlp_metrics.json
+# {"accepted":7,"rejected":0,"errors":[]}
+```
+
+An OpenTelemetry Collector can send here with the `otlphttp` exporter set to `encoding: json`; set its `logs_endpoint` and `metrics_endpoint` to `https://<backend>/api/events`.
+
+## Grounding catches impossible causal claims
+
+Besides dropping sentences with unknown citations, the narrator's validator drops any sentence that says one service caused, led to or broke another when the topology makes that impossible: "X caused Y" survives only if Y depends on X, directly or through other services. A fully cited "ledger-svc errors led to auth-svc failures" is dropped because auth-svc never calls ledger-svc. Each drop counts in the report's `dropped`.
+
+## Live faults expire
+
+A Chaos Lab fault ends on its own after `FAULT_TTL_S` seconds (default 180) and leaves `active_faults`. The simulator then recovers the same way it does after a fix, but writes no `fix_applied` event, so the engine sees the metrics heal (lifecycle goes to RESOLVED) without ever believing someone fixed it. The live store also resets itself after `IDLE_RESET_S` seconds (default 600) with no `/api` request, if there is anything to clear. Set either to `0` to turn it off. Sandbox runs are not affected. This keeps one visitor's forgotten fault from degrading the next visitor's view, and keeps every fault shorter than the 15 minute event window.
+
+## Seen this before (incident similarity)
+
+The store keeps the last 50 incidents that ended (RESOLVED, or dropped from the live list by a reset, a fault expiry or the engine replacing them), plus every sandbox-run incident. The history survives `/api/sim/reset`. Each incident's `similar` lists up to 3 past incidents, most similar first:
+
+`similarity = 0.5 (same root service) + 0.3 (same root signature) + 0.2 x Jaccard(service sets)`, rounded to 2 dp, listed only when at least 0.5. An incident is never compared with itself. The code is `backend/app/similar.py`, outside the engine.
+
 ## API
 
 | Method | Path | Purpose |
 |---|---|---|
 | GET | `/health` | liveness and version |
-| POST | `/api/events` | batch ingest a list of Event, or an Alertmanager or Grafana webhook body as-is |
+| POST | `/api/events` | batch ingest a list of Event, an Alertmanager or Grafana webhook body, or OTLP/JSON logs or metrics, as-is |
 | POST | `/api/upload` | multipart file: .jsonl, .csv or plain log lines |
 | GET | `/api/topology` | services and dependency edges |
 | GET | `/api/incidents` | list of IncidentSummary |
@@ -184,7 +216,7 @@ Shapes are defined once in `contracts/schemas.py` (pydantic) and mirrored in `co
 
 ## Progress
 
-**11 of 14 planned items built (79%)** [[E11]](docs/REFERENCES.md#project-progress). Built: simulator and ingest, deterministic engine, live dashboard, grounded narrator, and upgrades U1 to U7. Next, for the final round: the RCAEval real-world benchmark, OpenTelemetry ingest, and learning from past incidents.
+**13 of 14 planned items built (93%)** [[E11]](docs/REFERENCES.md#project-progress). Built: simulator and ingest, deterministic engine, live dashboard, grounded narrator, upgrades U1 to U7, and for the final round OpenTelemetry (OTLP) ingest and incident similarity ("seen this before"). In progress: the RCAEval real-world benchmark.
 
 ## Repo layout
 

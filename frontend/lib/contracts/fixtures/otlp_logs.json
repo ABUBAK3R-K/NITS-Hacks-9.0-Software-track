@@ -1,0 +1,225 @@
+{
+  "resourceLogs": [
+    {
+      "resource": {
+        "attributes": [
+          {
+            "key": "service.name",
+            "value": {
+              "stringValue": "postgres"
+            }
+          },
+          {
+            "key": "service.version",
+            "value": {
+              "stringValue": "16.4"
+            }
+          },
+          {
+            "key": "deployment.environment",
+            "value": {
+              "stringValue": "prod"
+            }
+          }
+        ]
+      },
+      "scopeLogs": [
+        {
+          "scope": {
+            "name": "io.opentelemetry.contrib.otlp",
+            "version": "1.38.0"
+          },
+          "logRecords": [
+            {
+              "timeUnixNano": "1794299400000000000",
+              "observedTimeUnixNano": "1794299400050000000",
+              "severityText": "FATAL",
+              "severityNumber": 21,
+              "body": {
+                "stringValue": "FATAL: remaining connection slots are reserved for non-replication superuser connections"
+              },
+              "attributes": [
+                {
+                  "key": "db.system",
+                  "value": {
+                    "stringValue": "postgresql"
+                  }
+                }
+              ]
+            },
+            {
+              "timeUnixNano": "1794299402400000000",
+              "observedTimeUnixNano": "1794299402449999999",
+              "severityText": "ERROR",
+              "severityNumber": 17,
+              "body": {
+                "stringValue": "ERROR: canceling statement due to lock timeout"
+              },
+              "attributes": [
+                {
+                  "key": "db.system",
+                  "value": {
+                    "stringValue": "postgresql"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "resource": {
+        "attributes": [
+          {
+            "key": "service.name",
+            "value": {
+              "stringValue": "auth-svc"
+            }
+          },
+          {
+            "key": "service.version",
+            "value": {
+              "stringValue": "v1.8.2"
+            }
+          },
+          {
+            "key": "deployment.environment",
+            "value": {
+              "stringValue": "prod"
+            }
+          }
+        ]
+      },
+      "scopeLogs": [
+        {
+          "scope": {
+            "name": "io.opentelemetry.contrib.otlp",
+            "version": "1.38.0"
+          },
+          "logRecords": [
+            {
+              "timeUnixNano": "1794299401100000000",
+              "observedTimeUnixNano": "1794299401150000000",
+              "severityText": "ERROR",
+              "severityNumber": 17,
+              "body": {
+                "stringValue": "login failed: could not acquire db connection within 5000ms"
+              },
+              "attributes": [
+                {
+                  "key": "user_id",
+                  "value": {
+                    "stringValue": "u_1042"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "resource": {
+        "attributes": [
+          {
+            "key": "service.name",
+            "value": {
+              "stringValue": "ledger-svc"
+            }
+          },
+          {
+            "key": "service.version",
+            "value": {
+              "stringValue": "v3.1.0"
+            }
+          },
+          {
+            "key": "deployment.environment",
+            "value": {
+              "stringValue": "prod"
+            }
+          }
+        ]
+      },
+      "scopeLogs": [
+        {
+          "scope": {
+            "name": "io.opentelemetry.contrib.otlp",
+            "version": "1.38.0"
+          },
+          "logRecords": [
+            {
+              "timeUnixNano": "1794299401600000000",
+              "observedTimeUnixNano": "1794299401650000000",
+              "severityText": "ERROR",
+              "severityNumber": 17,
+              "body": {
+                "stringValue": "ledger commit failed: pool timeout after 5000ms"
+              },
+              "attributes": [
+                {
+                  "key": "order_id",
+                  "value": {
+                    "stringValue": "ord_481920"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "resource": {
+        "attributes": [
+          {
+            "key": "service.name",
+            "value": {
+              "stringValue": "api-gateway"
+            }
+          },
+          {
+            "key": "service.version",
+            "value": {
+              "stringValue": "v4.0.3"
+            }
+          },
+          {
+            "key": "deployment.environment",
+            "value": {
+              "stringValue": "prod"
+            }
+          }
+        ]
+      },
+      "scopeLogs": [
+        {
+          "scope": {
+            "name": "io.opentelemetry.contrib.otlp",
+            "version": "1.38.0"
+          },
+          "logRecords": [
+            {
+              "timeUnixNano": "1794299402000000000",
+              "observedTimeUnixNano": "1794299402049999999",
+              "severityText": "WARN",
+              "severityNumber": 13,
+              "body": {
+                "stringValue": "upstream auth-svc slow: p95 2140ms"
+              },
+              "attributes": [
+                {
+                  "key": "http.route",
+                  "value": {
+                    "stringValue": "/v1/login"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

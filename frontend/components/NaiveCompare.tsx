@@ -8,7 +8,7 @@ import { api } from "@/lib/api";
 import { int, pct, signatureLabel } from "@/lib/format";
 import { EvidenceChips } from "./Evidence";
 import { WhyNot } from "./RootCausePanel";
-import { StatusBadge } from "./ui";
+import { FallbackNote, StatusBadge } from "./ui";
 
 /** Lane F's eval method names: "jarvis", "latest_deploy", "most_alerts", "llm_only". */
 function findMethod(ev: EvalResults | null, name: string): MethodScore | null {
@@ -61,7 +61,7 @@ export function NaiveCompare({ incident }: { incident: Incident }) {
   const abstained = incident.status === "ABSTAINED";
 
   return (
-    <div className="fade-up mt-6 grid grid-cols-2 gap-6">
+    <div className="fade-up mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
       {/* ---------------- naive LLM */}
       <section className="flex flex-col rounded-lg border border-rule-strong bg-sheet">
         <header className="border-b border-rule p-5">
@@ -71,6 +71,7 @@ export function NaiveCompare({ incident }: { incident: Incident }) {
               {naive.provider} · {naive.model} · {int(naive.latency_ms)} ms
             </div>
           )}
+          {naive && !naiveDown && <FallbackNote provider={naive.provider} className="mt-2" />}
         </header>
         <div className="flex-1 p-5">
           {!naive && !naiveErr && (
@@ -89,7 +90,7 @@ export function NaiveCompare({ incident }: { incident: Incident }) {
           {naive && !naiveDown && (
             <>
               <div className="text-sm text-muted">its answer</div>
-              <div className="text-4xl font-black text-ink">{naive.root_cause_service ?? "no single service"}</div>
+              <div className="break-words text-3xl font-black text-ink md:text-4xl">{naive.root_cause_service ?? "no single service"}</div>
               <div className="mt-1 text-xs text-subtle">free text: no event ids, no score, no way to abstain</div>
               <pre className="thin-scroll mt-4 max-h-[420px] overflow-auto whitespace-pre-wrap rounded-lg bg-paper p-4 font-mono text-[13px] leading-relaxed text-ink-2 ring-1 ring-rule">
                 {naive.raw_text}

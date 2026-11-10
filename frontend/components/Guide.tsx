@@ -1,0 +1,254 @@
+"use client";
+// Self-serve helpers for visitors exploring alone: the "Your verdict" scoreboard, the recorded
+// abstain case file, and the "Try it in 60 seconds" checklist. Every tick and tally comes from
+// real app state (see lib/progress.ts); every number comes from a reveal, the eval, or a fixture.
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
+import type { EvalResults, Incident } from "@/lib/contracts/types";
+import ambiguousFx from "@/lib/contracts/fixtures/incident_ambiguous.json";
+import { api } from "@/lib/api";
+import { useLiveData } from "@/lib/live";
+import { int, istDateTime, pct } from "@/lib/format";
+import { markStep, recordVerdict, updateProgress, useProgress, useTourDone, type StepId } from "@/lib/progress";
+import { EvidenceProvider } from "./Evidence";
+import { AbstainedView } from "./RootCausePanel";
+
+// ---------------------------------------------------------------- state watcher
+/** Mounted once on the dashboard: turns real state changes into checklist ticks and verdicts. */
+export function ProgressWatcher() {
+  const live = useLiveData();
+  const sb = live.sandbox;
+  const run = sb.run;
+  const reveal = sb.reveal;
+
+  useEffect(() => {
+    if (run) markStep("run");
+  }, [run]);
+
+  const answered = sb.status === "answered" && sb.view.selected !== null;
+  useEffect(() => {
+    if (answered) markStep("read");
+  }, [answered]);
+
+  useEffect(() => {
+    if (!reveal) return;
+    markStep("reveal");
+    // the scoreboard counts hidden (blind) faults only; designed runs show their spec up front
+    if (run && run.mode === "blind" && run.run_id === reveal.run_id)
+      recordVerdict(reveal.run_id, reveal.abstained ? "abstained" : reveal.matched ? "matched" : "wrong");
+  }, [reveal, run]);
+
+  // "Apply fix" worked: the engine itself moved an incident through MITIGATING to RESOLVED
+  const fixed = [...Object.values(sb.view.details), ...Object.values(live.details)].some(
+    (i) => i.lifecycle === "RESOLVED" && i.lifecycle_history.some((h) => h.state === "MITIGATING"),
+  );
+  useEffect(() => {
+    if (fixed) markStep("fix");
+  }, [fixed]);
+
+  return null;
+}
+
+// ---------------------------------------------------------------- verdict scoreboard
+let evalPromise: Promise<EvalResults | null> | null = null;
+function loadEval(): Promise<EvalResults | null> {
+  evalPromise ??= api.getEvalResults().catch(() => {
+    evalPromise = null;
+    return null;
+  });
+  return evalPromise;
+}
+
+function useEvalTop1(): { top1: number; n: number } | null {
+  const [ev, setEv] = useState<EvalResults | null>(null);
+  useEffect(() => {
+    let alive = true;
+    void loadEval().then((r) => alive && setEv(r));
+    return () => {
+      alive = false;
+    };
+  }, []);
+  const m = ev && ev.n > 0 ? ev.methods.find((x) => x.name === "jarvis") : undefined;
+  return m ? { top1: m.top1, n: m.n || ev!.n } : null;
+}
+
+export function VerdictCard({ className = "" }: { className?: string }) {
+  const p = useProgress();
+  const ours = useEvalTop1();
+  const outcomes = Object.values(p.verdicts);
+  if (!outcomes.length) return null;
+  const count = (o: string) => outcomes.filter((x) => x === o).length;
+  const total = outcomes.length;
+  return (
+    <div
+      className={`fade-up flex min-w-0 flex-wrap items-center gap-x-3 gap-y-0.5 rounded-lg bg-sheet px-3 py-1 text-xs ring-1 ring-rule-strong ${className}`}
+      title="Counted in this browser from your own Reveal results"
+    >
+      <span className="panel-title text-accent">Your verdict</span>
+      <span className="text-ink-2">
+        You ran <b className="font-mono text-ink">{total}</b> hidden fault{total === 1 ? "" : "s"}:{" "}
+        <b className="font-mono text-safe">{count("matched")}</b> matched, <b className="font-mono text-danger">{count("wrong")}</b> wrong,{" "}
+        <b className="font-mono text-warn">{count("abstained")}</b> abstained
+      </span>
+      {ours && (
+        <span className="text-muted">
+          <b className="font-mono text-ink">{pct(ours.top1)}</b> top-1 over n={int(ours.n)} in our blind eval, own simulator
+        </span>
+      )}
+      <button
+        type="button"
+        onClick={() => updateProgress((x) => ({ ...x, verdicts: {} }))}
+        className="text-subtle underline-offset-2 hover:text-ink hover:underline"
+      >
+        reset
+      </button>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------- recorded abstain case
+const AMBIGUOUS = ambiguousFx as unknown as Incident;
+
+function AbstainCase({ onClose }: { onClose: () => void }) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+  return createPortal(
+    <div
+      className="fixed inset-0 z-[110] flex items-start justify-center overflow-y-auto bg-paper/80 p-3 md:p-10"
+      onClick={(e) => e.target === e.currentTarget && onClose()}
+    >
+      {/* evidence drawer sits outside the animated panel so it covers the viewport, not the panel */}
+      <EvidenceProvider events={AMBIGUOUS.evidence_events}>
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="Recorded abstain case"
+        className="fade-up w-full max-w-[640px] rounded-xl border border-rule-strong bg-paper p-4 shadow-2xl"
+      >
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0">
+            <span className="inline-block rounded bg-raised px-2 py-0.5 text-[11px] font-bold tracking-wider text-muted ring-1 ring-rule-strong">
+              RECORDED CASE (engine output from our fixtures), not live
+            </span>
+            <div className="mt-2 text-lg font-bold leading-snug text-ink">What an abstain looks like</div>
+            <div className="mt-0.5 font-mono text-xs text-subtle">
+              {AMBIGUOUS.id} · opened {istDateTime(AMBIGUOUS.opened_at)}
+            </div>
+          </div>
+          <button type="button" onClick={onClose} aria-label="Close recorded case" className="text-subtle hover:text-ink">
+            x
+          </button>
+        </div>
+        <p className="mt-2 text-sm leading-relaxed text-ink-2">
+          When the top two causes score too close together, the engine refuses to guess. It shows both candidates and the data
+          that would settle it.
+        </p>
+        <div className="mt-3">
+          <AbstainedView inc={AMBIGUOUS} readOnly />
+        </div>
+      </div>
+      </EvidenceProvider>
+    </div>,
+    document.body,
+  );
+}
+
+export function AbstainCaseButton({ className = "" }: { className?: string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        title="Open a recorded case where the engine abstained instead of guessing"
+        className={`whitespace-nowrap rounded-md bg-paper px-3 py-1.5 text-sm font-semibold text-warn ring-1 ring-warn/40 hover:bg-warn-soft ${className}`}
+      >
+        Show me an abstain
+      </button>
+      {open && <AbstainCase onClose={() => setOpen(false)} />}
+    </>
+  );
+}
+
+// ---------------------------------------------------------------- task-first checklist
+const STEPS: { id: StepId; label: string; how: string }[] = [
+  { id: "run", label: "Inject a hidden fault", how: "Press Judge's Chaos in the bar above." },
+  { id: "read", label: "Read the root cause and Why not", how: "Wait for the answer, then read the right panel." },
+  { id: "reveal", label: "Reveal", how: "Press REVEAL on the card over the graph." },
+  { id: "fix", label: "Apply fix", how: "Under Recommended actions, press Apply fix and watch it resolve." },
+  { id: "report", label: "Open the report and Naive AI mode", how: "Press Report on the incident card, then switch on Naive AI mode." },
+];
+
+export function Checklist({ variant }: { variant: "floating" | "inline" }) {
+  const tourDone = useTourDone();
+  const p = useProgress();
+  if (!tourDone || p.checklistDismissed) return null;
+  const done = STEPS.filter((s) => p.steps[s.id]).length;
+  const next = STEPS.find((s) => !p.steps[s.id]);
+  const collapsed = p.checklistCollapsed;
+  const setCollapsed = (v: boolean) => updateProgress((x) => ({ ...x, checklistCollapsed: v }));
+  const dismiss = () => updateProgress((x) => ({ ...x, checklistDismissed: true }));
+
+  const box =
+    variant === "floating"
+      ? "fixed bottom-5 left-5 z-[80] w-[260px] shadow-2xl"
+      : "w-full";
+
+  if (collapsed)
+    return (
+      <div className={variant === "floating" ? "fixed bottom-5 left-5 z-[80]" : ""}>
+        <button
+          type="button"
+          onClick={() => setCollapsed(false)}
+          className="fade-up rounded-full bg-sheet px-3 py-1.5 text-xs font-semibold text-ink ring-1 ring-accent/50 hover:bg-raised"
+        >
+          Try it in 60 seconds <span className="font-mono text-accent">{done}/{STEPS.length}</span>
+        </button>
+      </div>
+    );
+
+  return (
+    <div className={`fade-up rounded-xl border border-accent/40 bg-sheet p-3 ${box}`}>
+      <div className="flex items-center gap-2">
+        <span className="panel-title text-accent">Try it in 60 seconds</span>
+        <span className="font-mono text-xs text-subtle">
+          {done}/{STEPS.length}
+        </span>
+        <button type="button" onClick={() => setCollapsed(true)} className="ml-auto text-xs text-subtle hover:text-ink" aria-label="Collapse checklist">
+          hide
+        </button>
+        <button type="button" onClick={dismiss} className="text-xs text-subtle hover:text-ink" aria-label="Dismiss checklist">
+          x
+        </button>
+      </div>
+      <ol className="mt-2 space-y-1">
+        {STEPS.map((s, i) => {
+          const ok = Boolean(p.steps[s.id]);
+          const isNext = next?.id === s.id;
+          return (
+            <li key={s.id} className="flex gap-2 text-sm leading-snug">
+              <span
+                className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-[10px] font-bold ${
+                  ok ? "bg-safe text-paper" : isNext ? "ring-1 ring-accent text-accent" : "ring-1 ring-rule-strong text-subtle"
+                }`}
+                aria-hidden="true"
+              >
+                {ok ? "✓" : i + 1}
+              </span>
+              <span className="min-w-0">
+                <span className={ok ? "text-muted line-through decoration-subtle" : isNext ? "font-semibold text-ink" : "text-ink-2"}>
+                  {s.label}
+                </span>
+                {isNext && <span className="block text-xs text-muted">{s.how}</span>}
+              </span>
+            </li>
+          );
+        })}
+      </ol>
+      {!next && <div className="mt-2 text-xs font-semibold text-safe">All five done. That is the whole loop.</div>}
+    </div>
+  );
+}

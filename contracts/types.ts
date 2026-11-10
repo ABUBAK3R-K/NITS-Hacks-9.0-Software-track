@@ -145,6 +145,17 @@ export interface Recommendation {
   fix_id: string | null;
 }
 
+/** A past incident that looks like this one ("seen this before"); computed by the store. */
+export interface SimilarIncident {
+  incident_id: string;
+  opened_at: string;
+  status: IncidentStatus;
+  root_service: string | null;
+  signature: string | null;
+  services: string[];
+  similarity: number;
+}
+
 export interface LifecycleEntry {
   state: Lifecycle;
   ts: string;
@@ -196,6 +207,8 @@ export interface Incident {
   /** fault injection -> RESOLVED */
   mttr_s: number | null;
   noise: Noise | null;
+  /** past incidents that look like this one, most similar first (max 3) */
+  similar: SimilarIncident[];
 }
 
 // ---------------------------------------------------------------- report

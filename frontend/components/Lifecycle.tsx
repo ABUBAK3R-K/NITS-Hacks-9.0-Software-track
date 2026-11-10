@@ -5,6 +5,7 @@ import { useState } from "react";
 import type { ApplyFixResult, Incident, Lifecycle, Recommendation } from "@/lib/contracts/types";
 import { istTime } from "@/lib/format";
 import { useLiveData } from "@/lib/live";
+import { HINTS, Hint } from "./Hint";
 
 const STEPS: Lifecycle[] = ["DETECTED", "SPREADING", "CAUSE_IDENTIFIED", "MITIGATING", "RESOLVED"];
 const STEP_LABEL: Record<Lifecycle, string> = {
@@ -58,7 +59,10 @@ export function LifecycleStrip({ inc }: { inc: Incident }) {
   return (
     <div className="mb-3 rounded-lg bg-sheet p-2.5 ring-1 ring-rule">
       <div className="mb-1.5 flex items-center justify-between gap-2">
-        <span className="panel-title">Lifecycle</span>
+        <span className="flex items-center gap-1.5">
+          <span className="panel-title">Lifecycle</span>
+          <Hint text={HINTS.lifecycle} label="What is the lifecycle?" />
+        </span>
         <MetricChips inc={inc} />
       </div>
       <ol className="flex flex-wrap items-stretch gap-1 md:flex-nowrap">

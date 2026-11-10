@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import type { Event, Incident, IncidentSummary, Noise } from "@/lib/contracts/types";
 import type { Storm } from "@/lib/live";
 import { istTime, pct } from "@/lib/format";
+import { HINTS, Hint } from "./Hint";
 import { LifecycleBadge } from "./Lifecycle";
 import { Empty, SeverityPill, StatusBadge } from "./ui";
 
@@ -177,8 +178,9 @@ export function IncidentList({
                   {i.services.length} services: {i.services.join(", ")}
                 </div>
                 {details[i.id]?.noise && details[i.id].noise!.alerts > 0 && (
-                  <div className="mt-2">
+                  <div className="mt-2 flex items-center gap-1.5">
                     <NoiseChip noise={details[i.id].noise!} />
+                    <Hint text={HINTS.noise} label="What is the noise chip?" />
                   </div>
                 )}
                 <div className="mt-2 flex items-center justify-between">
