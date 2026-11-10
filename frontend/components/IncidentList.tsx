@@ -123,7 +123,7 @@ export function IncidentList({
         <span className="panel-title">Incidents</span>
         <span className="font-mono text-xs text-subtle">{incidents.length}</span>
       </div>
-      <div className="thin-scroll min-h-0 flex-1 overflow-y-auto pr-1">
+      <div className="thin-scroll min-h-0 flex-1 overflow-y-auto overflow-x-hidden pr-1">
         {flooding && <StormFeed storm={storm} collapsing={collapsing} noun={stormNoun} />}
         {!flooding && incidents.length === 0 && (
           <Empty>
@@ -146,7 +146,7 @@ export function IncidentList({
                 tabIndex={0}
                 onClick={() => onSelect(i.id)}
                 onKeyDown={(e) => e.key === "Enter" && onSelect(i.id)}
-                className={`${i.id === popId && !collapsing ? "card-pop" : ""} cursor-pointer rounded-lg border-2 p-3 transition ${
+                className={`${i.id === popId && !collapsing ? "card-pop" : ""} min-w-0 cursor-pointer rounded-lg border-2 p-3 transition ${
                   sel
                     ? abst
                       ? "border-warn/80 bg-warn-soft"
@@ -154,13 +154,16 @@ export function IncidentList({
                     : "border-rule bg-sheet hover:border-rule-strong"
                 }`}
               >
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
                   <SeverityPill severity={i.severity} />
                   <StatusBadge status={i.status} />
-                  {details[i.id] && <LifecycleBadge state={details[i.id].lifecycle} />}
+                  {/* the lifecycle chip only adds information when it differs from the status (no "RESOLVED RESOLVED") */}
+                  {details[i.id] && String(details[i.id].lifecycle) !== String(i.status) && (
+                    <LifecycleBadge state={details[i.id].lifecycle} />
+                  )}
                   <span className="ml-auto font-mono text-xs text-subtle">{istTime(i.opened_at)}</span>
                 </div>
-                <div className="mt-2 text-[22px] font-black leading-tight text-ink">
+                <div className="mt-2 break-words text-[22px] font-black leading-tight text-ink">
                   {headline(i, possibleCauses(i.id))}
                 </div>
                 <div className="mt-1 text-sm text-ink-2">
@@ -183,8 +186,8 @@ export function IncidentList({
                     <Hint text={HINTS.noise} label="What is the noise chip?" />
                   </div>
                 )}
-                <div className="mt-2 flex items-center justify-between">
-                  <span className="font-mono text-[11px] text-subtle">{i.id}</span>
+                <div className="mt-2 flex items-center justify-between gap-2">
+                  <span className="min-w-0 truncate font-mono text-[11px] text-subtle">{i.id}</span>
                   <Link
                     href={`/incident/${i.id}`}
                     onClick={(e) => e.stopPropagation()}

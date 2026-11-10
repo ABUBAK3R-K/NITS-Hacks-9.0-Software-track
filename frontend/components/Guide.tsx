@@ -4,7 +4,8 @@
 // real app state (see lib/progress.ts); every number comes from a reveal, the eval, or a fixture.
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import type { EvalResults, Incident } from "@/lib/contracts/types";
+import { useRouter } from "next/navigation";
+import type { EvalResults, Incident, IncidentSummary, IngestResult } from "@/lib/contracts/types";
 import ambiguousFx from "@/lib/contracts/fixtures/incident_ambiguous.json";
 import { api } from "@/lib/api";
 import { useLiveData } from "@/lib/live";
@@ -193,20 +194,66 @@ function NextUpCard({
   onDismiss: () => void;
 }) {
   const live = useLiveData();
+  const router = useRouter();
   const fileRef = useRef<HTMLInputElement>(null);
   const [busy, setBusy] = useState<string | null>(null);
   const [note, setNote] = useState<string | null>(null);
   const [err, setErr] = useState<string | null>(null);
 
+  // After an upload, say what the engine made of it: the incident it opened (and select it),
+  // or plainly that nothing in the file looked like an incident. Never just "events accepted".
+  const [found, setFound] = useState<IncidentSummary | null>(null);
+  const report = async (res: IngestResult, what: string) => {
+    const head = `${res.accepted} events accepted from ${what}${res.rejected ? `, ${res.rejected} rejected` : ""}.`;
+    if (res.accepted === 0) {
+      setErr(`${head} ${res.errors[0] ?? "Nothing in the file could be read as an event."}`);
+      return;
+    }
+    let list: IncidentSummary[] = [];
+    for (let i = 0; i < 6; i++) {
+      list = await api.listIncidents().catch(() => []);
+      if (list.length) break;
+      await new Promise((r) => setTimeout(r, 700));
+    }
+    if (!list.length) {
+      setNote(`${head} No incident found: nothing in these events looks like a failure (it needs error logs, alerts or metric spikes). Try the sample log to see the format.`);
+      return;
+    }
+    const top = [...list].sort((x, y) => y.alert_count - x.alert_count || y.services.length - x.services.length)[0];
+    live.select(top.id);
+    setFound(top);
+    setNote(
+      `${head} Found ${list.length} incident${list.length === 1 ? "" : "s"}: ` +
+        (top.root_service ? `root cause ${top.root_service}` : "no confident root cause, abstained") +
+        `. It is open on the dashboard now.`,
+    );
+  };
+
+  // The engine may regroup an incident (new id) while the rest of an upload is analysed, so the
+  // report link resolves the current incident at click time instead of reusing the first id.
+  const openReport = async () => {
+    const list = await api.listIncidents().catch(() => [] as IncidentSummary[]);
+    const pick =
+      list.find((i) => i.id === found?.id) ??
+      list.find((i) => i.root_service === found?.root_service) ??
+      [...list].sort((x, y) => y.alert_count - x.alert_count)[0];
+    if (!pick) {
+      setFound(null);
+      setErr("That incident is no longer in the live store (the demo was reset). Upload again.");
+      return;
+    }
+    router.push(`/incident/${pick.id}`);
+  };
+
   const sample = async () => {
     setBusy("sample");
     setNote(null);
     setErr(null);
+    setFound(null);
     try {
       if (live.sandbox.active) live.exitSandbox();
       await live.reset();
-      const res = await live.upload(await loadSampleLog());
-      setNote(`${res.accepted} events accepted from the sample log.${res.errors.length ? ` ${res.errors[0]}` : ""}`);
+      await report(await live.upload(await loadSampleLog()), "the sample log");
     } catch (e) {
       setErr((e as Error).message);
     } finally {
@@ -219,12 +266,11 @@ function NextUpCard({
     setBusy("upload");
     setNote(null);
     setErr(null);
+    setFound(null);
     try {
       if (live.sandbox.active) live.exitSandbox();
-      const res = await live.upload(f);
-      setNote(
-        `${res.accepted} events accepted${res.rejected ? `, ${res.rejected} rejected` : ""}.${res.errors.length ? ` ${res.errors[0]}` : ""}`,
-      );
+      await live.reset(); // only the uploaded events, so the result is clearly from this file
+      await report(await live.upload(f), f.name);
     } catch (e) {
       setErr((e as Error).message);
     } finally {
@@ -245,8 +291,9 @@ function NextUpCard({
 
   return (
     <div className={`fade-up rounded-xl border border-safe/40 bg-sheet p-3 ${box}`}>
+      <div className="-m-1 rounded-lg bg-safe-soft p-2 ring-1 ring-safe/40">
       <div className="flex items-center gap-2">
-        <span className="panel-title text-safe">Congo!</span>
+        <span className="text-base font-black text-safe">Congo!</span>
         <button type="button" onClick={onCollapse} className="ml-auto text-xs text-subtle hover:text-ink" aria-label="Collapse next steps">
           hide
         </button>
@@ -254,9 +301,10 @@ function NextUpCard({
           x
         </button>
       </div>
-      <p className="mt-2 text-sm font-semibold leading-snug text-ink">
+      <p className="mt-1.5 text-sm font-semibold leading-snug text-safe">
         You have debugged a prod issue, identified it, flagged it, and fixed it, documented it without disrupting other 5 teams.
       </p>
+      </div>
       <div className="panel-title mt-3 text-accent">Next up: explore on your own</div>
       <div className="mt-2 space-y-1.5">
         <button type="button" disabled={busy !== null} onClick={() => void sample()} className={action}>
@@ -265,7 +313,7 @@ function NextUpCard({
         </button>
         <button type="button" disabled={busy !== null} onClick={() => fileRef.current?.click()} className={action}>
           <span className="block text-sm font-semibold text-ink">{busy === "upload" ? "Uploading..." : "Use your own logs"}</span>
-          <span className="block text-xs text-muted">Upload .jsonl, .csv or plain log lines.</span>
+          <span className="block text-xs text-muted">Upload .jsonl, .csv or plain log lines. Clears the live demo first.</span>
         </button>
         <button type="button" disabled={busy !== null} onClick={design} className={action}>
           <span className="block text-sm font-semibold text-ink">Design your own outage</span>
@@ -280,6 +328,15 @@ function NextUpCard({
         onChange={(e) => void upload(e.target.files?.[0])}
       />
       {note && <div className="mt-2 text-xs font-semibold text-safe">{note}</div>}
+      {found && (
+        <button
+          type="button"
+          onClick={() => void openReport()}
+          className="mt-2 inline-block rounded-md px-2.5 py-1 text-xs font-bold text-accent ring-1 ring-accent/40 hover:bg-accent-soft"
+        >
+          Open its report &rarr;
+        </button>
+      )}
       {err && <div className="mt-2 text-xs text-danger">{err}</div>}
     </div>
   );
